@@ -182,9 +182,31 @@ namespace IdleGame.UI
                             _resultText.text = $"{KindLabel(def.kind)} 슬롯이 가득 찼습니다 — 먼저 해제하세요";
                         Refresh();
                     }, unit.equipped ? new Color(0.25f, 0.20f, 0.42f) : UIFactory.Panel, 26);
-                    row.GetComponentInChildren<Text>().alignment = TextAnchor.MiddleLeft;
-                    row.GetComponentInChildren<Text>().rectTransform.offsetMin = new Vector2(20, 0);
-                    row.gameObject.AddComponent<LayoutElement>().preferredHeight = 72;
+                    var rowLabel = row.GetComponentInChildren<Text>();
+                    rowLabel.alignment = TextAnchor.MiddleLeft;
+                    rowLabel.color = UIFactory.GradeColor(def.grade); // 등급 컬러 토큰
+                    row.gameObject.AddComponent<LayoutElement>().preferredHeight = 76;
+
+                    // 유닛 아이콘 (아트 파이프라인 산출물, 없으면 라벨만)
+                    var icon = UIFactory.LoadSprite($"art/units/{unitId}.png");
+                    if (icon != null)
+                    {
+                        var iconGo = new GameObject("Icon", typeof(RectTransform), typeof(Image));
+                        iconGo.transform.SetParent(row.transform, false);
+                        var iconImage = iconGo.GetComponent<Image>();
+                        iconImage.sprite = icon;
+                        iconImage.preserveAspect = true;
+                        var iconRect = (RectTransform)iconGo.transform;
+                        iconRect.anchorMin = iconRect.anchorMax = new Vector2(0, 0.5f);
+                        iconRect.pivot = new Vector2(0, 0.5f);
+                        iconRect.anchoredPosition = new Vector2(10, 0);
+                        iconRect.sizeDelta = new Vector2(62, 62);
+                        rowLabel.rectTransform.offsetMin = new Vector2(84, 0);
+                    }
+                    else
+                    {
+                        rowLabel.rectTransform.offsetMin = new Vector2(20, 0);
+                    }
 
                     // 장비: 우측에 강화 버튼 (골드, 등급이 높을수록 비쌈, 최대 200)
                     if (levelable)

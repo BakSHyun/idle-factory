@@ -13,6 +13,43 @@ namespace IdleGame.UI
         public static readonly Color TextMain = new Color(0.92f, 0.90f, 0.97f);
         public static readonly Color TextDim = new Color(0.62f, 0.60f, 0.70f);
 
+        /// <summary>등급 컬러 토큰 — 텍스트/테두리/아이콘 배경에 일관 적용 (게이머 관습 준수).</summary>
+        public static Color GradeColor(IdleCore.Gacha.UnitGrade grade) => grade switch
+        {
+            IdleCore.Gacha.UnitGrade.Beginner => new Color(0.62f, 0.62f, 0.66f),     // 회색
+            IdleCore.Gacha.UnitGrade.Intermediate => new Color(0.45f, 0.80f, 0.45f), // 초록
+            IdleCore.Gacha.UnitGrade.Advanced => new Color(0.38f, 0.62f, 0.95f),     // 파랑
+            IdleCore.Gacha.UnitGrade.Rare => new Color(0.72f, 0.48f, 0.98f),         // 보라
+            IdleCore.Gacha.UnitGrade.Epic => new Color(0.95f, 0.72f, 0.30f),         // 금색
+            IdleCore.Gacha.UnitGrade.Mythic => new Color(0.98f, 0.42f, 0.48f),       // 적혼색
+            IdleCore.Gacha.UnitGrade.Ancient => new Color(0.35f, 0.95f, 0.85f),      // 청록 (미출시)
+            _ => new Color(0.98f, 0.95f, 0.75f),                                     // 영원 (미출시)
+        };
+
+        private static readonly System.Collections.Generic.Dictionary<string, Sprite> _spriteCache
+            = new System.Collections.Generic.Dictionary<string, Sprite>();
+
+        /// <summary>StreamingAssets PNG → 스프라이트 (캐시). 없으면 null.</summary>
+        public static Sprite LoadSprite(string relativePath)
+        {
+            if (_spriteCache.TryGetValue(relativePath, out var cached)) return cached;
+            Sprite sprite = null;
+            try
+            {
+                string path = System.IO.Path.Combine(Application.streamingAssetsPath, relativePath);
+                if (System.IO.File.Exists(path))
+                {
+                    var texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+                    if (texture.LoadImage(System.IO.File.ReadAllBytes(path)))
+                        sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height),
+                            new Vector2(0.5f, 0.5f), 100f);
+                }
+            }
+            catch { /* 폴백: null */ }
+            _spriteCache[relativePath] = sprite;
+            return sprite;
+        }
+
         private static Font _font;
         public static Font DefaultFont =>
             _font != null ? _font : _font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");

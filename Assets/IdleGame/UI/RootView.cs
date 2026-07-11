@@ -15,6 +15,8 @@ namespace IdleGame.UI
 
         private Text _stageText, _goldText, _soulText, _softText, _hardText, _dpsText, _killText;
         private Button _bossButton;
+        private Image _mobImage;
+        private static readonly string[] MobIds = { "mob_wisp", "mob_gwisin", "mob_dokkaebi" };
         private GrowthPanel _growthPanel;
         private GachaPanel _gachaPanel;
         private DungeonPanel _dungeonPanel;
@@ -106,8 +108,29 @@ namespace IdleGame.UI
             var battle = UIFactory.CreatePanel(root, "Battle", new Color(0.10f, 0.09f, 0.15f));
             UIFactory.TopBand(battle, 170, 420);
 
+            // 배경 (저승길) — 있으면 깔기
+            var bgSprite = UIFactory.LoadSprite("art/bg/bg_road.png");
+            if (bgSprite != null)
+            {
+                var bgGo = new GameObject("BattleBg", typeof(RectTransform), typeof(Image));
+                bgGo.transform.SetParent(battle, false);
+                var bgImage = bgGo.GetComponent<Image>();
+                bgImage.sprite = bgSprite;
+                bgImage.color = new Color(1, 1, 1, 0.55f); // 캐릭터 가독성 위해 톤 다운
+                UIFactory.Fill((RectTransform)bgGo.transform);
+            }
+
+            // 몬스터 (챕터별 로테이션) — RefreshStage에서 갱신
+            var mobGo = new GameObject("Mob", typeof(RectTransform), typeof(Image));
+            mobGo.transform.SetParent(battle, false);
+            _mobImage = mobGo.GetComponent<Image>();
+            _mobImage.preserveAspect = true;
+            var mobRect = (RectTransform)mobGo.transform;
+            mobRect.anchorMin = mobRect.anchorMax = new Vector2(0.78f, 0.55f);
+            mobRect.sizeDelta = new Vector2(170, 170);
+
             // 메인 캐릭터: StreamingAssets/art의 스프라이트를 런타임 로드 (없으면 텍스트 폴백)
-            var sprite = LoadStreamingSprite("art/main_character.png");
+            var sprite = UIFactory.LoadSprite("art/main_character.png");
             if (sprite != null)
             {
                 var artGo = new GameObject("ReaperArt", typeof(RectTransform), typeof(Image));
@@ -116,9 +139,9 @@ namespace IdleGame.UI
                 image.sprite = sprite;
                 image.preserveAspect = true;
                 var artRect = (RectTransform)artGo.transform;
-                artRect.anchorMin = artRect.anchorMax = new Vector2(0.5f, 0.5f);
-                artRect.anchoredPosition = new Vector2(0, 40);
-                artRect.sizeDelta = new Vector2(250, 250); // 전투 밴드(420) 안에 여유 있게
+                artRect.anchorMin = artRect.anchorMax = new Vector2(0.28f, 0.5f);
+                artRect.anchoredPosition = new Vector2(0, 10);
+                artRect.sizeDelta = new Vector2(250, 250); // 좌측 아군 / 우측 몬스터 대치 구도
             }
             else
             {
@@ -155,21 +178,6 @@ namespace IdleGame.UI
                 _killText.text = $"도전 실패 — 피해 {ratio * 100:0.#}%까지. 더 성장하세요";
             }
             RefreshBossButton();
-        }
-
-        /// <summary>StreamingAssets 경로의 PNG를 스프라이트로 로드 (없으면 null).</summary>
-        public static Sprite LoadStreamingSprite(string relativePath)
-        {
-            try
-            {
-                string path = System.IO.Path.Combine(Application.streamingAssetsPath, relativePath);
-                if (!System.IO.File.Exists(path)) return null;
-                var texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
-                if (!texture.LoadImage(System.IO.File.ReadAllBytes(path))) return null;
-                return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height),
-                    new Vector2(0.5f, 0.5f), 100f);
-            }
-            catch { return null; }
         }
 
         private void RefreshBossButton()
@@ -257,6 +265,14 @@ namespace IdleGame.UI
             _stageText.text = $"스테이지 {_session.Progression.Current.Display(_session.Config.stage)}";
             _dpsText.text = $"DPS {UIFactory.FormatNumber(_session.Stats.Snapshot().Dps())}";
             RefreshBossButton();
+
+            if (_mobImage != null)
+            {
+                int chapter = _session.Progression.Current.Chapter(_session.Config.stage);
+                var mob = UIFactory.LoadSprite($"art/units/{MobIds[chapter % MobIds.Length]}.png");
+                _mobImage.sprite = mob;
+                _mobImage.enabled = mob != null;
+            }
         }
 
         private void RefreshCurrencies()
