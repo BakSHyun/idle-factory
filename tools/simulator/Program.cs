@@ -48,7 +48,7 @@ namespace IdleFactory.Simulator
             // 소과금 봇: 첫날 ₩5,500 결제 → 스타터팩 + 페이백 출석 구매
             if (payer)
             {
-                fakeStore.Purchase(config.skus.First(s => s.skuId == "gem_5500"), null);
+                fakeStore.Purchase(config.skus.First(s => s.skuId == "gem_11000"), null);
                 session.Shop.TryPurchase("starter_pack", 0);
                 session.PaybackAttendance?.TryPurchase();
             }
