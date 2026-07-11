@@ -39,6 +39,12 @@ namespace IdleCore.Gacha
         public string name;
         public string kind = "hero"; // weapon | orb | ornament | skill | hero — 게임 스킨이 정의
         public UnitGrade grade = UnitGrade.Rare;
+        /// <summary>등급 내 서브등급 (초급1~초급4). 장비 전용, 영웅/스킬은 1 고정</summary>
+        public int subTier = 1;
+        /// <summary>승급 대상 (잉여 사본 N개 → 이 유닛 1개). null이면 승급 불가</summary>
+        public string upgradeToId;
+        /// <summary>아이콘 아트 id (티어들이 등급 아트를 공유). null이면 id 사용</summary>
+        public string artId;
         /// <summary>장착 시 발동하는 기본 효과</summary>
         public List<StatEffect> baseEffects = new List<StatEffect>();
         /// <summary>돌파 누적 효과 (도달한 임계까지 전부 적용)</summary>

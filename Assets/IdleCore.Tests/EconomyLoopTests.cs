@@ -64,26 +64,35 @@ namespace IdleCore.Tests
         // ── 합성 ──
 
         [Test]
-        public void Compose_ConsumesOnlySurplus_GrantsNextGrade()
+        public void Compose_TierChain_ConsumesOnlySurplus()
         {
+            // 서브등급 체인: 초급1 → 초급2 → ... → 초급4 → 중급1
             var units = new List<UnitDef>
             {
-                new UnitDef { id = "b1", kind = "weapon", grade = UnitGrade.Beginner },
-                new UnitDef { id = "i1", kind = "weapon", grade = UnitGrade.Intermediate },
+                new UnitDef { id = "w_b_t1", kind = "weapon", grade = UnitGrade.Beginner, subTier = 1, upgradeToId = "w_b_t2" },
+                new UnitDef { id = "w_b_t2", kind = "weapon", grade = UnitGrade.Beginner, subTier = 2, upgradeToId = "w_b_t3" },
+                new UnitDef { id = "w_b_t3", kind = "weapon", grade = UnitGrade.Beginner, subTier = 3, upgradeToId = "w_b_t4" },
+                new UnitDef { id = "w_b_t4", kind = "weapon", grade = UnitGrade.Beginner, subTier = 4, upgradeToId = "w_i_t1" },
+                new UnitDef { id = "w_i_t1", kind = "weapon", grade = UnitGrade.Intermediate, subTier = 1 },
             };
             var inventory = new UnitInventory(units) { ComposeCost = 5 };
 
-            inventory.AddCopy("b1", 11); // 10돌 만렙 정확히 — 잉여 0
-            Assert.AreEqual(0, inventory.SurplusCopies("b1"));
-            Assert.IsFalse(inventory.TryCompose("weapon", UnitGrade.Beginner, new SeededRng(1), out _));
+            inventory.AddCopy("w_b_t1", 11); // 10돌 만렙 정확히 — 잉여 0
+            Assert.AreEqual(0, inventory.SurplusCopies("w_b_t1"));
+            Assert.IsFalse(inventory.CanCompose("w_b_t1"));
 
-            inventory.AddCopy("b1", 5); // 잉여 5
-            Assert.AreEqual(5, inventory.SurplusCopies("b1"));
-            Assert.IsTrue(inventory.TryCompose("weapon", UnitGrade.Beginner, new SeededRng(1), out var result));
-            Assert.AreEqual("i1", result);
-            Assert.AreEqual(1, inventory.Get("i1").copies);
-            Assert.AreEqual(10, inventory.Get("b1").limitBreak, "합성해도 돌파는 유지");
-            Assert.AreEqual(0, inventory.SurplusCopies("b1"));
+            inventory.AddCopy("w_b_t1", 5); // 잉여 5
+            Assert.IsTrue(inventory.TryComposeUnit("w_b_t1", out var result));
+            Assert.AreEqual("w_b_t2", result, "초급1 → 초급2");
+            Assert.AreEqual(10, inventory.Get("w_b_t1").limitBreak, "승급해도 돌파는 유지");
+
+            // 4티어 → 다음 등급 1티어
+            inventory.AddCopy("w_b_t4", 11 + 5);
+            Assert.IsTrue(inventory.TryComposeUnit("w_b_t4", out var next));
+            Assert.AreEqual("w_i_t1", next, "초급4 → 중급1");
+
+            // 체인 끝 (upgradeToId 없음)
+            Assert.IsFalse(inventory.CanCompose("w_i_t1"));
         }
 
         // ── 던전 ──

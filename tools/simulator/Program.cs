@@ -175,6 +175,14 @@ namespace IdleFactory.Simulator
                 pulls += 10;
                 _bannerRotation++;
             }
+            // 승급: 잉여 사본을 다음 티어로 (초급1→초급2→…)
+            for (int guard = 0; guard < 200; guard++)
+            {
+                var target = session.Units.AllOwned()
+                    .FirstOrDefault(u => session.Units.CanCompose(u.unitId));
+                if (target == null || !session.Units.TryComposeUnit(target.unitId, out _)) break;
+            }
+
             session.Units.AutoEquipBest(); // 슬롯 제한 내 최적 장착
 
             // 장착 장비 강화 (골드 싱크): 가장 싼 것부터

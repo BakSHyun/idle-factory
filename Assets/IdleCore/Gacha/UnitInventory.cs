@@ -102,36 +102,27 @@ namespace IdleCore.Gacha
             return Math.Max(0, unit.copies - (1 + MaxLimitBreak * CopiesPerLimitBreak));
         }
 
-        /// <summary>해당 종류·등급의 총 잉여 사본 (합성 가능량 표시용).</summary>
-        public int TotalSurplus(string kind, UnitGrade grade) =>
-            _owned.Values
-                .Where(u => _defs[u.unitId].kind == kind && _defs[u.unitId].grade == grade)
-                .Sum(u => SurplusCopies(u.unitId));
+        /// <summary>이 유닛을 승급할 수 있는가 (잉여 사본 충분 + 승급 체인 존재).</summary>
+        public bool CanCompose(string unitId)
+        {
+            var unit = Get(unitId);
+            if (unit == null) return false;
+            var def = _defs[unitId];
+            return def.upgradeToId != null && _defs.ContainsKey(def.upgradeToId)
+                && SurplusCopies(unitId) >= ComposeCost;
+        }
 
         /// <summary>
-        /// 합성: kind+grade의 잉여 사본 ComposeCost개 소모 → 같은 종류 한 단계 위 등급 랜덤 1개.
+        /// 승급(합성): 같은 유닛의 잉여 사본 ComposeCost개 → 다음 서브등급/등급 1개.
+        /// (초급1 낫 5개 → 초급2 낫 1개 → ... → 초급4 → 중급1. 소헌키 서브등급 체계)
         /// 잉여(10돌 초과분)만 소모하므로 돌파 수치는 절대 내려가지 않는다.
         /// </summary>
-        public bool TryCompose(string kind, UnitGrade grade, IRng rng, out string resultUnitId)
+        public bool TryComposeUnit(string unitId, out string resultUnitId)
         {
             resultUnitId = null;
-            var nextGrade = grade + 1;
-            var upgrades = _defs.Values.Where(d => d.kind == kind && d.grade == nextGrade).ToList();
-            if (upgrades.Count == 0) return false;
-            if (TotalSurplus(kind, grade) < ComposeCost) return false;
-
-            int remaining = ComposeCost;
-            foreach (var unit in _owned.Values
-                .Where(u => _defs[u.unitId].kind == kind && _defs[u.unitId].grade == grade)
-                .OrderByDescending(u => SurplusCopies(u.unitId)))
-            {
-                int take = Math.Min(remaining, SurplusCopies(unit.unitId));
-                unit.copies -= take;
-                remaining -= take;
-                if (remaining == 0) break;
-            }
-
-            resultUnitId = upgrades[rng.NextInt(0, upgrades.Count)].id;
+            if (!CanCompose(unitId)) return false;
+            Get(unitId).copies -= ComposeCost;
+            resultUnitId = _defs[unitId].upgradeToId;
             AddCopy(resultUnitId);
             return true;
         }

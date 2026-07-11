@@ -146,23 +146,21 @@ namespace IdleGame.UI
                     26, TextAnchor.MiddleLeft, UIFactory.TextDim);
                 header.gameObject.AddComponent<LayoutElement>().preferredHeight = 44;
 
-                // 합성: 잉여(10돌 초과) 사본 5개 → 상위 등급 1개. 잉여가 있는 최저 등급부터
-                foreach (UnitGrade grade in System.Enum.GetValues(typeof(UnitGrade)))
+                // 승급: 잉여(10돌 초과) 사본 5개 → 다음 서브등급/등급 (초급1→초급2→…→중급1)
+                foreach (var candidate in group.Where(u => _session.Units.CanCompose(u.unitId)))
                 {
-                    int surplus = _session.Units.TotalSurplus(kind, grade);
-                    if (surplus < _session.Units.ComposeCost) continue;
-                    if (!_session.Units.Defs.Values.Any(d => d.kind == kind && d.grade == grade + 1)) continue;
-                    UnitGrade g = grade;
-                    var composeButton = UIFactory.CreateButton(_ownedList, $"Compose_{kind}_{grade}",
-                        $"⚗ 합성: {GradeLabel(grade)} {_session.Units.ComposeCost}개 → {GradeLabel(grade + 1)} 1개  (잉여 {surplus})",
+                    var cdef = _session.Units.Defs[candidate.unitId];
+                    var updef = _session.Units.Defs[cdef.upgradeToId];
+                    string cid = candidate.unitId;
+                    var composeButton = UIFactory.CreateButton(_ownedList, $"Compose_{cid}",
+                        $"⚗ 승급: {cdef.name} {_session.Units.ComposeCost}개 → {updef.name} 1개  (잉여 {_session.Units.SurplusCopies(cid)})",
                         () =>
                         {
-                            if (_session.Units.TryCompose(kind, g, new SeededRng(System.Environment.TickCount), out var newUnit))
-                                _resultText.text = $"합성 성공! [{GradeLabel(_session.Units.Defs[newUnit].grade)}] {_session.Units.Defs[newUnit].name} 획득";
+                            if (_session.Units.TryComposeUnit(cid, out var newUnit))
+                                _resultText.text = $"승급 성공! [{GradeLabel(_session.Units.Defs[newUnit].grade)}] {_session.Units.Defs[newUnit].name} 획득";
                             Refresh();
-                        }, new Color(0.32f, 0.24f, 0.15f), 24);
-                    composeButton.gameObject.AddComponent<LayoutElement>().preferredHeight = 60;
-                    break; // 종류당 하나만 노출 (최저 등급)
+                        }, new Color(0.32f, 0.24f, 0.15f), 23);
+                    composeButton.gameObject.AddComponent<LayoutElement>().preferredHeight = 58;
                 }
 
                 foreach (var unit in group.OrderByDescending(u => _session.Units.Defs[u.unitId].grade)
@@ -187,8 +185,8 @@ namespace IdleGame.UI
                     rowLabel.color = UIFactory.GradeColor(def.grade); // 등급 컬러 토큰
                     row.gameObject.AddComponent<LayoutElement>().preferredHeight = 76;
 
-                    // 유닛 아이콘 (아트 파이프라인 산출물, 없으면 라벨만)
-                    var icon = UIFactory.LoadSprite($"art/units/{unitId}.png");
+                    // 유닛 아이콘 (티어들은 등급 아트 공유: artId)
+                    var icon = UIFactory.LoadSprite($"art/units/{def.artId ?? unitId}.png");
                     if (icon != null)
                     {
                         var iconGo = new GameObject("Icon", typeof(RectTransform), typeof(Image));
