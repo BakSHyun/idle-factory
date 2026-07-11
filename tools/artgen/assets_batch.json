@@ -1,0 +1,247 @@
+[
+ {
+  "name": "weapon_beginner",
+  "prompt": "no humans, weapon focus, still life, a korean crescent scythe, simple, plain, worn, dull colors, floating diagonally, purple ghost flame accents, simple dark purple background, game item art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 85630
+ },
+ {
+  "name": "weapon_intermediate",
+  "prompt": "no humans, weapon focus, still life, a korean crescent scythe, sturdy, iron, faint glow, floating diagonally, purple ghost flame accents, simple dark purple background, game item art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 30085
+ },
+ {
+  "name": "weapon_advanced",
+  "prompt": "no humans, weapon focus, still life, a korean crescent scythe, ornate, dark steel, purple glow, floating diagonally, purple ghost flame accents, simple dark purple background, game item art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 80134
+ },
+ {
+  "name": "weapon_rare",
+  "prompt": "no humans, weapon focus, still life, a korean crescent scythe, glowing purple, spirit energy, elegant, floating diagonally, purple ghost flame accents, simple dark purple background, game item art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 61908
+ },
+ {
+  "name": "weapon_epic",
+  "prompt": "no humans, weapon focus, still life, a korean crescent scythe, luxurious, silver filigree, blue flame aura, gems, floating diagonally, purple ghost flame accents, simple dark purple background, game item art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 50680
+ },
+ {
+  "name": "weapon_mythic",
+  "prompt": "no humans, weapon focus, still life, a korean crescent scythe, legendary, radiant, crescent moon motif, dramatic glowing aura, sparkles, ethereal, floating diagonally, purple ghost flame accents, simple dark purple background, game item art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 5924
+ },
+ {
+  "name": "orb_beginner",
+  "prompt": "no humans, still life, one glowing magic orb, simple, plain, worn, dull colors, swirling spirit energy inside, floating, simple dark purple background, game item art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 74977
+ },
+ {
+  "name": "orb_intermediate",
+  "prompt": "no humans, still life, one glowing magic orb, sturdy, iron, faint glow, swirling spirit energy inside, floating, simple dark purple background, game item art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 94238
+ },
+ {
+  "name": "orb_advanced",
+  "prompt": "no humans, still life, one glowing magic orb, ornate, dark steel, purple glow, swirling spirit energy inside, floating, simple dark purple background, game item art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 24418
+ },
+ {
+  "name": "orb_rare",
+  "prompt": "no humans, still life, one glowing magic orb, glowing purple, spirit energy, elegant, swirling spirit energy inside, floating, simple dark purple background, game item art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 41251
+ },
+ {
+  "name": "orb_epic",
+  "prompt": "no humans, still life, one glowing magic orb, luxurious, silver filigree, blue flame aura, gems, swirling spirit energy inside, floating, simple dark purple background, game item art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 15754
+ },
+ {
+  "name": "orb_mythic",
+  "prompt": "no humans, still life, one glowing magic orb, legendary, radiant, crescent moon motif, dramatic glowing aura, sparkles, ethereal, swirling spirit energy inside, floating, simple dark purple background, game item art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 87690
+ },
+ {
+  "name": "ornament_beginner",
+  "prompt": "no humans, still life, korean traditional norigae ornament with tassel, simple, plain, worn, dull colors, floating, simple dark purple background, game item art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 18265
+ },
+ {
+  "name": "ornament_intermediate",
+  "prompt": "no humans, still life, korean traditional norigae ornament with tassel, sturdy, iron, faint glow, floating, simple dark purple background, game item art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 1163
+ },
+ {
+  "name": "ornament_advanced",
+  "prompt": "no humans, still life, korean traditional norigae ornament with tassel, ornate, dark steel, purple glow, floating, simple dark purple background, game item art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 94680
+ },
+ {
+  "name": "ornament_rare",
+  "prompt": "no humans, still life, korean traditional norigae ornament with tassel, glowing purple, spirit energy, elegant, floating, simple dark purple background, game item art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 33462
+ },
+ {
+  "name": "ornament_epic",
+  "prompt": "no humans, still life, korean traditional norigae ornament with tassel, luxurious, silver filigree, blue flame aura, gems, floating, simple dark purple background, game item art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 96143
+ },
+ {
+  "name": "ornament_mythic",
+  "prompt": "no humans, still life, korean traditional norigae ornament with tassel, legendary, radiant, crescent moon motif, dramatic glowing aura, sparkles, ethereal, floating, simple dark purple background, game item art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 62109
+ },
+ {
+  "name": "skill_beginner",
+  "prompt": "no humans, magic effect, single purple energy slash, curved arc, glowing, simple dark purple background, game skill icon art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 56831
+ },
+ {
+  "name": "skill_intermediate",
+  "prompt": "no humans, magic effect, double crossing spirit slashes, glowing, glowing, simple dark purple background, game skill icon art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 37782
+ },
+ {
+  "name": "skill_advanced",
+  "prompt": "no humans, magic effect, swirling purple ghost flame vortex, glowing, simple dark purple background, game skill icon art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 75437
+ },
+ {
+  "name": "skill_rare",
+  "prompt": "no humans, magic effect, giant ghostly hand made of purple mist, grabbing, glowing, simple dark purple background, game skill icon art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 15726
+ },
+ {
+  "name": "skill_epic",
+  "prompt": "no humans, magic effect, blue dokkaebi fire, three floating blue flames, sparks, glowing, simple dark purple background, game skill icon art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 75430
+ },
+ {
+  "name": "skill_mythic",
+  "prompt": "no humans, magic effect, giant glowing crescent moon blade wave over a dark river, dramatic, glowing, simple dark purple background, game skill icon art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 17369
+ },
+ {
+  "name": "hero_beginner",
+  "prompt": "1boy, solo, chibi, apprentice korean grim reaper, small black hat, plain dark hanbok, nervous cute face, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+  "width": 1024,
+  "height": 1024,
+  "seed": 37441
+ },
+ {
+  "name": "hero_intermediate",
+  "prompt": "1boy, solo, chibi, young korean grim reaper, black gat, dark hanbok, confident smile, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+  "width": 1024,
+  "height": 1024,
+  "seed": 15674
+ },
+ {
+  "name": "hero_advanced",
+  "prompt": "1boy, solo, chibi, korean grim reaper, black gat with silver trim, flowing dark hanbok, calm expression, small purple wisp, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+  "width": 1024,
+  "height": 1024,
+  "seed": 22933
+ },
+ {
+  "name": "hero_rare",
+  "prompt": "1girl, solo, chibi, korean female ghost escort, red-lined black hanbok, long black hair, gentle smile, purple flames, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+  "width": 1024,
+  "height": 1024,
+  "seed": 76554
+ },
+ {
+  "name": "hero_epic",
+  "prompt": "1boy, solo, chibi, elite korean grim reaper, ornate black gat, black and silver hanbok, ink brush, mysterious smile, blue ghost flames, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+  "width": 1024,
+  "height": 1024,
+  "seed": 34990
+ },
+ {
+  "name": "hero_mythic",
+  "prompt": "1girl, solo, chibi, snow spirit korean ghost, long white hair, white and black hanbok, snowflakes, pale blue flames, serene, ethereal glow, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+  "width": 1024,
+  "height": 1024,
+  "seed": 60012
+ },
+ {
+  "name": "bg_road",
+  "prompt": "no humans, scenery, dark fantasy path to the korean underworld, glowing purple lanterns, red spider lilies, mist, distant traditional korean gate, night, game background, flat color, thick outline",
+  "width": 832,
+  "height": 1216,
+  "seed": 5001
+ },
+ {
+  "name": "bg_gate",
+  "prompt": "no humans, scenery, giant dark korean palace gate in the underworld, purple torii-like gate, ghost flames, stone steps, mist, night, game background, flat color, thick outline",
+  "width": 832,
+  "height": 1216,
+  "seed": 5002
+ },
+ {
+  "name": "mob_wisp",
+  "prompt": "no humans, solo, cute round ghost wisp monster, purple flame body, big round eyes, floating, simple dark purple background, chibi, game monster art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 6001
+ },
+ {
+  "name": "mob_gwisin",
+  "prompt": "solo, chibi, cute korean gwisin ghost girl monster, white burial hanbok, long black hair covering one eye, floating, translucent, simple dark purple background, game monster art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 6002
+ },
+ {
+  "name": "mob_dokkaebi",
+  "prompt": "solo, chibi, cute dokkaebi goblin monster, small horn, holding tiny club, mischievous grin, purple skin, simple dark purple background, game monster art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 6003
+ }
+]

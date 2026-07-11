@@ -94,10 +94,25 @@ namespace IdleGame.UI
             var battle = UIFactory.CreatePanel(root, "Battle", new Color(0.10f, 0.09f, 0.15f));
             UIFactory.TopBand(battle, 170, 420);
 
-            UIFactory.CreateText(battle, "ReaperArt", "🌙\n저승사자", 60).rectTransform
-                .anchoredPosition = new Vector2(0, 60);
-            var reaper = battle.Find("ReaperArt").GetComponent<Text>();
-            UIFactory.Fill(reaper.rectTransform);
+            // 메인 캐릭터: StreamingAssets/art의 스프라이트를 런타임 로드 (없으면 텍스트 폴백)
+            var sprite = LoadStreamingSprite("art/main_character.png");
+            if (sprite != null)
+            {
+                var artGo = new GameObject("ReaperArt", typeof(RectTransform), typeof(Image));
+                artGo.transform.SetParent(battle, false);
+                var image = artGo.GetComponent<Image>();
+                image.sprite = sprite;
+                image.preserveAspect = true;
+                var artRect = (RectTransform)artGo.transform;
+                artRect.anchorMin = artRect.anchorMax = new Vector2(0.5f, 0.5f);
+                artRect.anchoredPosition = new Vector2(0, 30);
+                artRect.sizeDelta = new Vector2(300, 300);
+            }
+            else
+            {
+                var reaper = UIFactory.CreateText(battle, "ReaperArt", "🌙\n저승사자", 60);
+                UIFactory.Fill(reaper.rectTransform);
+            }
 
             _dpsText = UIFactory.CreateText(battle, "Dps", "DPS 0", 34, TextAnchor.LowerLeft, UIFactory.TextDim);
             UIFactory.Fill(_dpsText.rectTransform, 24);
@@ -128,6 +143,21 @@ namespace IdleGame.UI
                 _killText.text = $"도전 실패 — 피해 {ratio * 100:0.#}%까지. 더 성장하세요";
             }
             RefreshBossButton();
+        }
+
+        /// <summary>StreamingAssets 경로의 PNG를 스프라이트로 로드 (없으면 null).</summary>
+        public static Sprite LoadStreamingSprite(string relativePath)
+        {
+            try
+            {
+                string path = System.IO.Path.Combine(Application.streamingAssetsPath, relativePath);
+                if (!System.IO.File.Exists(path)) return null;
+                var texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+                if (!texture.LoadImage(System.IO.File.ReadAllBytes(path))) return null;
+                return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height),
+                    new Vector2(0.5f, 0.5f), 100f);
+            }
+            catch { return null; }
         }
 
         private void RefreshBossButton()
