@@ -39,6 +39,8 @@ namespace IdleCore.Stats
         private StatSnapshot _cached;
 
         public event Action SnapshotInvalidated;
+        /// <summary>성장 축 레벨업 시 발생 (미션 집계용)</summary>
+        public event Action<string> LeveledUp;
 
         public StatSystem(IEnumerable<GrowthAxisDef> axes, Dictionary<StatType, double> baseStats = null)
         {
@@ -66,6 +68,7 @@ namespace IdleCore.Stats
             if (!CanLevelUp(axisId)) throw new InvalidOperationException($"axis maxed or unknown: {axisId}");
             _levels[axisId] = GetLevel(axisId) + 1;
             Invalidate();
+            LeveledUp?.Invoke(axisId);
         }
 
         /// <summary>축 외 효과(유닛 돌파, 도감 보너스, 패스 버프 등)를 주입하는 통로.</summary>

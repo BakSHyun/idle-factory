@@ -2397,5 +2397,429 @@
       "rewardGrowth": 1.1,
       "maxFloor": 200
     }
+  ],
+  "dailyMissions": [
+    {
+      "id": "m_login",
+      "name": "접속하기",
+      "metric": "login",
+      "target": 1,
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 100
+        }
+      ]
+    },
+    {
+      "id": "m_kill",
+      "name": "몬스터 500마리 처치",
+      "metric": "kill",
+      "target": 500,
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 100
+        },
+        {
+          "currency": "gold",
+          "amount": 5000
+        }
+      ]
+    },
+    {
+      "id": "m_summon",
+      "name": "소환 10회",
+      "metric": "summon",
+      "target": 10,
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 200
+        }
+      ]
+    },
+    {
+      "id": "m_dungeon",
+      "name": "던전 3회 입장",
+      "metric": "dungeon",
+      "target": 3,
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 150
+        },
+        {
+          "currency": "sweep_ticket",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "m_levelup",
+      "name": "강화 10회",
+      "metric": "levelup",
+      "target": 10,
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 150
+        }
+      ]
+    },
+    {
+      "id": "m_offline",
+      "name": "방치 보상 받기",
+      "metric": "offline_claim",
+      "target": 1,
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 100
+        }
+      ]
+    }
+  ],
+  "attendanceDays": [
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 300
+        },
+        {
+          "currency": "soul",
+          "amount": 3000
+        }
+      ]
+    },
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 400
+        },
+        {
+          "currency": "gold",
+          "amount": 20000
+        }
+      ]
+    },
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 300
+        },
+        {
+          "currency": "soul",
+          "amount": 3000
+        }
+      ]
+    },
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 400
+        },
+        {
+          "currency": "gold",
+          "amount": 20000
+        }
+      ]
+    },
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 300
+        },
+        {
+          "currency": "soul",
+          "amount": 3000
+        }
+      ]
+    },
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 400
+        },
+        {
+          "currency": "gold",
+          "amount": 20000
+        }
+      ]
+    },
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 1500
+        },
+        {
+          "currency": "sweep_ticket",
+          "amount": 5
+        }
+      ]
+    },
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 400
+        },
+        {
+          "currency": "gold",
+          "amount": 20000
+        }
+      ]
+    },
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 300
+        },
+        {
+          "currency": "soul",
+          "amount": 3000
+        }
+      ]
+    },
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 400
+        },
+        {
+          "currency": "gold",
+          "amount": 20000
+        }
+      ]
+    },
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 300
+        },
+        {
+          "currency": "soul",
+          "amount": 3000
+        }
+      ]
+    },
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 400
+        },
+        {
+          "currency": "gold",
+          "amount": 20000
+        }
+      ]
+    },
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 300
+        },
+        {
+          "currency": "soul",
+          "amount": 3000
+        }
+      ]
+    },
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 1500
+        },
+        {
+          "currency": "sweep_ticket",
+          "amount": 5
+        }
+      ]
+    },
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 300
+        },
+        {
+          "currency": "soul",
+          "amount": 3000
+        }
+      ]
+    },
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 400
+        },
+        {
+          "currency": "gold",
+          "amount": 20000
+        }
+      ]
+    },
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 300
+        },
+        {
+          "currency": "soul",
+          "amount": 3000
+        }
+      ]
+    },
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 400
+        },
+        {
+          "currency": "gold",
+          "amount": 20000
+        }
+      ]
+    },
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 300
+        },
+        {
+          "currency": "soul",
+          "amount": 3000
+        }
+      ]
+    },
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 400
+        },
+        {
+          "currency": "gold",
+          "amount": 20000
+        }
+      ]
+    },
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 1500
+        },
+        {
+          "currency": "sweep_ticket",
+          "amount": 5
+        }
+      ]
+    },
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 400
+        },
+        {
+          "currency": "gold",
+          "amount": 20000
+        }
+      ]
+    },
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 300
+        },
+        {
+          "currency": "soul",
+          "amount": 3000
+        }
+      ]
+    },
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 400
+        },
+        {
+          "currency": "gold",
+          "amount": 20000
+        }
+      ]
+    },
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 300
+        },
+        {
+          "currency": "soul",
+          "amount": 3000
+        }
+      ]
+    },
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 400
+        },
+        {
+          "currency": "gold",
+          "amount": 20000
+        }
+      ]
+    },
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 300
+        },
+        {
+          "currency": "soul",
+          "amount": 3000
+        }
+      ]
+    },
+    {
+      "rewards": [
+        {
+          "currency": "gem_soft",
+          "amount": 3000
+        },
+        {
+          "currency": "sweep_ticket",
+          "amount": 10
+        },
+        {
+          "currency": "mileage",
+          "amount": 30
+        }
+      ]
+    }
   ]
 }

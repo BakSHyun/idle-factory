@@ -67,6 +67,9 @@ namespace IdleCore.Gacha
         private readonly Wallet _wallet;
         private readonly IRng _rng;
 
+        /// <summary>(bannerId, count) — 소환 완료 시 (미션 집계용)</summary>
+        public event Action<string, int> Pulled;
+
         public GachaSystem(IEnumerable<BannerDef> banners, UnitInventory inventory, Wallet wallet, IRng rng)
         {
             foreach (var b in banners) _banners[b.id] = b;
@@ -147,6 +150,7 @@ namespace IdleCore.Gacha
             result.PityCounterAfter = pity;
             if (banner.mileagePerPull > 0)
                 _wallet.Earn(CurrencyIds.Mileage, count * banner.mileagePerPull);
+            Pulled?.Invoke(bannerId, count);
             return true;
         }
 

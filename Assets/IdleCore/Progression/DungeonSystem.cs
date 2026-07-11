@@ -52,6 +52,9 @@ namespace IdleCore.Progression
         private readonly StatSystem _stats;
         private readonly IClock _clock;
 
+        /// <summary>던전 입장(도전) 시 발생 — 미션 집계용</summary>
+        public event Action<string> Challenged;
+
         public DungeonSystem(IEnumerable<DungeonDef> defs, Wallet wallet, StatSystem stats, IClock clock)
         {
             foreach (var d in defs) _defs[d.id] = d;
@@ -92,6 +95,7 @@ namespace IdleCore.Progression
             var state = State(dungeonId);
             state.entriesUsedToday++;
             state.lastEntryDateUtc = _clock.UtcNow;
+            Challenged?.Invoke(dungeonId);
 
             double dps = _stats.Snapshot().Dps();
             int cleared = 0;

@@ -40,6 +40,8 @@ namespace IdleCore.Save
         public Dictionary<string, PassState> passes = new Dictionary<string, PassState>();
         public Dictionary<string, SubscriptionState> subscriptions = new Dictionary<string, SubscriptionState>();
         public Dictionary<string, Progression.DungeonState> dungeons = new Dictionary<string, Progression.DungeonState>();
+        public Dictionary<string, LiveOps.MissionState> missions = new Dictionary<string, LiveOps.MissionState>();
+        public LiveOps.AttendanceState attendance;
         public Dictionary<string, int> adSlotUses = new Dictionary<string, int>();
         public DateTime adSlotDate;
     }

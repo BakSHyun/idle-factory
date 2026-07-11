@@ -32,6 +32,8 @@ namespace IdleCore.Gacha
         public int MaxLimitBreak = 10;
 
         public event Action<string> UnitChanged;
+        /// <summary>장비 레벨업 성공 시 발생 (미션 집계용)</summary>
+        public event Action<string> LeveledUp;
 
         public UnitInventory(IEnumerable<UnitDef> defs,
             Dictionary<string, int> equipSlots = null,
@@ -154,6 +156,7 @@ namespace IdleCore.Gacha
             if (!wallet.TrySpend(def.levelCostCurrency, def.LevelUpCostAt(unit.level))) return false;
             unit.level++;
             UnitChanged?.Invoke(unitId);
+            LeveledUp?.Invoke(unitId);
             return true;
         }
 

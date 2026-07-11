@@ -34,6 +34,8 @@ namespace IdleCore.Data
         public PaybackAttendanceDef paybackAttendance;
         public List<SubscriptionDef> subscriptions = new List<SubscriptionDef>();
         public List<AdSlotDef> adSlots = new List<AdSlotDef>();
+        public List<LiveOps.MissionDef> dailyMissions = new List<LiveOps.MissionDef>();
+        public List<LiveOps.AttendanceDay> attendanceDays = new List<LiveOps.AttendanceDay>();
     }
 
     public static class GameConfigLoader

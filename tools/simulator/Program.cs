@@ -20,8 +20,6 @@ namespace IdleFactory.Simulator
     /// </summary>
     public static class Program
     {
-        // 무과금 봇의 일일 무료 수입 (미션/이벤트 보상 가정치)
-        private const long DailySoftGems = 800;
         private const int SessionsPerDay = 4;
         private const int SessionMinutes = 15;
 
@@ -60,7 +58,7 @@ namespace IdleFactory.Simulator
 
             for (int day = 1; day <= days; day++)
             {
-                session.Wallet.Earn(CurrencyIds.GemSoft, DailySoftGems);
+                session.Attendance.TryClaimToday(); // 무료 출석 (실제 시스템)
                 if (payer)
                 {
                     session.Subscriptions.TryClaimDaily("pension");
@@ -94,6 +92,7 @@ namespace IdleFactory.Simulator
                     }
                     totalPulls += PullGachaIfAffordable(session);
                     RunDungeons(session);
+                    session.Missions.ClaimAll(); // 일일 미션 수령 (영옥의 주 수입원)
                     // 진행도 트리거 패키지 (소과금)
                     if (payer)
                         foreach (var p in config.products)

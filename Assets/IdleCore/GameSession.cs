@@ -29,6 +29,8 @@ namespace IdleCore
         public SubscriptionSystem Subscriptions { get; }
         public AdGateway Ads { get; }
         public DungeonSystem Dungeons { get; }
+        public LiveOps.MissionSystem Missions { get; }
+        public LiveOps.AttendanceSystem Attendance { get; }
 
         private readonly ISaveStore _saveStore;
         private DateTime _firstPlayedUtc;
@@ -79,6 +81,17 @@ namespace IdleCore
             Ads = new AdGateway(config.adSlots, adAdapter ?? new FakeAdAdapter(), Subscriptions, clock);
             Ads.Import(save.adSlotUses, save.adSlotDate == default ? clock.UtcNow.Date : save.adSlotDate);
 
+            Missions = new LiveOps.MissionSystem(config.dailyMissions, Wallet, clock);
+            Missions.Import(save.missions);
+            Attendance = new LiveOps.AttendanceSystem(config.attendanceDays, Wallet, clock, save.attendance);
+
+            // 미션 메트릭 배선 — 시스템 이벤트가 자동 집계된다
+            Gacha.Pulled += (_, count) => Missions.Report("summon", count);
+            Dungeons.Challenged += _ => Missions.Report("dungeon", 1);
+            Stats.LeveledUp += _ => Missions.Report("levelup", 1);
+            Units.LeveledUp += _ => Missions.Report("levelup", 1);
+            Missions.Report("login", 1);
+
             _firstPlayedUtc = save.firstPlayedUtc == default ? clock.UtcNow : save.firstPlayedUtc;
             LastSeenUtc = save.lastSeenUtc;
             SyncExternalEffects();
@@ -103,6 +116,7 @@ namespace IdleCore
             Wallet.Earn(CurrencyIds.Gold, reward.Gold);
             Wallet.Earn(CurrencyIds.Soul, reward.Soul);
             LastSeenUtc = Clock.UtcNow;
+            if (reward.CreditedHours > 0.01) Missions.Report("offline_claim", 1);
             return reward;
         }
 
@@ -111,6 +125,7 @@ namespace IdleCore
         {
             var result = Progression.Advance(seconds);
             LastSeenUtc = Clock.UtcNow;
+            if (result.Kills > 0) Missions.Report("kill", result.Kills);
             return result;
         }
 
@@ -133,6 +148,8 @@ namespace IdleCore
                 paybackAttendance = PaybackAttendance?.State,
                 subscriptions = Subscriptions.Export(),
                 dungeons = Dungeons.Export(),
+                missions = Missions.Export(),
+                attendance = Attendance.State,
                 adSlotUses = Ads.ExportTodayUses(),
                 adSlotDate = Ads.ExportTodayDate(),
             };

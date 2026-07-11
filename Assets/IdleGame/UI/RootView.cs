@@ -77,6 +77,15 @@ namespace IdleGame.UI
 
             _hardText = UIFactory.CreateText(hud, "Hard", "수정 0", 30, TextAnchor.MiddleRight, new Color(1f, 0.5f, 0.55f));
             UIFactory.TopBand(_hardText.rectTransform, 130, 40, 30);
+
+            var missionButton = UIFactory.CreateButton(hud, "MissionBtn", "📋 미션",
+                () => MissionView.Open(transform, _session), UIFactory.Accent, 26);
+            var missionRect = (RectTransform)missionButton.transform;
+            missionRect.anchorMin = new Vector2(1, 1);
+            missionRect.anchorMax = new Vector2(1, 1);
+            missionRect.pivot = new Vector2(1, 1);
+            missionRect.anchoredPosition = new Vector2(-24, -14);
+            missionRect.sizeDelta = new Vector2(170, 62);
         }
 
         private void BuildBattleView(Transform root)
