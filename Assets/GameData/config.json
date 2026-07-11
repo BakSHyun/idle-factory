@@ -140,19 +140,30 @@
     { "id": "starter_pack", "name": "첫걸음 패키지", "price": 490,
       "grants": [ { "currency": "gem_soft", "amount": 20000 }, { "currency": "gold", "amount": 50000 } ],
       "limitType": "Total", "limitCount": 1 },
-    { "id": "daily_soul", "name": "일일 영혼 팩", "price": 90,
-      "grants": [ { "currency": "soul", "amount": 5000 } ],
+    { "id": "daily_pack", "name": "일일 팩", "price": 90,
+      "grants": [ { "currency": "gem_soft", "amount": 1000 }, { "currency": "sweep_ticket", "amount": 2 } ],
       "limitType": "Daily", "limitCount": 1 },
-    { "id": "wall_breaker_ch10", "name": "10장 돌파 기념 패키지", "price": 990, "unlockStageIndex": 49,
-      "grants": [ { "currency": "gem_soft", "amount": 40000 }, { "currency": "soul", "amount": 30000 } ],
+    { "id": "weekly_pack", "name": "주간 팩", "price": 490,
+      "grants": [ { "currency": "gem_soft", "amount": 7000 }, { "currency": "sweep_ticket", "amount": 20 } ],
+      "limitType": "Weekly", "limitCount": 1 },
+    { "id": "monthly_pack", "name": "월간 팩", "price": 1990,
+      "grants": [ { "currency": "gem_soft", "amount": 36000 }, { "currency": "sweep_ticket", "amount": 100 } ],
+      "limitType": "Total", "limitCount": 1 },
+    { "id": "gold_bomb_ch10", "name": "10장 돌파 패키지", "price": 990, "unlockStageIndex": 49,
+      "grants": [ { "currency": "gold", "amount": 2000000 }, { "currency": "gem_soft", "amount": 10000 } ],
+      "limitType": "Total", "limitCount": 1 },
+    { "id": "soul_surge_ch20", "name": "20장 영혼 패키지", "price": 1990, "unlockStageIndex": 99,
+      "grants": [ { "currency": "soul", "amount": 500000 }, { "currency": "sweep_ticket", "amount": 30 } ],
       "limitType": "Total", "limitCount": 1 }
   ],
 
   "skus": [
+    { "skuId": "gem_1100", "displayName": "수정 110", "grantHardGems": 110, "priceKrw": 1100 },
     { "skuId": "gem_5500", "displayName": "수정 550", "grantHardGems": 550, "priceKrw": 5500 },
-    { "skuId": "gem_11000", "displayName": "수정 1,200", "grantHardGems": 1200, "priceKrw": 11000 },
-    { "skuId": "gem_33000", "displayName": "수정 3,900", "grantHardGems": 3900, "priceKrw": 33000 },
-    { "skuId": "gem_110000", "displayName": "수정 14,000", "grantHardGems": 14000, "priceKrw": 110000 }
+    { "skuId": "gem_11000", "displayName": "수정 1,150", "grantHardGems": 1150, "priceKrw": 11000 },
+    { "skuId": "gem_33000", "displayName": "수정 3,650", "grantHardGems": 3650, "priceKrw": 33000 },
+    { "skuId": "gem_55000", "displayName": "수정 6,300", "grantHardGems": 6300, "priceKrw": 55000 },
+    { "skuId": "gem_110000", "displayName": "수정 13,200", "grantHardGems": 13200, "priceKrw": 110000 }
   ],
 
   "passes": [
