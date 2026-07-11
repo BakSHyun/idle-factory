@@ -59,7 +59,7 @@ namespace IdleFactory.Simulator
                 if (payer)
                 {
                     session.PaybackAttendance?.TryClaimToday();
-                    session.Shop.TryPurchase("daily_soul", session.Progression.Current.Index);
+                    session.Shop.TryPurchase("daily_pack", session.Progression.Current.Index);
                 }
 
                 for (int s = 0; s < SessionsPerDay; s++)
