@@ -136,44 +136,818 @@
   },
   "units": [
     {
-      "id": "w_rusty",
-      "name": "녹슨 낫",
+      "id": "weapon_beginner",
+      "name": "낡은 낫",
       "kind": "weapon",
-      "grade": "Rare",
-      "baseEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.1
-          }
-        }
-      ],
+      "grade": "Beginner",
       "collectionEffects": [
         {
           "stat": "Attack",
           "mode": "Add",
           "value": {
-            "baseValue": 3
+            "baseValue": 1.5
           }
         }
-      ]
-    },
-    {
-      "id": "w_myeongbu",
-      "name": "명부의 낫",
-      "kind": "weapon",
-      "grade": "Epic",
+      ],
       "baseEffects": [
         {
           "stat": "Attack",
           "mode": "Mul",
           "value": {
-            "baseValue": 0.25
+            "baseValue": 0.02
           }
         }
       ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 80,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.002
+          }
+        }
+      ]
+    },
+    {
+      "id": "weapon_intermediate",
+      "name": "무쇠 낫",
+      "kind": "weapon",
+      "grade": "Intermediate",
       "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 3.3
+          }
+        }
+      ],
+      "baseEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.044
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 200,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0044
+          }
+        }
+      ]
+    },
+    {
+      "id": "weapon_advanced",
+      "name": "명계 낫",
+      "kind": "weapon",
+      "grade": "Advanced",
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 7.2
+          }
+        }
+      ],
+      "baseEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.096
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 500,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0096
+          }
+        }
+      ]
+    },
+    {
+      "id": "weapon_rare",
+      "name": "혼백 낫",
+      "kind": "weapon",
+      "grade": "Rare",
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 15.8
+          }
+        }
+      ],
+      "baseEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.21
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 1300,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.021
+          }
+        }
+      ]
+    },
+    {
+      "id": "weapon_epic",
+      "name": "월영 낫",
+      "kind": "weapon",
+      "grade": "Epic",
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 34.5
+          }
+        }
+      ],
+      "baseEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.46
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 3500,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.046
+          }
+        }
+      ]
+    },
+    {
+      "id": "weapon_mythic",
+      "name": "초승달 낫",
+      "kind": "weapon",
+      "grade": "Mythic",
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 75.0
+          }
+        }
+      ],
+      "baseEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 1.0
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 9000,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.1
+          }
+        }
+      ],
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 5,
+          "effect": {
+            "stat": "FinalDamage",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 0.5
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "orb_beginner",
+      "name": "흐린 구슬",
+      "kind": "orb",
+      "grade": "Beginner",
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 1.5
+          }
+        }
+      ],
+      "baseEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.015
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 80,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0015
+          }
+        }
+      ]
+    },
+    {
+      "id": "orb_intermediate",
+      "name": "영기 구슬",
+      "kind": "orb",
+      "grade": "Intermediate",
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 3.3
+          }
+        }
+      ],
+      "baseEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.033
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 200,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0033
+          }
+        }
+      ]
+    },
+    {
+      "id": "orb_advanced",
+      "name": "귀화 오브",
+      "kind": "orb",
+      "grade": "Advanced",
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 7.2
+          }
+        }
+      ],
+      "baseEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.072
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 500,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0072
+          }
+        }
+      ]
+    },
+    {
+      "id": "orb_rare",
+      "name": "명부 오브",
+      "kind": "orb",
+      "grade": "Rare",
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 15.8
+          }
+        }
+      ],
+      "baseEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.158
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 1300,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.01575
+          }
+        }
+      ]
+    },
+    {
+      "id": "orb_epic",
+      "name": "삼도천 오브",
+      "kind": "orb",
+      "grade": "Epic",
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 34.5
+          }
+        }
+      ],
+      "baseEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.345
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 3500,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0345
+          }
+        }
+      ]
+    },
+    {
+      "id": "orb_mythic",
+      "name": "염라의 눈",
+      "kind": "orb",
+      "grade": "Mythic",
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 75.0
+          }
+        }
+      ],
+      "baseEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.75
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 9000,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.075
+          }
+        }
+      ],
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 5,
+          "effect": {
+            "stat": "FinalDamage",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 0.5
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_beginner",
+      "name": "삼베 고름",
+      "kind": "ornament",
+      "grade": "Beginner",
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 1.5
+          }
+        }
+      ],
+      "baseEffects": [
+        {
+          "stat": "GoldGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.01
+          }
+        },
+        {
+          "stat": "CritChance",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0.003
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 80,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "GoldGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.001
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_intermediate",
+      "name": "백동 노리개",
+      "kind": "ornament",
+      "grade": "Intermediate",
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 3.3
+          }
+        }
+      ],
+      "baseEffects": [
+        {
+          "stat": "GoldGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.022
+          }
+        },
+        {
+          "stat": "CritChance",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0.0066
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 200,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "GoldGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0022
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_advanced",
+      "name": "흑옥 노리개",
+      "kind": "ornament",
+      "grade": "Advanced",
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 7.2
+          }
+        }
+      ],
+      "baseEffects": [
+        {
+          "stat": "GoldGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.048
+          }
+        },
+        {
+          "stat": "CritChance",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0.0144
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 500,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "GoldGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0048
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_rare",
+      "name": "도깨비 장식",
+      "kind": "ornament",
+      "grade": "Rare",
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 15.8
+          }
+        }
+      ],
+      "baseEffects": [
+        {
+          "stat": "GoldGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.105
+          }
+        },
+        {
+          "stat": "CritChance",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0.0315
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 1300,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "GoldGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0105
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_epic",
+      "name": "달빛 장식",
+      "kind": "ornament",
+      "grade": "Epic",
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 34.5
+          }
+        }
+      ],
+      "baseEffects": [
+        {
+          "stat": "GoldGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.23
+          }
+        },
+        {
+          "stat": "CritChance",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0.069
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 3500,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "GoldGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.023
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_mythic",
+      "name": "저승꽃 장식",
+      "kind": "ornament",
+      "grade": "Mythic",
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 75.0
+          }
+        }
+      ],
+      "baseEffects": [
+        {
+          "stat": "GoldGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.5
+          }
+        },
+        {
+          "stat": "CritChance",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0.15
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 9000,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "GoldGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.05
+          }
+        }
+      ],
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 5,
+          "effect": {
+            "stat": "FinalDamage",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 0.5
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "skill_beginner",
+      "name": "낫질",
+      "kind": "skill",
+      "grade": "Beginner",
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 1.5
+          }
+        }
+      ],
+      "baseEffects": [
         {
           "stat": "Attack",
           "mode": "Add",
@@ -184,28 +958,124 @@
       ]
     },
     {
-      "id": "w_crescent",
-      "name": "초승달 낫",
-      "kind": "weapon",
-      "grade": "Mythic",
+      "id": "skill_intermediate",
+      "name": "혼 가르기",
+      "kind": "skill",
+      "grade": "Intermediate",
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 3.3
+          }
+        }
+      ],
       "baseEffects": [
         {
           "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 17.6
+          }
+        }
+      ]
+    },
+    {
+      "id": "skill_advanced",
+      "name": "귀화술",
+      "kind": "skill",
+      "grade": "Advanced",
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 7.2
+          }
+        }
+      ],
+      "baseEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 38.4
+          }
+        }
+      ]
+    },
+    {
+      "id": "skill_rare",
+      "name": "유령 손아귀",
+      "kind": "skill",
+      "grade": "Rare",
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 15.8
+          }
+        }
+      ],
+      "baseEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.126
+          }
+        }
+      ]
+    },
+    {
+      "id": "skill_epic",
+      "name": "도깨비불",
+      "kind": "skill",
+      "grade": "Epic",
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 34.5
+          }
+        }
+      ],
+      "baseEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.276
+          }
+        }
+      ]
+    },
+    {
+      "id": "skill_mythic",
+      "name": "삼도천 베기",
+      "kind": "skill",
+      "grade": "Mythic",
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 75.0
+          }
+        }
+      ],
+      "baseEffects": [
+        {
+          "stat": "FinalDamage",
           "mode": "Mul",
           "value": {
             "baseValue": 0.6
           }
         }
       ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 20
-          }
-        }
-      ],
       "limitBreakEffects": [
         {
           "atLimitBreak": 5,
@@ -220,325 +1090,145 @@
       ]
     },
     {
-      "id": "a_bead",
-      "name": "혼백 구슬",
-      "kind": "accessory",
-      "grade": "Rare",
-      "baseEffects": [
-        {
-          "stat": "CritChance",
-          "mode": "Add",
-          "value": {
-            "baseValue": 0.02
-          }
-        }
-      ],
+      "id": "hero_beginner",
+      "name": "견습 차사",
+      "kind": "hero",
+      "grade": "Beginner",
       "collectionEffects": [
         {
           "stat": "Attack",
           "mode": "Add",
           "value": {
-            "baseValue": 3
-          }
-        }
-      ]
-    },
-    {
-      "id": "a_lantern",
-      "name": "도깨비 등불",
-      "kind": "accessory",
-      "grade": "Epic",
-      "baseEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.15
+            "baseValue": 1.5
           }
         }
       ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 8
-          }
-        }
-      ]
-    },
-    {
-      "id": "a_bell",
-      "name": "초혼 방울",
-      "kind": "accessory",
-      "grade": "Epic",
-      "baseEffects": [
-        {
-          "stat": "SoulGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.15
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 8
-          }
-        }
-      ]
-    },
-    {
-      "id": "a_moonjade",
-      "name": "달옥 가락지",
-      "kind": "accessory",
-      "grade": "Mythic",
-      "baseEffects": [
-        {
-          "stat": "CritMultiplier",
-          "mode": "Add",
-          "value": {
-            "baseValue": 0.5
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 20
-          }
-        }
-      ]
-    },
-    {
-      "id": "s_gwihwa",
-      "name": "귀화술",
-      "kind": "skill",
-      "grade": "Rare",
       "baseEffects": [
         {
           "stat": "Attack",
           "mode": "Add",
           "value": {
-            "baseValue": 20
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 3
+            "baseValue": 10
           }
         }
       ]
     },
     {
-      "id": "s_grip",
-      "name": "유령 손아귀",
-      "kind": "skill",
-      "grade": "Rare",
+      "id": "hero_intermediate",
+      "name": "차사 도윤",
+      "kind": "hero",
+      "grade": "Intermediate",
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 3.3
+          }
+        }
+      ],
       "baseEffects": [
         {
           "stat": "Attack",
           "mode": "Add",
           "value": {
-            "baseValue": 20
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 3
+            "baseValue": 22.0
           }
         }
       ]
     },
     {
-      "id": "s_dokkaebi",
-      "name": "도깨비불",
-      "kind": "skill",
-      "grade": "Epic",
-      "baseEffects": [
-        {
-          "stat": "FinalDamage",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.1
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 8
-          }
-        }
-      ]
-    },
-    {
-      "id": "s_wongwi",
-      "name": "원귀 소환",
-      "kind": "skill",
-      "grade": "Epic",
-      "baseEffects": [
-        {
-          "stat": "FinalDamage",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.1
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 8
-          }
-        }
-      ]
-    },
-    {
-      "id": "s_samdo",
-      "name": "삼도천 베기",
-      "kind": "skill",
-      "grade": "Mythic",
-      "baseEffects": [
-        {
-          "stat": "FinalDamage",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.25
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 20
-          }
-        }
-      ],
-      "limitBreakEffects": [
-        {
-          "atLimitBreak": 5,
-          "effect": {
-            "stat": "FinalDamage",
-            "mode": "Mul",
-            "value": {
-              "baseValue": 0.5
-            }
-          }
-        }
-      ]
-    },
-    {
-      "id": "h_baek",
+      "id": "hero_advanced",
       "name": "차사 백무영",
       "kind": "hero",
-      "grade": "Rare",
-      "baseEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 25
-          }
-        }
-      ],
+      "grade": "Advanced",
       "collectionEffects": [
         {
           "stat": "Attack",
           "mode": "Add",
           "value": {
-            "baseValue": 3
+            "baseValue": 7.2
+          }
+        }
+      ],
+      "baseEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 48.0
           }
         }
       ]
     },
     {
-      "id": "h_hong",
+      "id": "hero_rare",
       "name": "차사 홍련",
       "kind": "hero",
       "grade": "Rare",
-      "baseEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 25
-          }
-        }
-      ],
       "collectionEffects": [
         {
           "stat": "Attack",
           "mode": "Add",
           "value": {
-            "baseValue": 3
+            "baseValue": 15.8
+          }
+        }
+      ],
+      "baseEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.126
           }
         }
       ]
     },
     {
-      "id": "h_muk",
+      "id": "hero_epic",
       "name": "차사 묵향",
       "kind": "hero",
       "grade": "Epic",
-      "baseEffects": [
-        {
-          "stat": "FinalDamage",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.1
-          }
-        }
-      ],
       "collectionEffects": [
         {
           "stat": "Attack",
           "mode": "Add",
           "value": {
-            "baseValue": 8
+            "baseValue": 34.5
+          }
+        }
+      ],
+      "baseEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.276
           }
         }
       ]
     },
     {
-      "id": "h_seol",
+      "id": "hero_mythic",
       "name": "차사 설야차",
       "kind": "hero",
       "grade": "Mythic",
-      "baseEffects": [
-        {
-          "stat": "FinalDamage",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.25
-          }
-        }
-      ],
       "collectionEffects": [
         {
           "stat": "Attack",
           "mode": "Add",
           "value": {
-            "baseValue": 20
+            "baseValue": 75.0
+          }
+        }
+      ],
+      "baseEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.6
           }
         }
       ],
@@ -551,30 +1241,6 @@
             "value": {
               "baseValue": 0.5
             }
-          }
-        }
-      ]
-    },
-    {
-      "id": "h_gangrim",
-      "name": "강림도령",
-      "kind": "hero",
-      "grade": "Mythic",
-      "baseEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.3
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 20
           }
         }
       ]
@@ -587,56 +1253,404 @@
       "costCurrency": "gem_soft",
       "costPerPull": 200,
       "costPerTen": 1800,
-      "gradeRates": {
-        "Rare": 0.8,
-        "Epic": 0.17,
-        "Mythic": 0.03
-      },
-      "pool": [
+      "rateTable": [
         {
-          "unitId": "w_rusty"
+          "level": 1,
+          "rates": {
+            "Beginner": 90,
+            "Intermediate": 10
+          }
         },
         {
-          "unitId": "w_myeongbu"
+          "level": 2,
+          "rates": {
+            "Beginner": 85,
+            "Intermediate": 14.9,
+            "Advanced": 0.1
+          }
         },
         {
-          "unitId": "w_crescent"
+          "level": 3,
+          "rates": {
+            "Beginner": 78,
+            "Intermediate": 19,
+            "Advanced": 3
+          }
+        },
+        {
+          "level": 4,
+          "rates": {
+            "Beginner": 74.6,
+            "Intermediate": 20,
+            "Advanced": 4.9,
+            "Rare": 0.5
+          }
+        },
+        {
+          "level": 5,
+          "rates": {
+            "Beginner": 72,
+            "Intermediate": 21,
+            "Advanced": 6,
+            "Rare": 1
+          }
+        },
+        {
+          "level": 6,
+          "rates": {
+            "Beginner": 66.45,
+            "Intermediate": 22,
+            "Advanced": 10,
+            "Rare": 1.5,
+            "Epic": 0.05
+          }
+        },
+        {
+          "level": 7,
+          "rates": {
+            "Beginner": 60.9,
+            "Intermediate": 24,
+            "Advanced": 12,
+            "Rare": 3,
+            "Epic": 0.1
+          }
+        },
+        {
+          "level": 8,
+          "rates": {
+            "Beginner": 56.725,
+            "Intermediate": 25,
+            "Advanced": 13.97,
+            "Rare": 4,
+            "Epic": 0.3,
+            "Mythic": 0.005
+          }
+        },
+        {
+          "level": 9,
+          "rates": {
+            "Beginner": 52.34,
+            "Intermediate": 26.08,
+            "Advanced": 16,
+            "Rare": 4.87,
+            "Epic": 0.7,
+            "Mythic": 0.01
+          }
+        },
+        {
+          "level": 10,
+          "rates": {
+            "Beginner": 43.08,
+            "Intermediate": 29,
+            "Advanced": 18.9,
+            "Rare": 8,
+            "Epic": 1,
+            "Mythic": 0.02
+          }
         }
       ],
-      "pityThreshold": 100,
-      "pityGrade": "Mythic",
-      "pickupUnitId": "w_crescent",
-      "pickupShare": 0.5
+      "levelUpPulls": [
+        30,
+        80,
+        160,
+        280,
+        450,
+        700,
+        1100,
+        1700,
+        2500
+      ],
+      "pool": [
+        {
+          "unitId": "weapon_beginner"
+        },
+        {
+          "unitId": "weapon_intermediate"
+        },
+        {
+          "unitId": "weapon_advanced"
+        },
+        {
+          "unitId": "weapon_rare"
+        },
+        {
+          "unitId": "weapon_epic"
+        },
+        {
+          "unitId": "weapon_mythic"
+        }
+      ],
+      "pityThreshold": 0
     },
     {
-      "id": "banner_accessory",
-      "name": "장신구 소환",
+      "id": "banner_orb",
+      "name": "오브 소환",
       "costCurrency": "gem_soft",
       "costPerPull": 200,
       "costPerTen": 1800,
-      "gradeRates": {
-        "Rare": 0.8,
-        "Epic": 0.17,
-        "Mythic": 0.03
-      },
-      "pool": [
+      "rateTable": [
         {
-          "unitId": "a_bead"
+          "level": 1,
+          "rates": {
+            "Beginner": 90,
+            "Intermediate": 10
+          }
         },
         {
-          "unitId": "a_lantern"
+          "level": 2,
+          "rates": {
+            "Beginner": 85,
+            "Intermediate": 14.9,
+            "Advanced": 0.1
+          }
         },
         {
-          "unitId": "a_bell"
+          "level": 3,
+          "rates": {
+            "Beginner": 78,
+            "Intermediate": 19,
+            "Advanced": 3
+          }
         },
         {
-          "unitId": "a_moonjade"
+          "level": 4,
+          "rates": {
+            "Beginner": 74.6,
+            "Intermediate": 20,
+            "Advanced": 4.9,
+            "Rare": 0.5
+          }
+        },
+        {
+          "level": 5,
+          "rates": {
+            "Beginner": 72,
+            "Intermediate": 21,
+            "Advanced": 6,
+            "Rare": 1
+          }
+        },
+        {
+          "level": 6,
+          "rates": {
+            "Beginner": 66.45,
+            "Intermediate": 22,
+            "Advanced": 10,
+            "Rare": 1.5,
+            "Epic": 0.05
+          }
+        },
+        {
+          "level": 7,
+          "rates": {
+            "Beginner": 60.9,
+            "Intermediate": 24,
+            "Advanced": 12,
+            "Rare": 3,
+            "Epic": 0.1
+          }
+        },
+        {
+          "level": 8,
+          "rates": {
+            "Beginner": 56.725,
+            "Intermediate": 25,
+            "Advanced": 13.97,
+            "Rare": 4,
+            "Epic": 0.3,
+            "Mythic": 0.005
+          }
+        },
+        {
+          "level": 9,
+          "rates": {
+            "Beginner": 52.34,
+            "Intermediate": 26.08,
+            "Advanced": 16,
+            "Rare": 4.87,
+            "Epic": 0.7,
+            "Mythic": 0.01
+          }
+        },
+        {
+          "level": 10,
+          "rates": {
+            "Beginner": 43.08,
+            "Intermediate": 29,
+            "Advanced": 18.9,
+            "Rare": 8,
+            "Epic": 1,
+            "Mythic": 0.02
+          }
         }
       ],
-      "pityThreshold": 100,
-      "pityGrade": "Mythic",
-      "pickupUnitId": "a_moonjade",
-      "pickupShare": 0.5
+      "levelUpPulls": [
+        30,
+        80,
+        160,
+        280,
+        450,
+        700,
+        1100,
+        1700,
+        2500
+      ],
+      "pool": [
+        {
+          "unitId": "orb_beginner"
+        },
+        {
+          "unitId": "orb_intermediate"
+        },
+        {
+          "unitId": "orb_advanced"
+        },
+        {
+          "unitId": "orb_rare"
+        },
+        {
+          "unitId": "orb_epic"
+        },
+        {
+          "unitId": "orb_mythic"
+        }
+      ],
+      "pityThreshold": 0
+    },
+    {
+      "id": "banner_ornament",
+      "name": "장식 소환",
+      "costCurrency": "gem_soft",
+      "costPerPull": 200,
+      "costPerTen": 1800,
+      "rateTable": [
+        {
+          "level": 1,
+          "rates": {
+            "Beginner": 90,
+            "Intermediate": 10
+          }
+        },
+        {
+          "level": 2,
+          "rates": {
+            "Beginner": 85,
+            "Intermediate": 14.9,
+            "Advanced": 0.1
+          }
+        },
+        {
+          "level": 3,
+          "rates": {
+            "Beginner": 78,
+            "Intermediate": 19,
+            "Advanced": 3
+          }
+        },
+        {
+          "level": 4,
+          "rates": {
+            "Beginner": 74.6,
+            "Intermediate": 20,
+            "Advanced": 4.9,
+            "Rare": 0.5
+          }
+        },
+        {
+          "level": 5,
+          "rates": {
+            "Beginner": 72,
+            "Intermediate": 21,
+            "Advanced": 6,
+            "Rare": 1
+          }
+        },
+        {
+          "level": 6,
+          "rates": {
+            "Beginner": 66.45,
+            "Intermediate": 22,
+            "Advanced": 10,
+            "Rare": 1.5,
+            "Epic": 0.05
+          }
+        },
+        {
+          "level": 7,
+          "rates": {
+            "Beginner": 60.9,
+            "Intermediate": 24,
+            "Advanced": 12,
+            "Rare": 3,
+            "Epic": 0.1
+          }
+        },
+        {
+          "level": 8,
+          "rates": {
+            "Beginner": 56.725,
+            "Intermediate": 25,
+            "Advanced": 13.97,
+            "Rare": 4,
+            "Epic": 0.3,
+            "Mythic": 0.005
+          }
+        },
+        {
+          "level": 9,
+          "rates": {
+            "Beginner": 52.34,
+            "Intermediate": 26.08,
+            "Advanced": 16,
+            "Rare": 4.87,
+            "Epic": 0.7,
+            "Mythic": 0.01
+          }
+        },
+        {
+          "level": 10,
+          "rates": {
+            "Beginner": 43.08,
+            "Intermediate": 29,
+            "Advanced": 18.9,
+            "Rare": 8,
+            "Epic": 1,
+            "Mythic": 0.02
+          }
+        }
+      ],
+      "levelUpPulls": [
+        30,
+        80,
+        160,
+        280,
+        450,
+        700,
+        1100,
+        1700,
+        2500
+      ],
+      "pool": [
+        {
+          "unitId": "ornament_beginner"
+        },
+        {
+          "unitId": "ornament_intermediate"
+        },
+        {
+          "unitId": "ornament_advanced"
+        },
+        {
+          "unitId": "ornament_rare"
+        },
+        {
+          "unitId": "ornament_epic"
+        },
+        {
+          "unitId": "ornament_mythic"
+        }
+      ],
+      "pityThreshold": 0
     },
     {
       "id": "banner_skill",
@@ -644,32 +1658,134 @@
       "costCurrency": "gem_soft",
       "costPerPull": 200,
       "costPerTen": 1800,
-      "gradeRates": {
-        "Rare": 0.8,
-        "Epic": 0.17,
-        "Mythic": 0.03
-      },
-      "pool": [
+      "rateTable": [
         {
-          "unitId": "s_gwihwa"
+          "level": 1,
+          "rates": {
+            "Beginner": 90,
+            "Intermediate": 10
+          }
         },
         {
-          "unitId": "s_grip"
+          "level": 2,
+          "rates": {
+            "Beginner": 85,
+            "Intermediate": 14.9,
+            "Advanced": 0.1
+          }
         },
         {
-          "unitId": "s_dokkaebi"
+          "level": 3,
+          "rates": {
+            "Beginner": 78,
+            "Intermediate": 19,
+            "Advanced": 3
+          }
         },
         {
-          "unitId": "s_wongwi"
+          "level": 4,
+          "rates": {
+            "Beginner": 74.6,
+            "Intermediate": 20,
+            "Advanced": 4.9,
+            "Rare": 0.5
+          }
         },
         {
-          "unitId": "s_samdo"
+          "level": 5,
+          "rates": {
+            "Beginner": 72,
+            "Intermediate": 21,
+            "Advanced": 6,
+            "Rare": 1
+          }
+        },
+        {
+          "level": 6,
+          "rates": {
+            "Beginner": 66.45,
+            "Intermediate": 22,
+            "Advanced": 10,
+            "Rare": 1.5,
+            "Epic": 0.05
+          }
+        },
+        {
+          "level": 7,
+          "rates": {
+            "Beginner": 60.9,
+            "Intermediate": 24,
+            "Advanced": 12,
+            "Rare": 3,
+            "Epic": 0.1
+          }
+        },
+        {
+          "level": 8,
+          "rates": {
+            "Beginner": 56.725,
+            "Intermediate": 25,
+            "Advanced": 13.97,
+            "Rare": 4,
+            "Epic": 0.3,
+            "Mythic": 0.005
+          }
+        },
+        {
+          "level": 9,
+          "rates": {
+            "Beginner": 52.34,
+            "Intermediate": 26.08,
+            "Advanced": 16,
+            "Rare": 4.87,
+            "Epic": 0.7,
+            "Mythic": 0.01
+          }
+        },
+        {
+          "level": 10,
+          "rates": {
+            "Beginner": 43.08,
+            "Intermediate": 29,
+            "Advanced": 18.9,
+            "Rare": 8,
+            "Epic": 1,
+            "Mythic": 0.02
+          }
         }
       ],
-      "pityThreshold": 100,
-      "pityGrade": "Mythic",
-      "pickupUnitId": "s_samdo",
-      "pickupShare": 0.5
+      "levelUpPulls": [
+        30,
+        80,
+        160,
+        280,
+        450,
+        700,
+        1100,
+        1700,
+        2500
+      ],
+      "pool": [
+        {
+          "unitId": "skill_beginner"
+        },
+        {
+          "unitId": "skill_intermediate"
+        },
+        {
+          "unitId": "skill_advanced"
+        },
+        {
+          "unitId": "skill_rare"
+        },
+        {
+          "unitId": "skill_epic"
+        },
+        {
+          "unitId": "skill_mythic"
+        }
+      ],
+      "pityThreshold": 0
     },
     {
       "id": "banner_hero",
@@ -677,32 +1793,134 @@
       "costCurrency": "gem_soft",
       "costPerPull": 200,
       "costPerTen": 1800,
-      "gradeRates": {
-        "Rare": 0.8,
-        "Epic": 0.17,
-        "Mythic": 0.03
-      },
-      "pool": [
+      "rateTable": [
         {
-          "unitId": "h_baek"
+          "level": 1,
+          "rates": {
+            "Beginner": 90,
+            "Intermediate": 10
+          }
         },
         {
-          "unitId": "h_hong"
+          "level": 2,
+          "rates": {
+            "Beginner": 85,
+            "Intermediate": 14.9,
+            "Advanced": 0.1
+          }
         },
         {
-          "unitId": "h_muk"
+          "level": 3,
+          "rates": {
+            "Beginner": 78,
+            "Intermediate": 19,
+            "Advanced": 3
+          }
         },
         {
-          "unitId": "h_seol"
+          "level": 4,
+          "rates": {
+            "Beginner": 74.6,
+            "Intermediate": 20,
+            "Advanced": 4.9,
+            "Rare": 0.5
+          }
         },
         {
-          "unitId": "h_gangrim"
+          "level": 5,
+          "rates": {
+            "Beginner": 72,
+            "Intermediate": 21,
+            "Advanced": 6,
+            "Rare": 1
+          }
+        },
+        {
+          "level": 6,
+          "rates": {
+            "Beginner": 66.45,
+            "Intermediate": 22,
+            "Advanced": 10,
+            "Rare": 1.5,
+            "Epic": 0.05
+          }
+        },
+        {
+          "level": 7,
+          "rates": {
+            "Beginner": 60.9,
+            "Intermediate": 24,
+            "Advanced": 12,
+            "Rare": 3,
+            "Epic": 0.1
+          }
+        },
+        {
+          "level": 8,
+          "rates": {
+            "Beginner": 56.725,
+            "Intermediate": 25,
+            "Advanced": 13.97,
+            "Rare": 4,
+            "Epic": 0.3,
+            "Mythic": 0.005
+          }
+        },
+        {
+          "level": 9,
+          "rates": {
+            "Beginner": 52.34,
+            "Intermediate": 26.08,
+            "Advanced": 16,
+            "Rare": 4.87,
+            "Epic": 0.7,
+            "Mythic": 0.01
+          }
+        },
+        {
+          "level": 10,
+          "rates": {
+            "Beginner": 43.08,
+            "Intermediate": 29,
+            "Advanced": 18.9,
+            "Rare": 8,
+            "Epic": 1,
+            "Mythic": 0.02
+          }
         }
       ],
-      "pityThreshold": 100,
-      "pityGrade": "Mythic",
-      "pickupUnitId": "h_seol",
-      "pickupShare": 0.5
+      "levelUpPulls": [
+        30,
+        80,
+        160,
+        280,
+        450,
+        700,
+        1100,
+        1700,
+        2500
+      ],
+      "pool": [
+        {
+          "unitId": "hero_beginner"
+        },
+        {
+          "unitId": "hero_intermediate"
+        },
+        {
+          "unitId": "hero_advanced"
+        },
+        {
+          "unitId": "hero_rare"
+        },
+        {
+          "unitId": "hero_epic"
+        },
+        {
+          "unitId": "hero_mythic"
+        }
+      ],
+      "pityThreshold": 0
     }
   ],
   "products": [
@@ -1021,13 +2239,14 @@
   },
   "equipSlots": {
     "weapon": 1,
-    "accessory": 2,
+    "orb": 1,
+    "ornament": 2,
     "skill": 4,
     "hero": 4
   },
   "collectionMilestones": [
     {
-      "count": 3,
+      "count": 5,
       "effects": [
         {
           "stat": "Attack",
@@ -1039,7 +2258,7 @@
       ]
     },
     {
-      "count": 6,
+      "count": 10,
       "effects": [
         {
           "stat": "FinalDamage",
@@ -1051,7 +2270,7 @@
       ]
     },
     {
-      "count": 9,
+      "count": 15,
       "effects": [
         {
           "stat": "Attack",
@@ -1063,7 +2282,7 @@
       ]
     },
     {
-      "count": 13,
+      "count": 20,
       "effects": [
         {
           "stat": "FinalDamage",
@@ -1075,13 +2294,25 @@
       ]
     },
     {
-      "count": 17,
+      "count": 25,
+      "effects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.15
+          }
+        }
+      ]
+    },
+    {
+      "count": 30,
       "effects": [
         {
           "stat": "FinalDamage",
           "mode": "Mul",
           "value": {
-            "baseValue": 0.2
+            "baseValue": 0.25
           }
         }
       ]

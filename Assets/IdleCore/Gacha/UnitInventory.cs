@@ -10,6 +10,7 @@ namespace IdleCore.Gacha
         public string unitId;
         public int copies;      // 보유 사본 (돌파에 소모하지 않고 누적 카운트로 표현)
         public int limitBreak;  // 현재 돌파 수치
+        public int level = 1;   // 장비 레벨 (maxLevel=1인 유닛은 항상 1)
         public bool equipped;
     }
 
@@ -88,6 +89,29 @@ namespace IdleCore.Gacha
             UnitChanged?.Invoke(unitId);
         }
 
+        /// <summary>장비 레벨업 비용 (다음 레벨). 레벨 불가 유닛이거나 만렙이면 -1.</summary>
+        public long LevelUpCost(string unitId)
+        {
+            var unit = Get(unitId);
+            if (unit == null) return -1;
+            var def = _defs[unitId];
+            if (unit.level >= def.maxLevel) return -1;
+            return def.LevelUpCostAt(unit.level);
+        }
+
+        /// <summary>장비 레벨업 — 재화를 지불하고 레벨 +1 (최대 200, 등급이 높을수록 비쌈).</summary>
+        public bool TryLevelUp(string unitId, Economy.Wallet wallet)
+        {
+            var unit = Get(unitId);
+            if (unit == null) return false;
+            var def = _defs[unitId];
+            if (unit.level >= def.maxLevel) return false;
+            if (!wallet.TrySpend(def.levelCostCurrency, def.LevelUpCostAt(unit.level))) return false;
+            unit.level++;
+            UnitChanged?.Invoke(unitId);
+            return true;
+        }
+
         /// <summary>등급→돌파 순으로 슬롯을 채운다 (뉴비 자동 장착 / 봇 정책).</summary>
         public void AutoEquipBest()
         {
@@ -117,6 +141,14 @@ namespace IdleCore.Gacha
                 result.AddRange(def.collectionEffects); // 보유만으로 기여 (도감)
                 if (!unit.equipped) continue;
                 result.AddRange(def.baseEffects);
+                // 장비 레벨 효과: 곡선에 현재 레벨을 대입한 값을 즉석 효과로 변환
+                foreach (var levelEffect in def.levelEffects)
+                    result.Add(new StatEffect
+                    {
+                        stat = levelEffect.stat,
+                        mode = levelEffect.mode,
+                        value = new ValueCurve { baseValue = levelEffect.value.Evaluate(unit.level) },
+                    });
                 foreach (var lb in def.limitBreakEffects)
                     if (unit.limitBreak >= lb.atLimitBreak)
                         result.Add(lb.effect);

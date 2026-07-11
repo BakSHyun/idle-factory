@@ -53,8 +53,8 @@ namespace IdleGame.UI
                 _bannerButtons.Add(button);
             }
 
-            _pityText = UIFactory.CreateText(list, "Pity", "", 27, TextAnchor.MiddleCenter, UIFactory.TextDim);
-            _pityText.gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
+            _pityText = UIFactory.CreateText(list, "Pity", "", 26, TextAnchor.MiddleCenter, UIFactory.TextDim);
+            _pityText.gameObject.AddComponent<LayoutElement>().preferredHeight = 80;
 
             _pull1Button = UIFactory.CreateButton(list, "Pull1", "", () => Pull(1));
             _pull1Button.gameObject.AddComponent<LayoutElement>().preferredHeight = 100;
@@ -108,8 +108,15 @@ namespace IdleGame.UI
             foreach (var b in _session.Gacha.Banners.Values)
                 _bannerButtons[i++].image.color = b.id == _bannerId ? UIFactory.Accent : UIFactory.Panel;
 
-            int pity = _session.Gacha.PityCounter(_bannerId);
-            _pityText.text = $"{banner.name} — 천장까지 {banner.pityThreshold - pity}회 (신화 확정)";
+            int summonLevel = _session.Gacha.SummonLevel(_bannerId);
+            long toNext = _session.Gacha.PullsToNextLevel(_bannerId);
+            var rates = _session.Gacha.CurrentRates(_bannerId)
+                .Where(kv => kv.Value > 0)
+                .OrderByDescending(kv => kv.Key)
+                .Select(kv => $"{GradeLabel(kv.Key)} {kv.Value * 100:0.###}%");
+            _pityText.text = $"소환 Lv.{summonLevel}" +
+                (toNext > 0 ? $" — 다음 레벨까지 {toNext}회 소환" : " (최고)") +
+                $"\n{string.Join(" · ", rates)}";
             _pull1Button.GetComponentInChildren<Text>().text = $"1회 소환  (영옥 {banner.costPerPull})";
             _pull10Button.GetComponentInChildren<Text>().text = $"10연 소환  (영옥 {banner.CostFor(10)})";
 
@@ -143,8 +150,10 @@ namespace IdleGame.UI
                                           .ThenByDescending(u => u.limitBreak))
                 {
                     var def = _session.Units.Defs[unit.unitId];
+                    bool levelable = def.maxLevel > 1;
                     string star = unit.equipped ? "★ " : "";
-                    string label = $"{star}[{GradeLabel(def.grade)}] {def.name}  {unit.limitBreak}돌";
+                    string levelTag = levelable ? $" Lv.{unit.level}" : "";
+                    string label = $"{star}[{GradeLabel(def.grade)}] {def.name}{levelTag}  {unit.limitBreak}돌";
                     string unitId = unit.unitId;
                     var row = UIFactory.CreateButton(_ownedList, $"U_{unitId}", label, () =>
                     {
@@ -157,22 +166,46 @@ namespace IdleGame.UI
                     row.GetComponentInChildren<Text>().alignment = TextAnchor.MiddleLeft;
                     row.GetComponentInChildren<Text>().rectTransform.offsetMin = new Vector2(20, 0);
                     row.gameObject.AddComponent<LayoutElement>().preferredHeight = 72;
+
+                    // 장비: 우측에 강화 버튼 (골드, 등급이 높을수록 비쌈, 최대 200)
+                    if (levelable)
+                    {
+                        long cost = _session.Units.LevelUpCost(unitId);
+                        string costLabel = cost < 0 ? "MAX" : $"강화 {UIFactory.FormatNumber(cost)}";
+                        var upButton = UIFactory.CreateButton(row.transform, "LevelUp", costLabel, () =>
+                        {
+                            if (_session.Units.TryLevelUp(unitId, _session.Wallet)) Refresh();
+                        }, UIFactory.Accent, 22);
+                        var upRect = (RectTransform)upButton.transform;
+                        upRect.anchorMin = new Vector2(1, 0.5f);
+                        upRect.anchorMax = new Vector2(1, 0.5f);
+                        upRect.pivot = new Vector2(1, 0.5f);
+                        upRect.anchoredPosition = new Vector2(-10, 0);
+                        upRect.sizeDelta = new Vector2(220, 60);
+                        upButton.interactable = cost >= 0 &&
+                            _session.Wallet.CanAfford(def.levelCostCurrency, cost);
+                    }
                 }
             }
         }
 
         public static string GradeLabel(UnitGrade grade) => grade switch
         {
+            UnitGrade.Eternal => "영원",
             UnitGrade.Ancient => "고대",
             UnitGrade.Mythic => "신화",
             UnitGrade.Epic => "전설",
-            _ => "특급",
+            UnitGrade.Rare => "특급",
+            UnitGrade.Advanced => "상급",
+            UnitGrade.Intermediate => "중급",
+            _ => "초급",
         };
 
         public static string KindLabel(string kind) => kind switch
         {
             "weapon" => "낫",
-            "accessory" => "장신구",
+            "orb" => "오브",
+            "ornament" => "장식",
             "skill" => "스킬",
             "hero" => "차사",
             _ => kind,

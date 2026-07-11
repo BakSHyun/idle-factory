@@ -54,6 +54,7 @@ namespace IdleCore
 
             Gacha = new GachaSystem(config.banners, Units, Wallet, rng);
             Gacha.ImportPity(save.gachaPity);
+            Gacha.ImportPulls(save.gachaPulls);
 
             Shop = new ShopSystem(config.products, Wallet, clock);
             Shop.ImportHistory(save.purchaseHistory);
@@ -124,6 +125,7 @@ namespace IdleCore
                 highestClearedIndex = Progression.HighestClearedIndex,
                 units = Units.Export(),
                 gachaPity = Gacha.ExportPity(),
+                gachaPulls = Gacha.ExportPulls(),
                 paybackAttendance = PaybackAttendance?.State,
                 subscriptions = Subscriptions.Export(),
                 adSlotUses = Ads.ExportTodayUses(),

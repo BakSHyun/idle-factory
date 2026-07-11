@@ -163,6 +163,17 @@ namespace IdleFactory.Simulator
                 _bannerRotation++;
             }
             session.Units.AutoEquipBest(); // 슬롯 제한 내 최적 장착
+
+            // 장착 장비 강화 (골드 싱크): 가장 싼 것부터
+            for (int guard = 0; guard < 300; guard++)
+            {
+                var target = session.Units.AllOwned()
+                    .Where(u => u.equipped && session.Units.LevelUpCost(u.unitId) >= 0)
+                    .OrderBy(u => session.Units.LevelUpCost(u.unitId))
+                    .FirstOrDefault();
+                if (target == null) break;
+                if (!session.Units.TryLevelUp(target.unitId, session.Wallet)) break;
+            }
             return pulls;
         }
     }

@@ -33,6 +33,7 @@ namespace IdleCore.Save
         // 수집
         public Dictionary<string, OwnedUnit> units = new Dictionary<string, OwnedUnit>();
         public Dictionary<string, int> gachaPity = new Dictionary<string, int>();
+        public Dictionary<string, long> gachaPulls = new Dictionary<string, long>();
 
         // BM
         public PaybackAttendanceState paybackAttendance;
