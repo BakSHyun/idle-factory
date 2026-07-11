@@ -9,6 +9,8 @@ namespace IdleCore.Economy
         public const string GemSoft = "gem_soft"; // 보상 재화 (블루 다이아)
         public const string Gold = "gold";
         public const string Soul = "soul";
+        public const string Mileage = "mileage";         // 소환 1회 = 1 적립 (천장 대체)
+        public const string SweepTicket = "sweep_ticket"; // 던전 소탕권 (병목 재화)
     }
 
     /// <summary>

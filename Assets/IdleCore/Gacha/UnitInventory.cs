@@ -89,6 +89,51 @@ namespace IdleCore.Gacha
             UnitChanged?.Invoke(unitId);
         }
 
+        /// <summary>합성 비용: 같은 종류·등급의 잉여 사본 N개 → 상위 등급 1개.</summary>
+        public int ComposeCost = 5;
+
+        /// <summary>돌파에 더 쓸 수 없는 잉여 사본 수 (10돌 초과분) — 합성의 재료.</summary>
+        public int SurplusCopies(string unitId)
+        {
+            var unit = Get(unitId);
+            if (unit == null) return 0;
+            return Math.Max(0, unit.copies - (1 + MaxLimitBreak * CopiesPerLimitBreak));
+        }
+
+        /// <summary>해당 종류·등급의 총 잉여 사본 (합성 가능량 표시용).</summary>
+        public int TotalSurplus(string kind, UnitGrade grade) =>
+            _owned.Values
+                .Where(u => _defs[u.unitId].kind == kind && _defs[u.unitId].grade == grade)
+                .Sum(u => SurplusCopies(u.unitId));
+
+        /// <summary>
+        /// 합성: kind+grade의 잉여 사본 ComposeCost개 소모 → 같은 종류 한 단계 위 등급 랜덤 1개.
+        /// 잉여(10돌 초과분)만 소모하므로 돌파 수치는 절대 내려가지 않는다.
+        /// </summary>
+        public bool TryCompose(string kind, UnitGrade grade, IRng rng, out string resultUnitId)
+        {
+            resultUnitId = null;
+            var nextGrade = grade + 1;
+            var upgrades = _defs.Values.Where(d => d.kind == kind && d.grade == nextGrade).ToList();
+            if (upgrades.Count == 0) return false;
+            if (TotalSurplus(kind, grade) < ComposeCost) return false;
+
+            int remaining = ComposeCost;
+            foreach (var unit in _owned.Values
+                .Where(u => _defs[u.unitId].kind == kind && _defs[u.unitId].grade == grade)
+                .OrderByDescending(u => SurplusCopies(u.unitId)))
+            {
+                int take = Math.Min(remaining, SurplusCopies(unit.unitId));
+                unit.copies -= take;
+                remaining -= take;
+                if (remaining == 0) break;
+            }
+
+            resultUnitId = upgrades[rng.NextInt(0, upgrades.Count)].id;
+            AddCopy(resultUnitId);
+            return true;
+        }
+
         /// <summary>장비 레벨업 비용 (다음 레벨). 레벨 불가 유닛이거나 만렙이면 -1.</summary>
         public long LevelUpCost(string unitId)
         {

@@ -21,6 +21,7 @@ namespace IdleCore.Data
         public List<GrowthAxisDef> axes = new List<GrowthAxisDef>();
         public StageCurveConfig stage = new StageCurveConfig();
         public OfflineConfig offline = new OfflineConfig();
+        public List<DungeonDef> dungeons = new List<DungeonDef>();
         public List<UnitDef> units = new List<UnitDef>();
         /// <summary>kind별 장착 슬롯 (무기 1 / 장신구 2 / 스킬 4 / 차사 4 등)</summary>
         public Dictionary<string, int> equipSlots = new Dictionary<string, int>();

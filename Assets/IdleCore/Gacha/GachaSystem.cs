@@ -41,6 +41,8 @@ namespace IdleCore.Gacha
         /// <summary>픽업 유닛: 해당 등급 당첨 시 이 유닛이 나올 지분 (0~1)</summary>
         public string pickupUnitId;
         public double pickupShare = 0.5;
+        /// <summary>소환 1회당 마일리지 적립 (0 = 미적립)</summary>
+        public long mileagePerPull = 1;
 
         public long CostFor(int count) =>
             count == 10 && costPerTen > 0 ? costPerTen : costPerPull * count;
@@ -143,6 +145,8 @@ namespace IdleCore.Gacha
 
             _pityCounters[bannerId] = pity;
             result.PityCounterAfter = pity;
+            if (banner.mileagePerPull > 0)
+                _wallet.Earn(CurrencyIds.Mileage, count * banner.mileagePerPull);
             return true;
         }
 

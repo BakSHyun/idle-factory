@@ -16,6 +16,7 @@ namespace IdleGame.UI
         private Text _stageText, _goldText, _soulText, _softText, _hardText, _dpsText, _killText;
         private GrowthPanel _growthPanel;
         private GachaPanel _gachaPanel;
+        private DungeonPanel _dungeonPanel;
         private ShopPanel _shopPanel;
         private StatusPanel _statusPanel;
         private RectTransform[] _panels;
@@ -41,9 +42,10 @@ namespace IdleGame.UI
             // 탭 패널 3종 (중앙~하단 탭 바 사이 영역)
             _growthPanel = GrowthPanel.Create(root, _session);
             _gachaPanel = GachaPanel.Create(root, _session);
+            _dungeonPanel = DungeonPanel.Create(root, _session);
             _shopPanel = ShopPanel.Create(root, _session);
             _statusPanel = StatusPanel.Create(root, _session);
-            _panels = new[] { _growthPanel.Rect, _gachaPanel.Rect, _shopPanel.Rect, _statusPanel.Rect };
+            _panels = new[] { _growthPanel.Rect, _gachaPanel.Rect, _dungeonPanel.Rect, _shopPanel.Rect, _statusPanel.Rect };
 
             BuildTabBar(root);
             ShowPanel(0);
@@ -104,7 +106,7 @@ namespace IdleGame.UI
             layout.childForceExpandWidth = true;
             layout.spacing = 4;
 
-            string[] names = { "성장", "소환", "상점", "정보" };
+            string[] names = { "성장", "소환", "던전", "상점", "정보" };
             for (int i = 0; i < names.Length; i++)
             {
                 int index = i;
@@ -153,6 +155,7 @@ namespace IdleGame.UI
             RefreshCurrencies();
             _growthPanel.Refresh();
             _gachaPanel.Refresh();
+            _dungeonPanel.Refresh();
             _shopPanel.Refresh();
             _statusPanel.Refresh();
         }

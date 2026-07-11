@@ -16,6 +16,15 @@ namespace IdleCore.Economy
         public long amount;
     }
 
+    /// <summary>유닛 선택권 — 조건(등급, 종류)에 맞는 유닛을 구매자가 골라 사본 1개 획득.</summary>
+    public sealed class UnitChoiceDef
+    {
+        public IdleCore.Gacha.UnitGrade grade;
+        /// <summary>null이면 종류 무관</summary>
+        public string kind;
+        public int copies = 1;
+    }
+
     /// <summary>
     /// 인게임 상점 상품. 가격은 하드커런시 사다리(490/990/1,990/2,990)를 따른다.
     /// 원화 상품(하드커런시 충전)은 IStoreAdapter의 SKU로 별도 정의된다.
@@ -33,5 +42,7 @@ namespace IdleCore.Economy
         public int unlockStageIndex;
         /// <summary>누적 구매 이벤트 카운트 대상 여부 (하드커런시 상품만 true — 소울헌터 패턴)</summary>
         public bool countsForPurchaseEvents = true;
+        /// <summary>유닛 선택권 상품 (마일리지 상점의 전설/신화 선택권 등). 있으면 유닛 선택 구매만 가능</summary>
+        public UnitChoiceDef unitChoice;
     }
 }

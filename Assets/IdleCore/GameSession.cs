@@ -28,6 +28,7 @@ namespace IdleCore
         public Dictionary<string, PassSystem> Passes { get; } = new Dictionary<string, PassSystem>();
         public SubscriptionSystem Subscriptions { get; }
         public AdGateway Ads { get; }
+        public DungeonSystem Dungeons { get; }
 
         private readonly ISaveStore _saveStore;
         private DateTime _firstPlayedUtc;
@@ -56,7 +57,7 @@ namespace IdleCore
             Gacha.ImportPity(save.gachaPity);
             Gacha.ImportPulls(save.gachaPulls);
 
-            Shop = new ShopSystem(config.products, Wallet, clock);
+            Shop = new ShopSystem(config.products, Wallet, clock, Units);
             Shop.ImportHistory(save.purchaseHistory);
 
             if (config.paybackAttendance != null)
@@ -67,6 +68,9 @@ namespace IdleCore
                 save.passes.TryGetValue(passDef.id, out var passState);
                 Passes[passDef.id] = new PassSystem(passDef, Wallet, clock, passState);
             }
+
+            Dungeons = new DungeonSystem(config.dungeons, Wallet, Stats, clock);
+            Dungeons.Import(save.dungeons);
 
             Subscriptions = new SubscriptionSystem(config.subscriptions, Wallet, clock);
             Subscriptions.Import(save.subscriptions);
@@ -128,6 +132,7 @@ namespace IdleCore
                 gachaPulls = Gacha.ExportPulls(),
                 paybackAttendance = PaybackAttendance?.State,
                 subscriptions = Subscriptions.Export(),
+                dungeons = Dungeons.Export(),
                 adSlotUses = Ads.ExportTodayUses(),
                 adSlotDate = Ads.ExportTodayDate(),
             };

@@ -14,8 +14,9 @@ namespace IdleGame.UI
         public RectTransform Rect { get; private set; }
         private GameSession _session;
         private FakeStoreAdapter _fakeStore;
-        private Text _status;
-        private RectTransform _list;
+        private Text _status, _mileageText;
+        private RectTransform _list, _pickerContainer;
+        private string _pickerProductId;
 
         public static ShopPanel Create(Transform root, GameSession session)
         {
@@ -50,8 +51,28 @@ namespace IdleGame.UI
 
             Header("패키지");
             foreach (var product in _session.Shop.Products.Values)
+            {
+                if (product.costCurrency == CurrencyIds.Mileage) continue; // 마일리지 상점 섹션에서
                 Row($"{product.name} — 수정 {product.price}",
                     () => { _session.Shop.TryPurchase(product.id, _session.Progression.HighestClearedIndex); Refresh(); });
+            }
+
+            Header("마일리지 상점 (소환 1회 = 1마일리지)");
+            _mileageText = UIFactory.CreateText(_list, "Mileage", "", 27, TextAnchor.MiddleLeft, UIFactory.Gold);
+            _mileageText.gameObject.AddComponent<LayoutElement>().preferredHeight = 44;
+            foreach (var product in _session.Shop.Products.Values)
+            {
+                if (product.costCurrency != CurrencyIds.Mileage) continue;
+                var p = product;
+                Row($"{p.name} — 마일리지 {p.price}", () =>
+                {
+                    if (p.unitChoice != null) TogglePicker(p.id);
+                    else { _session.Shop.TryPurchase(p.id, _session.Progression.HighestClearedIndex); Refresh(); }
+                });
+            }
+            _pickerContainer = UIFactory.CreatePanel(_list, "Picker", UIFactory.Bg);
+            UIFactory.AddVerticalList(_pickerContainer, spacing: 6, padding: 0);
+            _pickerContainer.gameObject.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
 
             Header("수정 충전 (결제 시뮬레이션)");
             foreach (var sku in _session.Config.skus)
@@ -60,6 +81,36 @@ namespace IdleGame.UI
 
             _status = UIFactory.CreateText(_list, "Status", "", 26, TextAnchor.UpperLeft, UIFactory.TextDim);
             _status.gameObject.AddComponent<LayoutElement>().preferredHeight = 300;
+        }
+
+        /// <summary>선택권 상품 클릭 → 후보 유닛 버튼 목록 펼치기/접기</summary>
+        private void TogglePicker(string productId)
+        {
+            foreach (Transform child in _pickerContainer) Destroy(child.gameObject);
+            if (_pickerProductId == productId) { _pickerProductId = null; return; }
+            _pickerProductId = productId;
+
+            var hint = UIFactory.CreateText(_pickerContainer, "Hint", "▼ 받을 유닛을 선택하세요", 25,
+                TextAnchor.MiddleLeft, UIFactory.Accent);
+            hint.gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
+
+            foreach (var candidate in _session.Shop.ChoiceCandidates(productId))
+            {
+                string unitId = candidate.id;
+                var button = UIFactory.CreateButton(_pickerContainer,
+                    $"Pick_{unitId}",
+                    $"[{GachaPanel.KindLabel(candidate.kind)}] {candidate.name}",
+                    () =>
+                    {
+                        bool ok = _session.Shop.TryPurchaseUnitChoice(
+                            productId, _session.Progression.HighestClearedIndex, unitId);
+                        _status.text = ok ? $"선택권 사용: {candidate.name} 획득!" : "마일리지 부족 또는 주간 한도 초과";
+                        _pickerProductId = null;
+                        foreach (Transform child in _pickerContainer) Destroy(child.gameObject);
+                        Refresh();
+                    }, UIFactory.Panel, 25);
+                button.gameObject.AddComponent<LayoutElement>().preferredHeight = 66;
+            }
         }
 
         private void Header(string title)
@@ -81,6 +132,8 @@ namespace IdleGame.UI
         public void Refresh()
         {
             if (_session == null || _status == null) return;
+            if (_mileageText != null)
+                _mileageText.text = $"보유 마일리지: {_session.Wallet.Get(CurrencyIds.Mileage)}";
             var subs = _session.Subscriptions;
             string Line(string id, string name)
             {

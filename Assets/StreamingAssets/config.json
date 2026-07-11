@@ -98,11 +98,11 @@
       "id": "moonlight_awakening",
       "name": "달빛 각성",
       "unlockStageIndex": 60,
-      "costCurrency": "soul",
+      "costCurrency": "awaken_stone",
       "cost": {
         "type": "Geometric",
-        "baseValue": 5000,
-        "growth": 1.17
+        "baseValue": 12,
+        "growth": 1.13
       },
       "effects": [
         {
@@ -2027,6 +2027,45 @@
       ],
       "limitType": "Total",
       "limitCount": 1
+    },
+    {
+      "id": "mileage_epic_select",
+      "name": "전설 선택권",
+      "costCurrency": "mileage",
+      "price": 40,
+      "limitType": "Weekly",
+      "limitCount": 3,
+      "countsForPurchaseEvents": false,
+      "unitChoice": {
+        "grade": "Epic"
+      }
+    },
+    {
+      "id": "mileage_mythic_select",
+      "name": "신화 선택권",
+      "costCurrency": "mileage",
+      "price": 200,
+      "limitType": "Weekly",
+      "limitCount": 1,
+      "countsForPurchaseEvents": false,
+      "unitChoice": {
+        "grade": "Mythic"
+      }
+    },
+    {
+      "id": "mileage_sweep",
+      "name": "소탕권 5장",
+      "costCurrency": "mileage",
+      "price": 15,
+      "limitType": "Weekly",
+      "limitCount": 5,
+      "countsForPurchaseEvents": false,
+      "grants": [
+        {
+          "currency": "sweep_ticket",
+          "amount": 5
+        }
+      ]
     }
   ],
   "skus": [
@@ -2316,6 +2355,47 @@
           }
         }
       ]
+    }
+  ],
+  "dungeons": [
+    {
+      "id": "dungeon_gold",
+      "name": "황천 금고",
+      "unlockStageIndex": 15,
+      "freeEntriesPerDay": 3,
+      "enemyHpBase": 3000,
+      "enemyHpGrowth": 1.35,
+      "timeLimitSeconds": 30,
+      "rewardCurrency": "gold",
+      "rewardBase": 8000,
+      "rewardGrowth": 1.24,
+      "maxFloor": 200
+    },
+    {
+      "id": "dungeon_soul",
+      "name": "혼령의 우물",
+      "unlockStageIndex": 25,
+      "freeEntriesPerDay": 3,
+      "enemyHpBase": 15000,
+      "enemyHpGrowth": 1.35,
+      "timeLimitSeconds": 30,
+      "rewardCurrency": "soul",
+      "rewardBase": 1500,
+      "rewardGrowth": 1.2,
+      "maxFloor": 200
+    },
+    {
+      "id": "dungeon_awaken",
+      "name": "달그림자 제단",
+      "unlockStageIndex": 55,
+      "freeEntriesPerDay": 3,
+      "enemyHpBase": 500000,
+      "enemyHpGrowth": 1.32,
+      "timeLimitSeconds": 30,
+      "rewardCurrency": "awaken_stone",
+      "rewardBase": 6,
+      "rewardGrowth": 1.1,
+      "maxFloor": 200
     }
   ]
 }

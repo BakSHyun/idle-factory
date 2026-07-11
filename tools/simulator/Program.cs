@@ -93,6 +93,7 @@ namespace IdleFactory.Simulator
                         SpendGreedily(session);
                     }
                     totalPulls += PullGachaIfAffordable(session);
+                    RunDungeons(session);
                     // 진행도 트리거 패키지 (소과금)
                     if (payer)
                         foreach (var p in config.products)
@@ -144,6 +145,19 @@ namespace IdleFactory.Simulator
                 var bestAxis = session.Stats.Axes[best];
                 session.Wallet.TrySpend(bestAxis.costCurrency, session.Stats.NextCost(best));
                 session.Stats.LevelUp(best);
+            }
+        }
+
+        /// <summary>던전 루틴: 무료 입장 소진 → 소탕권 소진 → 광고 소탕.</summary>
+        private static void RunDungeons(GameSession session)
+        {
+            foreach (var def in session.Dungeons.Defs.Values)
+            {
+                if (!session.Dungeons.IsUnlocked(def.id, session.Progression.HighestClearedIndex)) continue;
+                while (session.Dungeons.TryChallenge(def.id, session.Progression.HighestClearedIndex) != null) { }
+                while (session.Dungeons.TrySweep(def.id) != null) { }
+                while (session.Ads.CanUse("dungeon_sweep") && session.Dungeons.State(def.id).highestFloorCleared > 0)
+                    session.Ads.Use("dungeon_sweep", ok => { if (ok) session.Dungeons.GrantAdSweep(def.id); });
             }
         }
 
