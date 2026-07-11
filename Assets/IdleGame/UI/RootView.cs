@@ -14,6 +14,7 @@ namespace IdleGame.UI
         private GameSession _session;
 
         private Text _stageText, _goldText, _soulText, _softText, _hardText, _dpsText, _killText;
+        private Button _bossButton;
         private GrowthPanel _growthPanel;
         private GachaPanel _gachaPanel;
         private DungeonPanel _dungeonPanel;
@@ -103,6 +104,46 @@ namespace IdleGame.UI
 
             _killText = UIFactory.CreateText(battle, "Kills", "", 30, TextAnchor.LowerRight, UIFactory.TextDim);
             UIFactory.Fill(_killText.rectTransform, 24);
+
+            // 보스 도전 — 벽을 '보이게' 만드는 연출 (예상 피해 % + 도전 버튼)
+            _bossButton = UIFactory.CreateButton(battle, "BossBtn", "", OnBossChallenge, UIFactory.Accent, 28);
+            var bossRect = (RectTransform)_bossButton.transform;
+            bossRect.anchorMin = new Vector2(0.5f, 0);
+            bossRect.anchorMax = new Vector2(0.5f, 0);
+            bossRect.pivot = new Vector2(0.5f, 0);
+            bossRect.anchoredPosition = new Vector2(0, 76);
+            bossRect.sizeDelta = new Vector2(520, 82);
+        }
+
+        private void OnBossChallenge()
+        {
+            double ratio = _session.Progression.NextBossDamageRatio();
+            if (_session.Progression.TryPush())
+            {
+                _killText.text = "보스 격파! 다음 구역으로";
+                RefreshStage();
+            }
+            else
+            {
+                _killText.text = $"도전 실패 — 피해 {ratio * 100:0.#}%까지. 더 성장하세요";
+            }
+            RefreshBossButton();
+        }
+
+        private void RefreshBossButton()
+        {
+            if (_bossButton == null) return;
+            var progression = _session.Progression;
+            double ratio = progression.NextBossDamageRatio();
+            var label = _bossButton.GetComponentInChildren<Text>();
+            if (ratio <= 0) { _bossButton.gameObject.SetActive(false); return; }
+
+            var nextStage = new StageId(progression.HighestClearedIndex + 1);
+            bool ready = progression.CanClearNext();
+            label.text = ready
+                ? $"⚔ {nextStage.Display(_session.Config.stage)} 수문장 격파 가능!"
+                : $"⚔ {nextStage.Display(_session.Config.stage)} 도전 — 예상 피해 {System.Math.Min(99.9, ratio * 100):0.#}%";
+            _bossButton.image.color = ready ? new Color(0.85f, 0.35f, 0.35f) : UIFactory.Panel;
         }
 
         private void BuildTabBar(Transform root)
@@ -173,6 +214,7 @@ namespace IdleGame.UI
         {
             _stageText.text = $"스테이지 {_session.Progression.Current.Display(_session.Config.stage)}";
             _dpsText.text = $"DPS {UIFactory.FormatNumber(_session.Stats.Snapshot().Dps())}";
+            RefreshBossButton();
         }
 
         private void RefreshCurrencies()

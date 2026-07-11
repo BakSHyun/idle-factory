@@ -58,6 +58,18 @@ namespace IdleCore.Progression
             return bossKillSeconds <= _cfg.bossTimeLimitSeconds;
         }
 
+        /// <summary>
+        /// 다음 스테이지 보스에게 제한시간 동안 넣을 수 있는 피해 비율 (1.0 이상 = 격파 가능).
+        /// UI의 '예상 피해 N%' 연출과 도전 버튼 활성 판정의 단일 출처.
+        /// </summary>
+        public double NextBossDamageRatio()
+        {
+            int next = HighestClearedIndex + 1;
+            if (next > StageMath.MaxStageIndex(_cfg)) return 0;
+            double dps = _stats.Snapshot().Dps();
+            return dps * _cfg.bossTimeLimitSeconds / StageMath.BossHp(_cfg, next);
+        }
+
         /// <summary>보스 도전. 성공 시 현재 파밍 스테이지도 함께 전진한다.</summary>
         public bool TryPush()
         {
