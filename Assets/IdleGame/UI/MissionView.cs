@@ -49,7 +49,7 @@ namespace IdleGame.UI
             var attRow = UIFactory.CreateButton(_list, "Attendance",
                 att.CanClaimToday()
                     ? $"🗓 출석부 {att.CurrentDay}일차 — 받기!"
-                    : $"🗓 출석부 {att.CurrentDay > 1 ? att.CurrentDay - 1 : att.DayCount}일차 수령 완료 (내일 또 만나요)",
+                    : $"🗓 출석부 {(att.CurrentDay > 1 ? att.CurrentDay - 1 : att.DayCount)}일차 수령 완료 (내일 또 만나요)",
                 () => { if (_session.Attendance.TryClaimToday()) Rebuild(); },
                 att.CanClaimToday() ? UIFactory.Accent : UIFactory.Bg, 28);
             attRow.gameObject.AddComponent<LayoutElement>().preferredHeight = 90;

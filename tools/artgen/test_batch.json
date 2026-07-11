@@ -1,0 +1,17 @@
+[
+  {
+    "name": "main_solo_a",
+    "prompt": "1boy, solo, chibi, korean grim reaper, black gat, korean hat, dark navy hanbok, holding glowing purple crescent scythe, cute, big eyes, smile, purple ghost flames, full body, standing, simple dark purple background",
+    "width": 1024, "height": 1024, "seed": 42
+  },
+  {
+    "name": "main_solo_b",
+    "prompt": "1boy, solo, chibi, korean grim reaper, black gat, korean hat, dark navy hanbok, holding glowing purple crescent scythe, cute, big eyes, smile, purple ghost flames, full body, standing, simple dark purple background",
+    "width": 1024, "height": 1024, "seed": 7
+  },
+  {
+    "name": "main_solo_c",
+    "prompt": "1boy, solo, chibi, korean grim reaper, black gat, korean hat, dark navy hanbok, holding glowing purple crescent scythe, cute, big eyes, determined, purple ghost flames, full body, standing, simple dark purple background",
+    "width": 1024, "height": 1024, "seed": 99
+  }
+]
