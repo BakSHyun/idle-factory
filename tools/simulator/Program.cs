@@ -30,7 +30,7 @@ namespace IdleFactory.Simulator
             int days = args.Length > 0 && int.TryParse(args[0], out var d) ? d : 30;
             bool payer = args.Contains("--payer");
 
-            string configPath = Path.Combine(AppContext.BaseDirectory, "../../../../../Assets/GameData/config.json");
+            string configPath = Path.Combine(AppContext.BaseDirectory, "../../../../../Assets/StreamingAssets/config.json");
             var config = GameConfigLoader.FromJson(File.ReadAllText(Path.GetFullPath(configPath)));
 
             var clock = new ManualClock();

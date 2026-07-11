@@ -2,7 +2,8 @@
     "name": "IdleGame",
     "rootNamespace": "IdleGame",
     "references": [
-        "IdleCore"
+        "IdleCore",
+        "UnityEngine.UI"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
