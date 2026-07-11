@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using IdleCore.Stats;
 
 namespace IdleCore.Gacha
@@ -13,12 +14,17 @@ namespace IdleCore.Gacha
     }
 
     /// <summary>
-    /// 유닛 보유·돌파·장착 상태. 스탯 기여는 ContributeEffects()로 StatSystem에 주입된다.
+    /// 유닛 보유·돌파·장착 상태 (소헌키 구조):
+    /// - kind별 장착 슬롯 제한 (무기 1 / 장신구 2 / 스킬 4 / 차사 4 등 — config 정의)
+    /// - 장착 효과: 장착 중에만. 돌파 임계 효과: 장착 중에만.
+    /// - 도감(보유) 효과: 보유만으로 영구 적용 + 등록 수 마일스톤 보너스.
     /// </summary>
     public sealed class UnitInventory
     {
         private readonly Dictionary<string, UnitDef> _defs = new Dictionary<string, UnitDef>();
         private readonly Dictionary<string, OwnedUnit> _owned = new Dictionary<string, OwnedUnit>();
+        private readonly Dictionary<string, int> _equipSlots = new Dictionary<string, int>();
+        private readonly List<CollectionMilestone> _milestones = new List<CollectionMilestone>();
 
         /// <summary>돌파 1단계당 필요한 사본 수 (1돌 = 2번째 사본)</summary>
         public int CopiesPerLimitBreak = 1;
@@ -26,14 +32,25 @@ namespace IdleCore.Gacha
 
         public event Action<string> UnitChanged;
 
-        public UnitInventory(IEnumerable<UnitDef> defs)
+        public UnitInventory(IEnumerable<UnitDef> defs,
+            Dictionary<string, int> equipSlots = null,
+            List<CollectionMilestone> milestones = null)
         {
             foreach (var d in defs) _defs[d.id] = d;
+            if (equipSlots != null) foreach (var kv in equipSlots) _equipSlots[kv.Key] = kv.Value;
+            if (milestones != null) _milestones.AddRange(milestones.OrderBy(m => m.count));
         }
 
         public IReadOnlyDictionary<string, UnitDef> Defs => _defs;
         public OwnedUnit Get(string unitId) => _owned.TryGetValue(unitId, out var u) ? u : null;
         public IEnumerable<OwnedUnit> AllOwned() => _owned.Values;
+        public int UniqueOwnedCount => _owned.Count;
+        public IReadOnlyList<CollectionMilestone> Milestones => _milestones;
+
+        public int SlotLimit(string kind) => _equipSlots.TryGetValue(kind, out var n) ? n : int.MaxValue;
+
+        public int EquippedCount(string kind) =>
+            _owned.Values.Count(u => u.equipped && _defs[u.unitId].kind == kind);
 
         public void AddCopy(string unitId, int count = 1)
         {
@@ -44,23 +61,52 @@ namespace IdleCore.Gacha
                 _owned[unitId] = unit;
             }
             unit.copies += count;
-            // 자동 돌파: 사본이 충분하면 돌파 수치 상승 (수동 돌파를 원하면 여기서 분리)
+            // 자동 돌파: 사본이 충분하면 돌파 수치 상승
             int possible = Math.Min(MaxLimitBreak, (unit.copies - 1) / CopiesPerLimitBreak);
             if (possible > unit.limitBreak) unit.limitBreak = possible;
             UnitChanged?.Invoke(unitId);
         }
 
-        public void SetEquipped(string unitId, bool equipped)
+        /// <summary>장착 시도 — kind 슬롯이 가득 차 있으면 실패.</summary>
+        public bool TryEquip(string unitId)
         {
             var unit = Get(unitId);
-            if (unit == null) throw new ArgumentException($"not owned: {unitId}");
-            unit.equipped = equipped;
+            if (unit == null) return false;
+            if (unit.equipped) return true;
+            var kind = _defs[unitId].kind;
+            if (EquippedCount(kind) >= SlotLimit(kind)) return false;
+            unit.equipped = true;
             UnitChanged?.Invoke(unitId);
+            return true;
+        }
+
+        public void Unequip(string unitId)
+        {
+            var unit = Get(unitId);
+            if (unit == null || !unit.equipped) return;
+            unit.equipped = false;
+            UnitChanged?.Invoke(unitId);
+        }
+
+        /// <summary>등급→돌파 순으로 슬롯을 채운다 (뉴비 자동 장착 / 봇 정책).</summary>
+        public void AutoEquipBest()
+        {
+            foreach (var u in _owned.Values) u.equipped = false;
+            foreach (var group in _owned.Values.GroupBy(u => _defs[u.unitId].kind))
+            {
+                int limit = SlotLimit(group.Key);
+                foreach (var unit in group
+                    .OrderByDescending(u => _defs[u.unitId].grade)
+                    .ThenByDescending(u => u.limitBreak)
+                    .Take(limit))
+                    unit.equipped = true;
+            }
+            UnitChanged?.Invoke("");
         }
 
         /// <summary>
         /// StatSystem.SetExternalEffects()로 넘길 효과 목록.
-        /// 장착 효과 + 돌파 임계 효과(장착 시) + 도감 보유 효과(항상).
+        /// 장착 효과 + 돌파 임계 효과(장착 시) + 도감 보유 효과(항상) + 도감 마일스톤(항상).
         /// </summary>
         public List<StatEffect> ContributeEffects()
         {
@@ -68,13 +114,16 @@ namespace IdleCore.Gacha
             foreach (var unit in _owned.Values)
             {
                 var def = _defs[unit.unitId];
-                result.AddRange(def.collectionEffects); // 보유만으로 기여
+                result.AddRange(def.collectionEffects); // 보유만으로 기여 (도감)
                 if (!unit.equipped) continue;
                 result.AddRange(def.baseEffects);
                 foreach (var lb in def.limitBreakEffects)
                     if (unit.limitBreak >= lb.atLimitBreak)
                         result.Add(lb.effect);
             }
+            foreach (var milestone in _milestones)
+                if (UniqueOwnedCount >= milestone.count)
+                    result.AddRange(milestone.effects);
             return result;
         }
 
@@ -84,7 +133,8 @@ namespace IdleCore.Gacha
         {
             _owned.Clear();
             if (owned != null)
-                foreach (var kv in owned) _owned[kv.Key] = kv.Value;
+                foreach (var kv in owned)
+                    if (_defs.ContainsKey(kv.Key)) _owned[kv.Key] = kv.Value;
         }
     }
 }

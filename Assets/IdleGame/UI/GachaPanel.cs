@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using IdleCore;
 using IdleCore.Gacha;
@@ -6,12 +7,18 @@ using UnityEngine.UI;
 
 namespace IdleGame.UI
 {
-    /// <summary>소환 탭 — 배너, 천장 카운터, x1/x10 소환, 결과, 보유 유닛 요약.</summary>
+    /// <summary>
+    /// 소환 탭 — 배너 4종(낫/장신구/스킬/차사) 선택, 천장, 소환, 도감 진행,
+    /// 보유 목록(행 탭 = 장착/해제 토글, 슬롯 제한 적용).
+    /// </summary>
     public sealed class GachaPanel : MonoBehaviour
     {
         public RectTransform Rect { get; private set; }
         private GameSession _session;
-        private Text _pityText, _resultText, _ownedText;
+        private Text _pityText, _resultText, _collectionText;
+        private Button _pull1Button, _pull10Button;
+        private RectTransform _ownedList;
+        private readonly List<Button> _bannerButtons = new List<Button>();
         private string _bannerId;
 
         public static GachaPanel Create(Transform root, GameSession session)
@@ -27,31 +34,48 @@ namespace IdleGame.UI
 
         private void Build()
         {
-            var banner = _session.Gacha.Banners.Values.First();
-            _bannerId = banner.id;
+            _bannerId = _session.Gacha.Banners.Keys.First();
+            var list = UIFactory.CreateScrollList(Rect, spacing: 16);
 
-            var list = UIFactory.CreateScrollList(Rect, spacing: 18);
+            // 배너 선택 바
+            var bannerBar = UIFactory.CreatePanel(list, "BannerBar", UIFactory.Bg);
+            bannerBar.gameObject.AddComponent<LayoutElement>().preferredHeight = 90;
+            var barLayout = bannerBar.gameObject.AddComponent<HorizontalLayoutGroup>();
+            barLayout.childControlWidth = true;
+            barLayout.childControlHeight = true;
+            barLayout.childForceExpandWidth = true;
+            barLayout.spacing = 8;
+            foreach (var banner in _session.Gacha.Banners.Values)
+            {
+                string id = banner.id;
+                var button = UIFactory.CreateButton(bannerBar, $"Sel_{id}", banner.name.Replace(" 소환", ""),
+                    () => { _bannerId = id; Refresh(); }, UIFactory.Panel, 28);
+                _bannerButtons.Add(button);
+            }
 
-            var title = UIFactory.CreateText(list, "Title", banner.name, 44);
-            title.gameObject.AddComponent<LayoutElement>().preferredHeight = 80;
+            _pityText = UIFactory.CreateText(list, "Pity", "", 27, TextAnchor.MiddleCenter, UIFactory.TextDim);
+            _pityText.gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
 
-            _pityText = UIFactory.CreateText(list, "Pity", "", 28, TextAnchor.MiddleCenter, UIFactory.TextDim);
-            _pityText.gameObject.AddComponent<LayoutElement>().preferredHeight = 44;
+            _pull1Button = UIFactory.CreateButton(list, "Pull1", "", () => Pull(1));
+            _pull1Button.gameObject.AddComponent<LayoutElement>().preferredHeight = 100;
 
-            var pull1 = UIFactory.CreateButton(list, "Pull1",
-                $"1회 소환  (영옥 {banner.costPerPull})", () => Pull(1));
-            pull1.gameObject.AddComponent<LayoutElement>().preferredHeight = 110;
+            _pull10Button = UIFactory.CreateButton(list, "Pull10", "", () => Pull(10), UIFactory.Gold);
+            _pull10Button.GetComponentInChildren<Text>().color = Color.black;
+            _pull10Button.gameObject.AddComponent<LayoutElement>().preferredHeight = 100;
 
-            var pull10 = UIFactory.CreateButton(list, "Pull10",
-                $"10연 소환  (영옥 {banner.CostFor(10)})", () => Pull(10), UIFactory.Gold);
-            pull10.GetComponentInChildren<Text>().color = Color.black;
-            pull10.gameObject.AddComponent<LayoutElement>().preferredHeight = 110;
+            _resultText = UIFactory.CreateText(list, "Result", "", 27, TextAnchor.UpperCenter);
+            _resultText.gameObject.AddComponent<LayoutElement>().preferredHeight = 220;
 
-            _resultText = UIFactory.CreateText(list, "Result", "", 28, TextAnchor.UpperCenter);
-            _resultText.gameObject.AddComponent<LayoutElement>().preferredHeight = 320;
+            _collectionText = UIFactory.CreateText(list, "Collection", "", 27, TextAnchor.MiddleLeft, UIFactory.Gold);
+            _collectionText.gameObject.AddComponent<LayoutElement>().preferredHeight = 70;
 
-            _ownedText = UIFactory.CreateText(list, "Owned", "", 26, TextAnchor.UpperLeft, UIFactory.TextDim);
-            _ownedText.gameObject.AddComponent<LayoutElement>().preferredHeight = 380;
+            var ownedHeader = UIFactory.CreateText(list, "OwnedHeader",
+                "── 명부 (탭하여 장착/해제) ──", 28, TextAnchor.MiddleLeft, UIFactory.TextDim);
+            ownedHeader.gameObject.AddComponent<LayoutElement>().preferredHeight = 50;
+
+            _ownedList = UIFactory.CreatePanel(list, "OwnedList", UIFactory.Bg);
+            UIFactory.AddVerticalList(_ownedList, spacing: 8, padding: 0);
+            _ownedList.gameObject.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
         }
 
         private void Pull(int count)
@@ -61,12 +85,11 @@ namespace IdleGame.UI
                 _resultText.text = "영옥이 부족합니다";
                 return;
             }
-            // 신규 유닛 자동 장착 (프로토: 장착 UI 생략)
-            foreach (var unit in _session.Units.AllOwned())
-                if (!unit.equipped) _session.Units.SetEquipped(unit.unitId, true);
+            _session.Units.AutoEquipBest(); // 뉴비 편의: 슬롯 내 최적 자동 장착
 
             var lines = result.UnitIds
                 .GroupBy(id => id)
+                .OrderByDescending(g => _session.Units.Defs[g.Key].grade)
                 .Select(g =>
                 {
                     var def = _session.Units.Defs[g.Key];
@@ -78,30 +101,81 @@ namespace IdleGame.UI
 
         public void Refresh()
         {
-            if (_session == null) return;
+            if (_session == null || _pityText == null) return;
             var banner = _session.Gacha.Banners[_bannerId];
-            int pity = _session.Gacha.PityCounter(_bannerId);
-            _pityText.text = $"천장까지 {banner.pityThreshold - pity}회  (고대 확정)";
 
-            var owned = _session.Units.AllOwned()
-                .OrderByDescending(u => _session.Units.Defs[u.unitId].grade)
-                .Select(u =>
-                {
-                    var def = _session.Units.Defs[u.unitId];
-                    return $"[{GradeLabel(def.grade)}] {def.name}  {u.limitBreak}돌파 (사본 {u.copies})";
-                })
-                .ToList();
-            _ownedText.text = owned.Count == 0
-                ? "보유 유닛 없음 — 소환으로 차사를 모집하세요"
-                : "── 명부 (보유 유닛) ──\n" + string.Join("\n", owned);
+            int i = 0;
+            foreach (var b in _session.Gacha.Banners.Values)
+                _bannerButtons[i++].image.color = b.id == _bannerId ? UIFactory.Accent : UIFactory.Panel;
+
+            int pity = _session.Gacha.PityCounter(_bannerId);
+            _pityText.text = $"{banner.name} — 천장까지 {banner.pityThreshold - pity}회 (신화 확정)";
+            _pull1Button.GetComponentInChildren<Text>().text = $"1회 소환  (영옥 {banner.costPerPull})";
+            _pull10Button.GetComponentInChildren<Text>().text = $"10연 소환  (영옥 {banner.CostFor(10)})";
+
+            // 도감 진행
+            int owned = _session.Units.UniqueOwnedCount;
+            int total = _session.Units.Defs.Count;
+            var next = _session.Units.Milestones.FirstOrDefault(m => owned < m.count);
+            _collectionText.text = next == null
+                ? $"📖 도감 {owned}/{total} — 완성!"
+                : $"📖 도감 {owned}/{total} — 다음 보너스까지 {next.count - owned}종";
+
+            RebuildOwnedList();
         }
 
-        private static string GradeLabel(UnitGrade grade) => grade switch
+        private void RebuildOwnedList()
+        {
+            foreach (Transform child in _ownedList) Destroy(child.gameObject);
+
+            var groups = _session.Units.AllOwned()
+                .GroupBy(u => _session.Units.Defs[u.unitId].kind)
+                .OrderBy(g => g.Key);
+            foreach (var group in groups)
+            {
+                string kind = group.Key;
+                var header = UIFactory.CreateText(_ownedList, $"Kind_{kind}",
+                    $"{KindLabel(kind)}  ({_session.Units.EquippedCount(kind)}/{_session.Units.SlotLimit(kind)} 장착)",
+                    26, TextAnchor.MiddleLeft, UIFactory.TextDim);
+                header.gameObject.AddComponent<LayoutElement>().preferredHeight = 44;
+
+                foreach (var unit in group.OrderByDescending(u => _session.Units.Defs[u.unitId].grade)
+                                          .ThenByDescending(u => u.limitBreak))
+                {
+                    var def = _session.Units.Defs[unit.unitId];
+                    string star = unit.equipped ? "★ " : "";
+                    string label = $"{star}[{GradeLabel(def.grade)}] {def.name}  {unit.limitBreak}돌";
+                    string unitId = unit.unitId;
+                    var row = UIFactory.CreateButton(_ownedList, $"U_{unitId}", label, () =>
+                    {
+                        var u = _session.Units.Get(unitId);
+                        if (u.equipped) _session.Units.Unequip(unitId);
+                        else if (!_session.Units.TryEquip(unitId))
+                            _resultText.text = $"{KindLabel(def.kind)} 슬롯이 가득 찼습니다 — 먼저 해제하세요";
+                        Refresh();
+                    }, unit.equipped ? new Color(0.25f, 0.20f, 0.42f) : UIFactory.Panel, 26);
+                    row.GetComponentInChildren<Text>().alignment = TextAnchor.MiddleLeft;
+                    row.GetComponentInChildren<Text>().rectTransform.offsetMin = new Vector2(20, 0);
+                    row.gameObject.AddComponent<LayoutElement>().preferredHeight = 72;
+                }
+            }
+        }
+
+        public static string GradeLabel(UnitGrade grade) => grade switch
         {
             UnitGrade.Ancient => "고대",
             UnitGrade.Mythic => "신화",
             UnitGrade.Epic => "전설",
             _ => "특급",
+        };
+
+        public static string KindLabel(string kind) => kind switch
+        {
+            "weapon" => "낫",
+            "accessory" => "장신구",
+            "skill" => "스킬",
+            "hero" => "차사",
+            _ => kind,
         };
     }
 }

@@ -120,7 +120,7 @@ namespace IdleCore.Tests
             var inventory = new UnitInventory(units);
 
             for (int i = 0; i < 9; i++) inventory.AddCopy("hero_r1");
-            inventory.SetEquipped("hero_r1", true);
+            Assert.IsTrue(inventory.TryEquip("hero_r1"));
             Assert.AreEqual(8, inventory.Get("hero_r1").limitBreak);
             Assert.IsFalse(inventory.ContributeEffects().Any(e => e.stat == StatType.FinalDamage),
                 "8돌파: 임계 효과 미발동");

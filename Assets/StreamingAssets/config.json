@@ -1,22 +1,32 @@
 {
   "gameId": "soul_reaper",
   "gameName": "저승사자 키우기: 방치형",
-
   "baseStats": {
     "Attack": 10,
     "AttackSpeed": 1.0,
     "CritChance": 0.05,
     "CritMultiplier": 1.5
   },
-
   "axes": [
     {
       "id": "training_attack",
       "name": "수련: 낫질",
       "costCurrency": "gold",
-      "cost": { "type": "Geometric", "baseValue": 15, "growth": 1.075 },
+      "cost": {
+        "type": "Geometric",
+        "baseValue": 15,
+        "growth": 1.075
+      },
       "effects": [
-        { "stat": "Attack", "mode": "Add", "value": { "type": "Geometric", "baseValue": 6, "growth": 1.052 } }
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "type": "Geometric",
+            "baseValue": 6,
+            "growth": 1.052
+          }
+        }
       ]
     },
     {
@@ -24,18 +34,42 @@
       "name": "수련: 신속",
       "maxLevel": 200,
       "costCurrency": "gold",
-      "cost": { "type": "Geometric", "baseValue": 120, "growth": 1.11 },
+      "cost": {
+        "type": "Geometric",
+        "baseValue": 120,
+        "growth": 1.11
+      },
       "effects": [
-        { "stat": "AttackSpeed", "mode": "Add", "value": { "type": "Linear", "baseValue": 0, "perLevel": 0.01 } }
+        {
+          "stat": "AttackSpeed",
+          "mode": "Add",
+          "value": {
+            "type": "Linear",
+            "baseValue": 0,
+            "perLevel": 0.01
+          }
+        }
       ]
     },
     {
       "id": "soul_infusion",
       "name": "영혼 주입",
       "costCurrency": "soul",
-      "cost": { "type": "Geometric", "baseValue": 25, "growth": 1.10 },
+      "cost": {
+        "type": "Geometric",
+        "baseValue": 25,
+        "growth": 1.1
+      },
       "effects": [
-        { "stat": "FinalDamage", "mode": "Mul", "value": { "type": "Linear", "baseValue": 0, "perLevel": 0.06 } }
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "type": "Linear",
+            "baseValue": 0,
+            "perLevel": 0.06
+          }
+        }
       ]
     },
     {
@@ -43,9 +77,21 @@
       "name": "명계 계약",
       "unlockStageIndex": 25,
       "costCurrency": "soul",
-      "cost": { "type": "Geometric", "baseValue": 400, "growth": 1.14 },
+      "cost": {
+        "type": "Geometric",
+        "baseValue": 400,
+        "growth": 1.14
+      },
       "effects": [
-        { "stat": "GoldGain", "mode": "Mul", "value": { "type": "Linear", "baseValue": 0, "perLevel": 0.05 } }
+        {
+          "stat": "GoldGain",
+          "mode": "Mul",
+          "value": {
+            "type": "Linear",
+            "baseValue": 0,
+            "perLevel": 0.05
+          }
+        }
       ]
     },
     {
@@ -53,13 +99,24 @@
       "name": "달빛 각성",
       "unlockStageIndex": 60,
       "costCurrency": "soul",
-      "cost": { "type": "Geometric", "baseValue": 5000, "growth": 1.17 },
+      "cost": {
+        "type": "Geometric",
+        "baseValue": 5000,
+        "growth": 1.17
+      },
       "effects": [
-        { "stat": "FinalDamage", "mode": "Mul", "value": { "type": "Linear", "baseValue": 0, "perLevel": 0.10 } }
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "type": "Linear",
+            "baseValue": 0,
+            "perLevel": 0.1
+          }
+        }
       ]
     }
   ],
-
   "stage": {
     "stepsPerChapter": 5,
     "maxChapter": 60,
@@ -73,99 +130,725 @@
     "soulPerKillGrowth": 1.06,
     "bossTimeLimitSeconds": 30
   },
-
   "offline": {
     "baseCapHours": 8,
     "efficiency": 0.6
   },
-
   "units": [
-    { "id": "chasa_baek", "name": "차사 백무영", "kind": "hero", "grade": "Rare",
-      "baseEffects": [ { "stat": "Attack", "mode": "Add", "value": { "baseValue": 25 } } ],
-      "collectionEffects": [ { "stat": "Attack", "mode": "Add", "value": { "baseValue": 3 } } ] },
-    { "id": "chasa_hong", "name": "차사 홍련", "kind": "hero", "grade": "Rare",
-      "baseEffects": [ { "stat": "Attack", "mode": "Add", "value": { "baseValue": 25 } } ],
-      "collectionEffects": [ { "stat": "Attack", "mode": "Add", "value": { "baseValue": 3 } } ] },
-    { "id": "skill_gwihwa", "name": "귀화술", "kind": "skill", "grade": "Rare",
-      "baseEffects": [ { "stat": "Attack", "mode": "Add", "value": { "baseValue": 20 } } ],
-      "collectionEffects": [ { "stat": "Attack", "mode": "Add", "value": { "baseValue": 3 } } ] },
-    { "id": "chasa_muk", "name": "차사 묵향", "kind": "hero", "grade": "Epic",
-      "baseEffects": [ { "stat": "FinalDamage", "mode": "Mul", "value": { "baseValue": 0.10 } } ],
-      "collectionEffects": [ { "stat": "Attack", "mode": "Add", "value": { "baseValue": 8 } } ] },
-    { "id": "skill_dokkaebi", "name": "도깨비불", "kind": "skill", "grade": "Epic",
-      "baseEffects": [ { "stat": "FinalDamage", "mode": "Mul", "value": { "baseValue": 0.10 } } ],
-      "collectionEffects": [ { "stat": "Attack", "mode": "Add", "value": { "baseValue": 8 } } ] },
-    { "id": "chasa_seol", "name": "차사 설야차", "kind": "hero", "grade": "Mythic",
-      "baseEffects": [ { "stat": "FinalDamage", "mode": "Mul", "value": { "baseValue": 0.25 } } ],
-      "collectionEffects": [ { "stat": "Attack", "mode": "Add", "value": { "baseValue": 20 } } ],
+    {
+      "id": "w_rusty",
+      "name": "녹슨 낫",
+      "kind": "weapon",
+      "grade": "Rare",
+      "baseEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.1
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "w_myeongbu",
+      "name": "명부의 낫",
+      "kind": "weapon",
+      "grade": "Epic",
+      "baseEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.25
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 8
+          }
+        }
+      ]
+    },
+    {
+      "id": "w_crescent",
+      "name": "초승달 낫",
+      "kind": "weapon",
+      "grade": "Mythic",
+      "baseEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.6
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 20
+          }
+        }
+      ],
       "limitBreakEffects": [
-        { "atLimitBreak": 5, "effect": { "stat": "FinalDamage", "mode": "Mul", "value": { "baseValue": 0.5 } } }
-      ] },
-    { "id": "skill_samdo", "name": "삼도천 베기", "kind": "skill", "grade": "Mythic",
-      "baseEffects": [ { "stat": "FinalDamage", "mode": "Mul", "value": { "baseValue": 0.25 } } ],
-      "collectionEffects": [ { "stat": "Attack", "mode": "Add", "value": { "baseValue": 20 } } ] },
-    { "id": "chasa_yeom", "name": "염라 대행자", "kind": "hero", "grade": "Ancient",
-      "baseEffects": [ { "stat": "FinalDamage", "mode": "Mul", "value": { "baseValue": 0.8 } } ],
-      "collectionEffects": [ { "stat": "Attack", "mode": "Add", "value": { "baseValue": 60 } } ],
+        {
+          "atLimitBreak": 5,
+          "effect": {
+            "stat": "FinalDamage",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 0.5
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "a_bead",
+      "name": "혼백 구슬",
+      "kind": "accessory",
+      "grade": "Rare",
+      "baseEffects": [
+        {
+          "stat": "CritChance",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0.02
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "a_lantern",
+      "name": "도깨비 등불",
+      "kind": "accessory",
+      "grade": "Epic",
+      "baseEffects": [
+        {
+          "stat": "GoldGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.15
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 8
+          }
+        }
+      ]
+    },
+    {
+      "id": "a_bell",
+      "name": "초혼 방울",
+      "kind": "accessory",
+      "grade": "Epic",
+      "baseEffects": [
+        {
+          "stat": "SoulGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.15
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 8
+          }
+        }
+      ]
+    },
+    {
+      "id": "a_moonjade",
+      "name": "달옥 가락지",
+      "kind": "accessory",
+      "grade": "Mythic",
+      "baseEffects": [
+        {
+          "stat": "CritMultiplier",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0.5
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 20
+          }
+        }
+      ]
+    },
+    {
+      "id": "s_gwihwa",
+      "name": "귀화술",
+      "kind": "skill",
+      "grade": "Rare",
+      "baseEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 20
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "s_grip",
+      "name": "유령 손아귀",
+      "kind": "skill",
+      "grade": "Rare",
+      "baseEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 20
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "s_dokkaebi",
+      "name": "도깨비불",
+      "kind": "skill",
+      "grade": "Epic",
+      "baseEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.1
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 8
+          }
+        }
+      ]
+    },
+    {
+      "id": "s_wongwi",
+      "name": "원귀 소환",
+      "kind": "skill",
+      "grade": "Epic",
+      "baseEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.1
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 8
+          }
+        }
+      ]
+    },
+    {
+      "id": "s_samdo",
+      "name": "삼도천 베기",
+      "kind": "skill",
+      "grade": "Mythic",
+      "baseEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.25
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 20
+          }
+        }
+      ],
       "limitBreakEffects": [
-        { "atLimitBreak": 9, "effect": { "stat": "FinalDamage", "mode": "Mul", "value": { "baseValue": 3.0 } } }
-      ] },
-    { "id": "skill_hwansaeng", "name": "환생문", "kind": "skill", "grade": "Ancient",
-      "baseEffects": [ { "stat": "GoldGain", "mode": "Mul", "value": { "baseValue": 0.5 } } ],
-      "collectionEffects": [ { "stat": "Attack", "mode": "Add", "value": { "baseValue": 60 } } ] }
+        {
+          "atLimitBreak": 5,
+          "effect": {
+            "stat": "FinalDamage",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 0.5
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "h_baek",
+      "name": "차사 백무영",
+      "kind": "hero",
+      "grade": "Rare",
+      "baseEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 25
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "h_hong",
+      "name": "차사 홍련",
+      "kind": "hero",
+      "grade": "Rare",
+      "baseEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 25
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "h_muk",
+      "name": "차사 묵향",
+      "kind": "hero",
+      "grade": "Epic",
+      "baseEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.1
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 8
+          }
+        }
+      ]
+    },
+    {
+      "id": "h_seol",
+      "name": "차사 설야차",
+      "kind": "hero",
+      "grade": "Mythic",
+      "baseEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.25
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 20
+          }
+        }
+      ],
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 5,
+          "effect": {
+            "stat": "FinalDamage",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 0.5
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "h_gangrim",
+      "name": "강림도령",
+      "kind": "hero",
+      "grade": "Mythic",
+      "baseEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.3
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 20
+          }
+        }
+      ]
+    }
   ],
-
   "banners": [
     {
-      "id": "soul_summon",
-      "name": "영혼 소환",
+      "id": "banner_weapon",
+      "name": "낫 소환",
       "costCurrency": "gem_soft",
       "costPerPull": 200,
       "costPerTen": 1800,
-      "gradeRates": { "Rare": 0.72, "Epic": 0.22, "Mythic": 0.055, "Ancient": 0.005 },
+      "gradeRates": {
+        "Rare": 0.8,
+        "Epic": 0.17,
+        "Mythic": 0.03
+      },
       "pool": [
-        { "unitId": "chasa_baek" }, { "unitId": "chasa_hong" }, { "unitId": "skill_gwihwa" },
-        { "unitId": "chasa_muk" }, { "unitId": "skill_dokkaebi" },
-        { "unitId": "chasa_seol" }, { "unitId": "skill_samdo" },
-        { "unitId": "chasa_yeom" }, { "unitId": "skill_hwansaeng" }
+        {
+          "unitId": "w_rusty"
+        },
+        {
+          "unitId": "w_myeongbu"
+        },
+        {
+          "unitId": "w_crescent"
+        }
       ],
-      "pityThreshold": 150,
-      "pityGrade": "Ancient",
-      "pickupUnitId": "chasa_yeom",
+      "pityThreshold": 100,
+      "pityGrade": "Mythic",
+      "pickupUnitId": "w_crescent",
+      "pickupShare": 0.5
+    },
+    {
+      "id": "banner_accessory",
+      "name": "장신구 소환",
+      "costCurrency": "gem_soft",
+      "costPerPull": 200,
+      "costPerTen": 1800,
+      "gradeRates": {
+        "Rare": 0.8,
+        "Epic": 0.17,
+        "Mythic": 0.03
+      },
+      "pool": [
+        {
+          "unitId": "a_bead"
+        },
+        {
+          "unitId": "a_lantern"
+        },
+        {
+          "unitId": "a_bell"
+        },
+        {
+          "unitId": "a_moonjade"
+        }
+      ],
+      "pityThreshold": 100,
+      "pityGrade": "Mythic",
+      "pickupUnitId": "a_moonjade",
+      "pickupShare": 0.5
+    },
+    {
+      "id": "banner_skill",
+      "name": "스킬 소환",
+      "costCurrency": "gem_soft",
+      "costPerPull": 200,
+      "costPerTen": 1800,
+      "gradeRates": {
+        "Rare": 0.8,
+        "Epic": 0.17,
+        "Mythic": 0.03
+      },
+      "pool": [
+        {
+          "unitId": "s_gwihwa"
+        },
+        {
+          "unitId": "s_grip"
+        },
+        {
+          "unitId": "s_dokkaebi"
+        },
+        {
+          "unitId": "s_wongwi"
+        },
+        {
+          "unitId": "s_samdo"
+        }
+      ],
+      "pityThreshold": 100,
+      "pityGrade": "Mythic",
+      "pickupUnitId": "s_samdo",
+      "pickupShare": 0.5
+    },
+    {
+      "id": "banner_hero",
+      "name": "차사 소환",
+      "costCurrency": "gem_soft",
+      "costPerPull": 200,
+      "costPerTen": 1800,
+      "gradeRates": {
+        "Rare": 0.8,
+        "Epic": 0.17,
+        "Mythic": 0.03
+      },
+      "pool": [
+        {
+          "unitId": "h_baek"
+        },
+        {
+          "unitId": "h_hong"
+        },
+        {
+          "unitId": "h_muk"
+        },
+        {
+          "unitId": "h_seol"
+        },
+        {
+          "unitId": "h_gangrim"
+        }
+      ],
+      "pityThreshold": 100,
+      "pityGrade": "Mythic",
+      "pickupUnitId": "h_seol",
       "pickupShare": 0.5
     }
   ],
-
   "products": [
-    { "id": "starter_pack", "name": "첫걸음 패키지", "price": 490,
-      "grants": [ { "currency": "gem_soft", "amount": 20000 }, { "currency": "gold", "amount": 50000 } ],
-      "limitType": "Total", "limitCount": 1 },
-    { "id": "daily_pack", "name": "일일 팩", "price": 90,
-      "grants": [ { "currency": "gem_soft", "amount": 1000 }, { "currency": "sweep_ticket", "amount": 2 } ],
-      "limitType": "Daily", "limitCount": 1 },
-    { "id": "weekly_pack", "name": "주간 팩", "price": 490,
-      "grants": [ { "currency": "gem_soft", "amount": 7000 }, { "currency": "sweep_ticket", "amount": 20 } ],
-      "limitType": "Weekly", "limitCount": 1 },
-    { "id": "monthly_pack", "name": "월간 팩", "price": 1990,
-      "grants": [ { "currency": "gem_soft", "amount": 36000 }, { "currency": "sweep_ticket", "amount": 100 } ],
-      "limitType": "Total", "limitCount": 1 },
-    { "id": "gold_bomb_ch10", "name": "10장 돌파 패키지", "price": 990, "unlockStageIndex": 49,
-      "grants": [ { "currency": "gold", "amount": 2000000 }, { "currency": "gem_soft", "amount": 10000 } ],
-      "limitType": "Total", "limitCount": 1 },
-    { "id": "soul_surge_ch20", "name": "20장 영혼 패키지", "price": 1990, "unlockStageIndex": 99,
-      "grants": [ { "currency": "soul", "amount": 500000 }, { "currency": "sweep_ticket", "amount": 30 } ],
-      "limitType": "Total", "limitCount": 1 }
+    {
+      "id": "starter_pack",
+      "name": "첫걸음 패키지",
+      "price": 490,
+      "grants": [
+        {
+          "currency": "gem_soft",
+          "amount": 20000
+        },
+        {
+          "currency": "gold",
+          "amount": 50000
+        }
+      ],
+      "limitType": "Total",
+      "limitCount": 1
+    },
+    {
+      "id": "daily_pack",
+      "name": "일일 팩",
+      "price": 90,
+      "grants": [
+        {
+          "currency": "gem_soft",
+          "amount": 1000
+        },
+        {
+          "currency": "sweep_ticket",
+          "amount": 2
+        }
+      ],
+      "limitType": "Daily",
+      "limitCount": 1
+    },
+    {
+      "id": "weekly_pack",
+      "name": "주간 팩",
+      "price": 490,
+      "grants": [
+        {
+          "currency": "gem_soft",
+          "amount": 7000
+        },
+        {
+          "currency": "sweep_ticket",
+          "amount": 20
+        }
+      ],
+      "limitType": "Weekly",
+      "limitCount": 1
+    },
+    {
+      "id": "monthly_pack",
+      "name": "월간 팩",
+      "price": 1990,
+      "grants": [
+        {
+          "currency": "gem_soft",
+          "amount": 36000
+        },
+        {
+          "currency": "sweep_ticket",
+          "amount": 100
+        }
+      ],
+      "limitType": "Total",
+      "limitCount": 1
+    },
+    {
+      "id": "gold_bomb_ch10",
+      "name": "10장 돌파 패키지",
+      "price": 990,
+      "unlockStageIndex": 49,
+      "grants": [
+        {
+          "currency": "gold",
+          "amount": 2000000
+        },
+        {
+          "currency": "gem_soft",
+          "amount": 10000
+        }
+      ],
+      "limitType": "Total",
+      "limitCount": 1
+    },
+    {
+      "id": "soul_surge_ch20",
+      "name": "20장 영혼 패키지",
+      "price": 1990,
+      "unlockStageIndex": 99,
+      "grants": [
+        {
+          "currency": "soul",
+          "amount": 500000
+        },
+        {
+          "currency": "sweep_ticket",
+          "amount": 30
+        }
+      ],
+      "limitType": "Total",
+      "limitCount": 1
+    }
   ],
-
   "skus": [
-    { "skuId": "gem_1100", "displayName": "수정 110", "grantHardGems": 110, "priceKrw": 1100 },
-    { "skuId": "gem_5500", "displayName": "수정 550", "grantHardGems": 550, "priceKrw": 5500 },
-    { "skuId": "gem_11000", "displayName": "수정 1,150", "grantHardGems": 1150, "priceKrw": 11000 },
-    { "skuId": "gem_33000", "displayName": "수정 3,650", "grantHardGems": 3650, "priceKrw": 33000 },
-    { "skuId": "gem_55000", "displayName": "수정 6,300", "grantHardGems": 6300, "priceKrw": 55000 },
-    { "skuId": "gem_110000", "displayName": "수정 13,200", "grantHardGems": 13200, "priceKrw": 110000 }
+    {
+      "skuId": "gem_1100",
+      "displayName": "수정 110",
+      "grantHardGems": 110,
+      "priceKrw": 1100
+    },
+    {
+      "skuId": "gem_5500",
+      "displayName": "수정 550",
+      "grantHardGems": 550,
+      "priceKrw": 5500
+    },
+    {
+      "skuId": "gem_11000",
+      "displayName": "수정 1,150",
+      "grantHardGems": 1150,
+      "priceKrw": 11000
+    },
+    {
+      "skuId": "gem_33000",
+      "displayName": "수정 3,650",
+      "grantHardGems": 3650,
+      "priceKrw": 33000
+    },
+    {
+      "skuId": "gem_55000",
+      "displayName": "수정 6,300",
+      "grantHardGems": 6300,
+      "priceKrw": 55000
+    },
+    {
+      "skuId": "gem_110000",
+      "displayName": "수정 13,200",
+      "grantHardGems": 13200,
+      "priceKrw": 110000
+    }
   ],
-
   "passes": [
     {
       "id": "stage_pass",
@@ -173,50 +856,235 @@
       "keyType": "StageIndex",
       "unlockPrice": 990,
       "steps": [
-        { "atKey": 9,  "freeRewards": [ { "currency": "gem_soft", "amount": 600 } ],
-                        "paidRewards": [ { "currency": "gem_soft", "amount": 2400 } ] },
-        { "atKey": 24, "freeRewards": [ { "currency": "gem_soft", "amount": 600 } ],
-                        "paidRewards": [ { "currency": "gem_soft", "amount": 2400 }, { "currency": "soul", "amount": 20000 } ] },
-        { "atKey": 49, "freeRewards": [ { "currency": "gem_soft", "amount": 900 } ],
-                        "paidRewards": [ { "currency": "gem_soft", "amount": 3600 }, { "currency": "soul", "amount": 60000 } ] },
-        { "atKey": 99, "freeRewards": [ { "currency": "gem_soft", "amount": 1200 } ],
-                        "paidRewards": [ { "currency": "gem_soft", "amount": 4800 }, { "currency": "soul", "amount": 200000 } ] }
+        {
+          "atKey": 9,
+          "freeRewards": [
+            {
+              "currency": "gem_soft",
+              "amount": 600
+            }
+          ],
+          "paidRewards": [
+            {
+              "currency": "gem_soft",
+              "amount": 2400
+            }
+          ]
+        },
+        {
+          "atKey": 24,
+          "freeRewards": [
+            {
+              "currency": "gem_soft",
+              "amount": 600
+            }
+          ],
+          "paidRewards": [
+            {
+              "currency": "gem_soft",
+              "amount": 2400
+            },
+            {
+              "currency": "soul",
+              "amount": 20000
+            }
+          ]
+        },
+        {
+          "atKey": 49,
+          "freeRewards": [
+            {
+              "currency": "gem_soft",
+              "amount": 900
+            }
+          ],
+          "paidRewards": [
+            {
+              "currency": "gem_soft",
+              "amount": 3600
+            },
+            {
+              "currency": "soul",
+              "amount": 60000
+            }
+          ]
+        },
+        {
+          "atKey": 99,
+          "freeRewards": [
+            {
+              "currency": "gem_soft",
+              "amount": 1200
+            }
+          ],
+          "paidRewards": [
+            {
+              "currency": "gem_soft",
+              "amount": 4800
+            },
+            {
+              "currency": "soul",
+              "amount": 200000
+            }
+          ]
+        }
       ]
     }
   ],
-
   "subscriptions": [
     {
-      "id": "pension", "name": "윤회 연금", "price": 1490, "durationDays": 30,
-      "dailyGrant": [ { "currency": "gem_hard", "amount": 100 } ]
+      "id": "pension",
+      "name": "윤회 연금",
+      "price": 1490,
+      "durationDays": 30,
+      "dailyGrant": [
+        {
+          "currency": "gem_hard",
+          "amount": 100
+        }
+      ]
     },
     {
-      "id": "membership", "name": "명부 계약", "price": 990, "durationDays": 30,
+      "id": "membership",
+      "name": "명부 계약",
+      "price": 990,
+      "durationDays": 30,
       "effects": [
-        { "stat": "OfflineCapHours", "mode": "Add", "value": { "baseValue": 4 } },
-        { "stat": "OfflineRate", "mode": "Mul", "value": { "baseValue": 0.5 } }
+        {
+          "stat": "OfflineCapHours",
+          "mode": "Add",
+          "value": {
+            "baseValue": 4
+          }
+        },
+        {
+          "stat": "OfflineRate",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.5
+          }
+        }
       ],
-      "dailyGrant": [ { "currency": "sweep_ticket", "amount": 2 } ]
+      "dailyGrant": [
+        {
+          "currency": "sweep_ticket",
+          "amount": 2
+        }
+      ]
     },
     {
-      "id": "ad_pass", "name": "저승 프리패스", "price": 990, "durationDays": 30,
+      "id": "ad_pass",
+      "name": "저승 프리패스",
+      "price": 990,
+      "durationDays": 30,
       "adSkip": true
     }
   ],
-
   "adSlots": [
-    { "id": "offline_double", "name": "오프라인 보상 2배", "dailyLimit": 3 },
-    { "id": "free_daily_pack", "name": "무료 일일 팩", "dailyLimit": 1 },
-    { "id": "dungeon_sweep", "name": "던전 소탕 +1", "dailyLimit": 2 },
-    { "id": "wall_boost", "name": "돌파 버프 10분", "dailyLimit": 2 },
-    { "id": "free_summon", "name": "무료 소환 1회", "dailyLimit": 1 }
+    {
+      "id": "offline_double",
+      "name": "오프라인 보상 2배",
+      "dailyLimit": 3
+    },
+    {
+      "id": "free_daily_pack",
+      "name": "무료 일일 팩",
+      "dailyLimit": 1
+    },
+    {
+      "id": "dungeon_sweep",
+      "name": "던전 소탕 +1",
+      "dailyLimit": 2
+    },
+    {
+      "id": "wall_boost",
+      "name": "돌파 버프 10분",
+      "dailyLimit": 2
+    },
+    {
+      "id": "free_summon",
+      "name": "무료 소환 1회",
+      "dailyLimit": 1
+    }
   ],
-
   "paybackAttendance": {
     "id": "payback_7days",
     "name": "환생 출석부",
     "price": 490,
     "days": 7,
-    "dailyReward": [ { "currency": "gem_soft", "amount": 3000 } ]
-  }
+    "dailyReward": [
+      {
+        "currency": "gem_soft",
+        "amount": 3000
+      }
+    ]
+  },
+  "equipSlots": {
+    "weapon": 1,
+    "accessory": 2,
+    "skill": 4,
+    "hero": 4
+  },
+  "collectionMilestones": [
+    {
+      "count": 3,
+      "effects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.05
+          }
+        }
+      ]
+    },
+    {
+      "count": 6,
+      "effects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.05
+          }
+        }
+      ]
+    },
+    {
+      "count": 9,
+      "effects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.1
+          }
+        }
+      ]
+    },
+    {
+      "count": 13,
+      "effects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.1
+          }
+        }
+      ]
+    },
+    {
+      "count": 17,
+      "effects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.2
+          }
+        }
+      ]
+    }
+  ]
 }

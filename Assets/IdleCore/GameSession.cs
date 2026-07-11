@@ -48,7 +48,7 @@ namespace IdleCore
 
             Progression = new ProgressionSystem(config.stage, Stats, Wallet, save.currentStageIndex, save.highestClearedIndex);
 
-            Units = new UnitInventory(config.units);
+            Units = new UnitInventory(config.units, config.equipSlots, config.collectionMilestones);
             Units.Import(save.units);
             Units.UnitChanged += _ => SyncExternalEffects();
 

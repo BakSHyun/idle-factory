@@ -107,7 +107,7 @@ namespace IdleCore.Tests
 
             double before = session.Stats.Snapshot().Get(StatType.Attack);
             session.Units.AddCopy("hero_1");
-            session.Units.SetEquipped("hero_1", true);
+            Assert.IsTrue(session.Units.TryEquip("hero_1"));
             double after = session.Stats.Snapshot().Get(StatType.Attack);
 
             Assert.AreEqual(before + 50, after, "유닛 장착이 스탯에 자동 반영");

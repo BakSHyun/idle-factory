@@ -114,8 +114,7 @@ namespace IdleFactory.Simulator
             Console.WriteLine();
             Console.WriteLine("=== 요약 ===");
             Console.WriteLine($"최종 스테이지: {Display(session, session.Progression.HighestClearedIndex)} / 상한 {config.stage.maxChapter}장");
-            Console.WriteLine($"총 소환: {totalPulls}회 | 보유 유닛: {session.Units.AllOwned().Count()}종 / {config.units.Count}종");
-            Console.WriteLine($"천장 카운터: {session.Gacha.PityCounter("soul_summon")}");
+            Console.WriteLine($"총 소환: {totalPulls}회 | 도감 등록: {session.Units.UniqueOwnedCount}종 / {config.units.Count}종");
             if (payer)
                 Console.WriteLine($"결제: ₩{fakeStore.PurchaseLog.Sum(x => x.priceKrw):N0} | 하드 잔액: {session.Wallet.Get(CurrencyIds.GemHard)}");
             foreach (var m in milestones) Console.WriteLine(m);
@@ -148,18 +147,22 @@ namespace IdleFactory.Simulator
             }
         }
 
+        private static int _bannerRotation;
+
         private static long PullGachaIfAffordable(GameSession session)
         {
             long pulls = 0;
-            var banner = session.Gacha.Banners["soul_summon"];
-            while (session.Wallet.Get(banner.costCurrency) >= banner.CostFor(10))
+            var banners = session.Gacha.Banners.Values.ToList();
+            // 라운드로빈: 매 10연마다 다음 배너로 (골고루 수집 — 도감 마일스톤 겨냥)
+            for (int guard = 0; guard < 100; guard++)
             {
+                var banner = banners[_bannerRotation % banners.Count];
+                if (session.Wallet.Get(banner.costCurrency) < banner.CostFor(10)) break;
                 if (!session.Gacha.TryPull(banner.id, 10, out _)) break;
                 pulls += 10;
+                _bannerRotation++;
             }
-            // 신규 유닛 전부 장착 (봇 단순화)
-            foreach (var unit in session.Units.AllOwned())
-                if (!unit.equipped) session.Units.SetEquipped(unit.unitId, true);
+            session.Units.AutoEquipBest(); // 슬롯 제한 내 최적 장착
             return pulls;
         }
     }

@@ -19,8 +19,15 @@ namespace IdleCore.Gacha
         public StatEffect effect = new StatEffect();
     }
 
+    /// <summary>도감 마일스톤 — 고유 유닛 N종 등록 시 계정 전체 효과 (소헌키 도감 패턴).</summary>
+    public sealed class CollectionMilestone
+    {
+        public int count;
+        public List<StatEffect> effects = new List<StatEffect>();
+    }
+
     /// <summary>
-    /// 소환형 수집 유닛 (스킬/동료/유물 등 — kind는 표기용, 시스템 동작은 동일).
+    /// 소환형 수집 유닛. kind(hero/skill)별로 장착 슬롯이 제한된다 — 보유 효과(도감)와 장착 효과는 별개.
     /// </summary>
     public sealed class UnitDef
     {

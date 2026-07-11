@@ -17,6 +17,7 @@ namespace IdleGame.UI
         private GrowthPanel _growthPanel;
         private GachaPanel _gachaPanel;
         private ShopPanel _shopPanel;
+        private StatusPanel _statusPanel;
         private RectTransform[] _panels;
 
         public static RootView Create(GameSession session)
@@ -41,7 +42,8 @@ namespace IdleGame.UI
             _growthPanel = GrowthPanel.Create(root, _session);
             _gachaPanel = GachaPanel.Create(root, _session);
             _shopPanel = ShopPanel.Create(root, _session);
-            _panels = new[] { _growthPanel.Rect, _gachaPanel.Rect, _shopPanel.Rect };
+            _statusPanel = StatusPanel.Create(root, _session);
+            _panels = new[] { _growthPanel.Rect, _gachaPanel.Rect, _shopPanel.Rect, _statusPanel.Rect };
 
             BuildTabBar(root);
             ShowPanel(0);
@@ -102,7 +104,7 @@ namespace IdleGame.UI
             layout.childForceExpandWidth = true;
             layout.spacing = 4;
 
-            string[] names = { "성장", "소환", "상점" };
+            string[] names = { "성장", "소환", "상점", "정보" };
             for (int i = 0; i < names.Length; i++)
             {
                 int index = i;
@@ -152,6 +154,7 @@ namespace IdleGame.UI
             _growthPanel.Refresh();
             _gachaPanel.Refresh();
             _shopPanel.Refresh();
+            _statusPanel.Refresh();
         }
 
         private void RefreshStage()

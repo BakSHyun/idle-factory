@@ -22,6 +22,10 @@ namespace IdleCore.Data
         public StageCurveConfig stage = new StageCurveConfig();
         public OfflineConfig offline = new OfflineConfig();
         public List<UnitDef> units = new List<UnitDef>();
+        /// <summary>kind별 장착 슬롯 (무기 1 / 장신구 2 / 스킬 4 / 차사 4 등)</summary>
+        public Dictionary<string, int> equipSlots = new Dictionary<string, int>();
+        /// <summary>도감 등록 수 마일스톤 보너스</summary>
+        public List<CollectionMilestone> collectionMilestones = new List<CollectionMilestone>();
         public List<BannerDef> banners = new List<BannerDef>();
         public List<ProductDef> products = new List<ProductDef>();
         public List<StoreSku> skus = new List<StoreSku>();
