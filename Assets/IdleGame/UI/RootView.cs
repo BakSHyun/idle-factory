@@ -47,6 +47,9 @@ namespace IdleGame.UI
             ShowPanel(0);
             RefreshAll();
 
+            if (!TutorialView.IsDone)
+                TutorialView.Create(transform, _session);
+
             _session.Wallet.BalanceChanged += (_, _, _) => RefreshCurrencies();
             _session.Progression.StageCleared += _ => RefreshStage();
         }

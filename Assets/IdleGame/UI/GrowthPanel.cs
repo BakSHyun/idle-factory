@@ -16,7 +16,7 @@ namespace IdleGame.UI
         public static GrowthPanel Create(Transform root, GameSession session)
         {
             var rect = UIFactory.CreatePanel(root, "GrowthPanel", UIFactory.Bg);
-            UIFactory.TopBand(rect, 590, 1190); // 전투 뷰 아래 ~ 탭 바 위
+            UIFactory.Stretch(rect, 590, 150); // 전투 뷰 아래 ~ 탭 바(140) 위
             var panel = rect.gameObject.AddComponent<GrowthPanel>();
             panel.Rect = rect;
             panel._session = session;
@@ -26,14 +26,14 @@ namespace IdleGame.UI
 
         private void Build()
         {
-            UIFactory.AddVerticalList(Rect);
+            var list = UIFactory.CreateScrollList(Rect);
 
             foreach (var kv in _session.Stats.Axes)
             {
                 string axisId = kv.Key;
                 var axis = kv.Value;
 
-                var row = UIFactory.CreatePanel(Rect, $"Axis_{axisId}", UIFactory.Panel);
+                var row = UIFactory.CreatePanel(list, $"Axis_{axisId}", UIFactory.Panel);
                 row.gameObject.AddComponent<LayoutElement>().preferredHeight = 130;
 
                 var label = UIFactory.CreateText(row, "Label", axis.name, 32, TextAnchor.MiddleLeft);

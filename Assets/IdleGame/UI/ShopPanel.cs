@@ -20,7 +20,7 @@ namespace IdleGame.UI
         public static ShopPanel Create(Transform root, GameSession session)
         {
             var rect = UIFactory.CreatePanel(root, "ShopPanel", UIFactory.Bg);
-            UIFactory.TopBand(rect, 590, 1190);
+            UIFactory.Stretch(rect, 590, 150);
             var panel = rect.gameObject.AddComponent<ShopPanel>();
             panel.Rect = rect;
             panel._session = session;
@@ -31,24 +31,7 @@ namespace IdleGame.UI
 
         private void Build()
         {
-            // 스크롤 영역
-            var scrollGo = new GameObject("Scroll", typeof(RectTransform), typeof(ScrollRect), typeof(Image), typeof(Mask));
-            scrollGo.transform.SetParent(Rect, false);
-            var scrollRect = (RectTransform)scrollGo.transform;
-            UIFactory.Fill(scrollRect);
-            scrollGo.GetComponent<Image>().color = UIFactory.Bg;
-
-            _list = UIFactory.CreatePanel(scrollGo.transform, "Content", UIFactory.Bg);
-            _list.anchorMin = new Vector2(0, 1);
-            _list.anchorMax = new Vector2(1, 1);
-            _list.pivot = new Vector2(0.5f, 1);
-            UIFactory.AddVerticalList(_list);
-            var fitter = _list.gameObject.AddComponent<ContentSizeFitter>();
-            fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-
-            var scroll = scrollGo.GetComponent<ScrollRect>();
-            scroll.content = _list;
-            scroll.horizontal = false;
+            _list = UIFactory.CreateScrollList(Rect);
 
             Header("월 정액 (기반)");
             foreach (var sub in _session.Subscriptions.Defs.Values)

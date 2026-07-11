@@ -17,7 +17,7 @@ namespace IdleGame.UI
         public static GachaPanel Create(Transform root, GameSession session)
         {
             var rect = UIFactory.CreatePanel(root, "GachaPanel", UIFactory.Bg);
-            UIFactory.TopBand(rect, 590, 1190);
+            UIFactory.Stretch(rect, 590, 150);
             var panel = rect.gameObject.AddComponent<GachaPanel>();
             panel.Rect = rect;
             panel._session = session;
@@ -30,27 +30,27 @@ namespace IdleGame.UI
             var banner = _session.Gacha.Banners.Values.First();
             _bannerId = banner.id;
 
-            UIFactory.AddVerticalList(Rect, spacing: 18);
+            var list = UIFactory.CreateScrollList(Rect, spacing: 18);
 
-            var title = UIFactory.CreateText(Rect, "Title", banner.name, 44);
+            var title = UIFactory.CreateText(list, "Title", banner.name, 44);
             title.gameObject.AddComponent<LayoutElement>().preferredHeight = 80;
 
-            _pityText = UIFactory.CreateText(Rect, "Pity", "", 28, TextAnchor.MiddleCenter, UIFactory.TextDim);
+            _pityText = UIFactory.CreateText(list, "Pity", "", 28, TextAnchor.MiddleCenter, UIFactory.TextDim);
             _pityText.gameObject.AddComponent<LayoutElement>().preferredHeight = 44;
 
-            var pull1 = UIFactory.CreateButton(Rect, "Pull1",
+            var pull1 = UIFactory.CreateButton(list, "Pull1",
                 $"1회 소환  (영옥 {banner.costPerPull})", () => Pull(1));
             pull1.gameObject.AddComponent<LayoutElement>().preferredHeight = 110;
 
-            var pull10 = UIFactory.CreateButton(Rect, "Pull10",
+            var pull10 = UIFactory.CreateButton(list, "Pull10",
                 $"10연 소환  (영옥 {banner.CostFor(10)})", () => Pull(10), UIFactory.Gold);
             pull10.GetComponentInChildren<Text>().color = Color.black;
             pull10.gameObject.AddComponent<LayoutElement>().preferredHeight = 110;
 
-            _resultText = UIFactory.CreateText(Rect, "Result", "", 28, TextAnchor.UpperCenter);
+            _resultText = UIFactory.CreateText(list, "Result", "", 28, TextAnchor.UpperCenter);
             _resultText.gameObject.AddComponent<LayoutElement>().preferredHeight = 320;
 
-            _ownedText = UIFactory.CreateText(Rect, "Owned", "", 26, TextAnchor.UpperLeft, UIFactory.TextDim);
+            _ownedText = UIFactory.CreateText(list, "Owned", "", 26, TextAnchor.UpperLeft, UIFactory.TextDim);
             _ownedText.gameObject.AddComponent<LayoutElement>().preferredHeight = 380;
         }
 

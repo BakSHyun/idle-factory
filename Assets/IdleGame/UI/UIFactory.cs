@@ -103,6 +103,38 @@ namespace IdleGame.UI
             rect.offsetMax = new Vector2(-sideMargin, yBottom + height);
         }
 
+        /// <summary>위/아래 오프셋만 고정하고 나머지를 채우는 앵커 — 화면비가 달라도 겹치지 않는다.</summary>
+        public static void Stretch(RectTransform rect, float topOffset, float bottomOffset)
+        {
+            rect.anchorMin = Vector2.zero;
+            rect.anchorMax = Vector2.one;
+            rect.offsetMin = new Vector2(0, bottomOffset);
+            rect.offsetMax = new Vector2(0, -topOffset);
+        }
+
+        /// <summary>세로 스크롤 목록 생성 — content에 자식을 추가하면 된다.</summary>
+        public static RectTransform CreateScrollList(RectTransform parent, float spacing = 14)
+        {
+            var scrollGo = new GameObject("Scroll", typeof(RectTransform), typeof(ScrollRect), typeof(Image), typeof(Mask));
+            scrollGo.transform.SetParent(parent, false);
+            Fill((RectTransform)scrollGo.transform);
+            scrollGo.GetComponent<Image>().color = Bg;
+
+            var content = CreatePanel(scrollGo.transform, "Content", Bg);
+            content.anchorMin = new Vector2(0, 1);
+            content.anchorMax = new Vector2(1, 1);
+            content.pivot = new Vector2(0.5f, 1);
+            AddVerticalList(content, spacing);
+            content.gameObject.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+
+            var scroll = scrollGo.GetComponent<ScrollRect>();
+            scroll.content = content;
+            scroll.horizontal = false;
+            scroll.movementType = ScrollRect.MovementType.Clamped;
+            scroll.scrollSensitivity = 30;
+            return content;
+        }
+
         public static VerticalLayoutGroup AddVerticalList(RectTransform rect, float spacing = 14, int padding = 20)
         {
             var layout = rect.gameObject.AddComponent<VerticalLayoutGroup>();
