@@ -36,8 +36,9 @@ namespace IdleGame.UI
                 var row = UIFactory.CreatePanel(list, $"Axis_{axisId}", UIFactory.Panel);
                 row.gameObject.AddComponent<LayoutElement>().preferredHeight = 130;
 
-                var label = UIFactory.CreateText(row, "Label", axis.name, 32, TextAnchor.MiddleLeft);
+                var label = UIFactory.CreateText(row, "Label", axis.name, 30, TextAnchor.MiddleLeft);
                 UIFactory.Fill(label.rectTransform, 20);
+                label.rectTransform.offsetMin = new Vector2(40, 10); // 왼쪽 클리핑 방지 여백
 
                 var button = UIFactory.CreateButton(row, "LevelUp", "강화", () =>
                 {

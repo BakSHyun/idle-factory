@@ -32,10 +32,22 @@ namespace IdleGame.UI
             return view;
         }
 
+        private RectTransform _safeRoot;
+
         private void Build(Transform root)
         {
             var bg = UIFactory.CreatePanel(root, "Background", UIFactory.Bg);
-            UIFactory.Fill(bg);
+            UIFactory.Fill(bg); // 배경은 노치 뒤까지 채운다
+
+            // 세이프 에어리어: 카메라 펀치홀/노치를 피해서 UI 배치
+            var safeGo = new GameObject("SafeArea", typeof(RectTransform));
+            safeGo.transform.SetParent(root, false);
+            _safeRoot = (RectTransform)safeGo.transform;
+            var area = Screen.safeArea;
+            _safeRoot.anchorMin = new Vector2(area.xMin / Screen.width, area.yMin / Screen.height);
+            _safeRoot.anchorMax = new Vector2(area.xMax / Screen.width, area.yMax / Screen.height);
+            _safeRoot.offsetMin = _safeRoot.offsetMax = Vector2.zero;
+            root = _safeRoot;
 
             BuildHud(root);
             BuildBattleView(root);
@@ -53,7 +65,7 @@ namespace IdleGame.UI
             RefreshAll();
 
             if (!TutorialView.IsDone)
-                TutorialView.Create(transform, _session);
+                TutorialView.Create(_safeRoot, _session);
 
             _session.Wallet.BalanceChanged += (_, _, _) => RefreshCurrencies();
             _session.Progression.StageCleared += _ => RefreshStage();
@@ -80,7 +92,7 @@ namespace IdleGame.UI
             UIFactory.TopBand(_hardText.rectTransform, 130, 40, 30);
 
             var missionButton = UIFactory.CreateButton(hud, "MissionBtn", "📋 미션",
-                () => MissionView.Open(transform, _session), UIFactory.Accent, 26);
+                () => MissionView.Open(_safeRoot, _session), UIFactory.Accent, 26);
             var missionRect = (RectTransform)missionButton.transform;
             missionRect.anchorMin = new Vector2(1, 1);
             missionRect.anchorMax = new Vector2(1, 1);
@@ -105,8 +117,8 @@ namespace IdleGame.UI
                 image.preserveAspect = true;
                 var artRect = (RectTransform)artGo.transform;
                 artRect.anchorMin = artRect.anchorMax = new Vector2(0.5f, 0.5f);
-                artRect.anchoredPosition = new Vector2(0, 30);
-                artRect.sizeDelta = new Vector2(300, 300);
+                artRect.anchoredPosition = new Vector2(0, 40);
+                artRect.sizeDelta = new Vector2(250, 250); // 전투 밴드(420) 안에 여유 있게
             }
             else
             {

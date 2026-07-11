@@ -53,8 +53,9 @@ namespace IdleGame.UI
             _boxButton = box.gameObject.AddComponent<Button>();
             _boxButton.onClick.AddListener(OnBoxTapped);
 
-            _messageText = UIFactory.CreateText(box, "Message", "", 30, TextAnchor.UpperLeft);
-            UIFactory.Fill(_messageText.rectTransform, 24);
+            _messageText = UIFactory.CreateText(box, "Message", "", 27, TextAnchor.UpperLeft);
+            UIFactory.Fill(_messageText.rectTransform, 28);
+            _messageText.horizontalOverflow = HorizontalWrapMode.Wrap; // 박스 밖으로 흐르지 않게
 
             _hintText = UIFactory.CreateText(box, "Hint", "", 24, TextAnchor.LowerRight, UIFactory.Accent);
             UIFactory.Fill(_hintText.rectTransform, 18);

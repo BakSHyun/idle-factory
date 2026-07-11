@@ -1,0 +1,22 @@
+[
+  {
+    "name": "main_hires_a",
+    "prompt": "1girl, solo, chibi, korean grim reaper girl, large pointed black gat korean hat with small flower ornament, long purple gradient hair covering one eye, half-closed purple eyes, smug, dark black hanbok with purple inner robe, hands hidden in long sleeves, cute, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+    "width": 1024, "height": 1024, "seed": 6
+  },
+  {
+    "name": "main_hires_b",
+    "prompt": "1girl, solo, chibi, korean grim reaper girl, large pointed black gat korean hat with small flower ornament, long purple gradient hair covering one eye, half-closed purple eyes, smug, dark black hanbok with purple inner robe, hands hidden in long sleeves, cute, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+    "width": 1024, "height": 1024, "seed": 66
+  },
+  {
+    "name": "main_hires_c",
+    "prompt": "1girl, solo, chibi, korean grim reaper girl, large pointed black gat korean hat with small flower ornament, long purple gradient hair covering one eye, half-closed purple eyes, smug, dark black hanbok with purple inner robe, hands hidden in long sleeves, cute, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+    "width": 1024, "height": 1024, "seed": 666
+  },
+  {
+    "name": "main_hires_d",
+    "prompt": "1girl, solo, chibi, korean grim reaper girl, large pointed black gat korean hat, long purple gradient hair covering one eye, half-closed purple eyes, smug, holding small glowing purple crescent scythe, dark black hanbok with purple inner robe, cute, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+    "width": 1024, "height": 1024, "seed": 42
+  }
+]
