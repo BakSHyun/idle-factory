@@ -1,0 +1,22 @@
+{
+    "name": "IdleCore.Tests",
+    "rootNamespace": "IdleCore.Tests",
+    "references": [
+        "IdleCore"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

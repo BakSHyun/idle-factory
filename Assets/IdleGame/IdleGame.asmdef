@@ -1,0 +1,16 @@
+{
+    "name": "IdleGame",
+    "rootNamespace": "IdleGame",
+    "references": [
+        "IdleCore"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

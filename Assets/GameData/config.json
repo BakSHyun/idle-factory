@@ -1,0 +1,184 @@
+{
+  "gameId": "soul_reaper",
+  "gameName": "저승사자 키우기: 방치형",
+
+  "baseStats": {
+    "Attack": 10,
+    "AttackSpeed": 1.0,
+    "CritChance": 0.05,
+    "CritMultiplier": 1.5
+  },
+
+  "axes": [
+    {
+      "id": "training_attack",
+      "name": "수련: 낫질",
+      "costCurrency": "gold",
+      "cost": { "type": "Geometric", "baseValue": 15, "growth": 1.075 },
+      "effects": [
+        { "stat": "Attack", "mode": "Add", "value": { "type": "Geometric", "baseValue": 6, "growth": 1.052 } }
+      ]
+    },
+    {
+      "id": "training_speed",
+      "name": "수련: 신속",
+      "maxLevel": 200,
+      "costCurrency": "gold",
+      "cost": { "type": "Geometric", "baseValue": 120, "growth": 1.11 },
+      "effects": [
+        { "stat": "AttackSpeed", "mode": "Add", "value": { "type": "Linear", "baseValue": 0, "perLevel": 0.01 } }
+      ]
+    },
+    {
+      "id": "soul_infusion",
+      "name": "영혼 주입",
+      "costCurrency": "soul",
+      "cost": { "type": "Geometric", "baseValue": 25, "growth": 1.10 },
+      "effects": [
+        { "stat": "FinalDamage", "mode": "Mul", "value": { "type": "Linear", "baseValue": 0, "perLevel": 0.06 } }
+      ]
+    },
+    {
+      "id": "underworld_pact",
+      "name": "명계 계약",
+      "unlockStageIndex": 25,
+      "costCurrency": "soul",
+      "cost": { "type": "Geometric", "baseValue": 400, "growth": 1.14 },
+      "effects": [
+        { "stat": "GoldGain", "mode": "Mul", "value": { "type": "Linear", "baseValue": 0, "perLevel": 0.05 } }
+      ]
+    },
+    {
+      "id": "moonlight_awakening",
+      "name": "달빛 각성",
+      "unlockStageIndex": 60,
+      "costCurrency": "soul",
+      "cost": { "type": "Geometric", "baseValue": 5000, "growth": 1.17 },
+      "effects": [
+        { "stat": "FinalDamage", "mode": "Mul", "value": { "type": "Linear", "baseValue": 0, "perLevel": 0.10 } }
+      ]
+    }
+  ],
+
+  "stage": {
+    "stepsPerChapter": 5,
+    "maxChapter": 60,
+    "enemyHpBase": 40,
+    "enemyHpGrowth": 1.16,
+    "enemyCountPerWave": 5,
+    "bossHpMultiplier": 6,
+    "goldPerKillBase": 8,
+    "goldPerKillGrowth": 1.105,
+    "soulPerKillBase": 1,
+    "soulPerKillGrowth": 1.06,
+    "bossTimeLimitSeconds": 30
+  },
+
+  "offline": {
+    "baseCapHours": 8,
+    "efficiency": 0.6
+  },
+
+  "units": [
+    { "id": "chasa_baek", "name": "차사 백무영", "kind": "hero", "grade": "Rare",
+      "baseEffects": [ { "stat": "Attack", "mode": "Add", "value": { "baseValue": 25 } } ],
+      "collectionEffects": [ { "stat": "Attack", "mode": "Add", "value": { "baseValue": 3 } } ] },
+    { "id": "chasa_hong", "name": "차사 홍련", "kind": "hero", "grade": "Rare",
+      "baseEffects": [ { "stat": "Attack", "mode": "Add", "value": { "baseValue": 25 } } ],
+      "collectionEffects": [ { "stat": "Attack", "mode": "Add", "value": { "baseValue": 3 } } ] },
+    { "id": "skill_gwihwa", "name": "귀화술", "kind": "skill", "grade": "Rare",
+      "baseEffects": [ { "stat": "Attack", "mode": "Add", "value": { "baseValue": 20 } } ],
+      "collectionEffects": [ { "stat": "Attack", "mode": "Add", "value": { "baseValue": 3 } } ] },
+    { "id": "chasa_muk", "name": "차사 묵향", "kind": "hero", "grade": "Epic",
+      "baseEffects": [ { "stat": "FinalDamage", "mode": "Mul", "value": { "baseValue": 0.10 } } ],
+      "collectionEffects": [ { "stat": "Attack", "mode": "Add", "value": { "baseValue": 8 } } ] },
+    { "id": "skill_dokkaebi", "name": "도깨비불", "kind": "skill", "grade": "Epic",
+      "baseEffects": [ { "stat": "FinalDamage", "mode": "Mul", "value": { "baseValue": 0.10 } } ],
+      "collectionEffects": [ { "stat": "Attack", "mode": "Add", "value": { "baseValue": 8 } } ] },
+    { "id": "chasa_seol", "name": "차사 설야차", "kind": "hero", "grade": "Mythic",
+      "baseEffects": [ { "stat": "FinalDamage", "mode": "Mul", "value": { "baseValue": 0.25 } } ],
+      "collectionEffects": [ { "stat": "Attack", "mode": "Add", "value": { "baseValue": 20 } } ],
+      "limitBreakEffects": [
+        { "atLimitBreak": 5, "effect": { "stat": "FinalDamage", "mode": "Mul", "value": { "baseValue": 0.5 } } }
+      ] },
+    { "id": "skill_samdo", "name": "삼도천 베기", "kind": "skill", "grade": "Mythic",
+      "baseEffects": [ { "stat": "FinalDamage", "mode": "Mul", "value": { "baseValue": 0.25 } } ],
+      "collectionEffects": [ { "stat": "Attack", "mode": "Add", "value": { "baseValue": 20 } } ] },
+    { "id": "chasa_yeom", "name": "염라 대행자", "kind": "hero", "grade": "Ancient",
+      "baseEffects": [ { "stat": "FinalDamage", "mode": "Mul", "value": { "baseValue": 0.8 } } ],
+      "collectionEffects": [ { "stat": "Attack", "mode": "Add", "value": { "baseValue": 60 } } ],
+      "limitBreakEffects": [
+        { "atLimitBreak": 9, "effect": { "stat": "FinalDamage", "mode": "Mul", "value": { "baseValue": 3.0 } } }
+      ] },
+    { "id": "skill_hwansaeng", "name": "환생문", "kind": "skill", "grade": "Ancient",
+      "baseEffects": [ { "stat": "GoldGain", "mode": "Mul", "value": { "baseValue": 0.5 } } ],
+      "collectionEffects": [ { "stat": "Attack", "mode": "Add", "value": { "baseValue": 60 } } ] }
+  ],
+
+  "banners": [
+    {
+      "id": "soul_summon",
+      "name": "영혼 소환",
+      "costCurrency": "gem_soft",
+      "costPerPull": 200,
+      "costPerTen": 1800,
+      "gradeRates": { "Rare": 0.72, "Epic": 0.22, "Mythic": 0.055, "Ancient": 0.005 },
+      "pool": [
+        { "unitId": "chasa_baek" }, { "unitId": "chasa_hong" }, { "unitId": "skill_gwihwa" },
+        { "unitId": "chasa_muk" }, { "unitId": "skill_dokkaebi" },
+        { "unitId": "chasa_seol" }, { "unitId": "skill_samdo" },
+        { "unitId": "chasa_yeom" }, { "unitId": "skill_hwansaeng" }
+      ],
+      "pityThreshold": 150,
+      "pityGrade": "Ancient",
+      "pickupUnitId": "chasa_yeom",
+      "pickupShare": 0.5
+    }
+  ],
+
+  "products": [
+    { "id": "starter_pack", "name": "첫걸음 패키지", "price": 490,
+      "grants": [ { "currency": "gem_soft", "amount": 20000 }, { "currency": "gold", "amount": 50000 } ],
+      "limitType": "Total", "limitCount": 1 },
+    { "id": "daily_soul", "name": "일일 영혼 팩", "price": 90,
+      "grants": [ { "currency": "soul", "amount": 5000 } ],
+      "limitType": "Daily", "limitCount": 1 },
+    { "id": "wall_breaker_ch10", "name": "10장 돌파 기념 패키지", "price": 990, "unlockStageIndex": 49,
+      "grants": [ { "currency": "gem_soft", "amount": 40000 }, { "currency": "soul", "amount": 30000 } ],
+      "limitType": "Total", "limitCount": 1 }
+  ],
+
+  "skus": [
+    { "skuId": "gem_5500", "displayName": "수정 550", "grantHardGems": 550, "priceKrw": 5500 },
+    { "skuId": "gem_11000", "displayName": "수정 1,200", "grantHardGems": 1200, "priceKrw": 11000 },
+    { "skuId": "gem_33000", "displayName": "수정 3,900", "grantHardGems": 3900, "priceKrw": 33000 },
+    { "skuId": "gem_110000", "displayName": "수정 14,000", "grantHardGems": 14000, "priceKrw": 110000 }
+  ],
+
+  "passes": [
+    {
+      "id": "stage_pass",
+      "name": "저승길 패스",
+      "keyType": "StageIndex",
+      "unlockPrice": 990,
+      "steps": [
+        { "atKey": 9,  "freeRewards": [ { "currency": "gem_soft", "amount": 600 } ],
+                        "paidRewards": [ { "currency": "gem_soft", "amount": 2400 } ] },
+        { "atKey": 24, "freeRewards": [ { "currency": "gem_soft", "amount": 600 } ],
+                        "paidRewards": [ { "currency": "gem_soft", "amount": 2400 }, { "currency": "soul", "amount": 20000 } ] },
+        { "atKey": 49, "freeRewards": [ { "currency": "gem_soft", "amount": 900 } ],
+                        "paidRewards": [ { "currency": "gem_soft", "amount": 3600 }, { "currency": "soul", "amount": 60000 } ] },
+        { "atKey": 99, "freeRewards": [ { "currency": "gem_soft", "amount": 1200 } ],
+                        "paidRewards": [ { "currency": "gem_soft", "amount": 4800 }, { "currency": "soul", "amount": 200000 } ] }
+      ]
+    }
+  ],
+
+  "paybackAttendance": {
+    "id": "payback_7days",
+    "name": "환생 출석부",
+    "price": 490,
+    "days": 7,
+    "dailyReward": [ { "currency": "gem_soft", "amount": 3000 } ]
+  }
+}

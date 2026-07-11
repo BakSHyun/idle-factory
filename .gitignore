@@ -1,0 +1,25 @@
+# Unity
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+*.csproj
+*.sln
+!tools/**/*.csproj
+!tools/**/*.sln
+.vs/
+.idea/
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+crashlytics-build.properties
+
+# dotnet (headless)
+tools/**/bin/
+tools/**/obj/
+
+# macOS
+.DS_Store

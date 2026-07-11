@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <AssemblyName>IdleCore</AssemblyName>
+    <RootNamespace>IdleCore</RootNamespace>
+  </PropertyGroup>
+
+  <!-- Unity의 Assets/IdleCore 소스를 그대로 컴파일 — 소스는 단일 원본 -->
+  <ItemGroup>
+    <Compile Include="../../../Assets/IdleCore/**/*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+</Project>

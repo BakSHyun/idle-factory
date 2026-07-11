@@ -1,0 +1,127 @@
+using System;
+using System.Collections.Generic;
+using IdleCore.Data;
+using IdleCore.Economy;
+using IdleCore.Gacha;
+using IdleCore.Progression;
+using IdleCore.Save;
+using IdleCore.Stats;
+using Newtonsoft.Json;
+
+namespace IdleCore
+{
+    /// <summary>
+    /// 게임 1판의 파사드 — 설정(GameConfig)과 세이브(SaveData)로 모든 시스템을 조립한다.
+    /// Unity 뷰와 헤드리스 시뮬레이터가 이 클래스를 동일하게 사용한다.
+    /// </summary>
+    public sealed class GameSession
+    {
+        public GameConfig Config { get; }
+        public IClock Clock { get; }
+        public Wallet Wallet { get; }
+        public StatSystem Stats { get; }
+        public ProgressionSystem Progression { get; }
+        public UnitInventory Units { get; }
+        public GachaSystem Gacha { get; }
+        public ShopSystem Shop { get; }
+        public PaybackAttendanceSystem PaybackAttendance { get; }
+        public Dictionary<string, PassSystem> Passes { get; } = new Dictionary<string, PassSystem>();
+
+        private readonly ISaveStore _saveStore;
+        private DateTime _firstPlayedUtc;
+
+        public GameSession(GameConfig config, ISaveStore saveStore, IClock clock, IRng rng)
+        {
+            Config = config;
+            Clock = clock;
+            _saveStore = saveStore;
+
+            var save = LoadOrCreate();
+
+            Wallet = new Wallet();
+            Wallet.Import(save.balances, save.lifetimeEarned, save.lifetimeSpent);
+
+            Stats = new StatSystem(config.axes, config.baseStats);
+            Stats.ImportLevels(save.axisLevels);
+
+            Progression = new ProgressionSystem(config.stage, Stats, Wallet, save.currentStageIndex, save.highestClearedIndex);
+
+            Units = new UnitInventory(config.units);
+            Units.Import(save.units);
+            Units.UnitChanged += _ => SyncUnitEffects();
+
+            Gacha = new GachaSystem(config.banners, Units, Wallet, rng);
+            Gacha.ImportPity(save.gachaPity);
+
+            Shop = new ShopSystem(config.products, Wallet, clock);
+            Shop.ImportHistory(save.purchaseHistory);
+
+            if (config.paybackAttendance != null)
+                PaybackAttendance = new PaybackAttendanceSystem(config.paybackAttendance, Wallet, clock, save.paybackAttendance);
+
+            foreach (var passDef in config.passes)
+            {
+                save.passes.TryGetValue(passDef.id, out var passState);
+                Passes[passDef.id] = new PassSystem(passDef, Wallet, clock, passState);
+            }
+
+            _firstPlayedUtc = save.firstPlayedUtc == default ? clock.UtcNow : save.firstPlayedUtc;
+            LastSeenUtc = save.lastSeenUtc;
+            SyncUnitEffects();
+        }
+
+        public DateTime LastSeenUtc { get; private set; }
+
+        private void SyncUnitEffects() => Stats.SetExternalEffects(Units.ContributeEffects());
+
+        /// <summary>앱 복귀 시 호출: 오프라인 보상을 계산·지급하고 결과를 반환한다.</summary>
+        public OfflineReward ClaimOfflineReward()
+        {
+            if (LastSeenUtc == default) { LastSeenUtc = Clock.UtcNow; return new OfflineReward(); }
+            var elapsed = Clock.UtcNow - LastSeenUtc;
+            var reward = OfflineRewardCalculator.Calculate(
+                Config.offline, Config.stage, Stats.Snapshot(), Progression.Current.Index, elapsed);
+            Wallet.Earn(CurrencyIds.Gold, reward.Gold);
+            Wallet.Earn(CurrencyIds.Soul, reward.Soul);
+            LastSeenUtc = Clock.UtcNow;
+            return reward;
+        }
+
+        /// <summary>온라인 파밍 틱. 뷰의 프레임/초 단위 어디서 불러도 된다 (수식 기반이라 주기 무관).</summary>
+        public FarmResult Tick(double seconds)
+        {
+            var result = Progression.Advance(seconds);
+            LastSeenUtc = Clock.UtcNow;
+            return result;
+        }
+
+        public void Save()
+        {
+            var data = new SaveData
+            {
+                lastSeenUtc = LastSeenUtc == default ? Clock.UtcNow : LastSeenUtc,
+                firstPlayedUtc = _firstPlayedUtc,
+                balances = Wallet.ExportBalances(),
+                lifetimeEarned = Wallet.ExportLifetimeEarned(),
+                lifetimeSpent = Wallet.ExportLifetimeSpent(),
+                purchaseHistory = Shop.ExportHistory(),
+                axisLevels = Stats.ExportLevels(),
+                currentStageIndex = Progression.Current.Index,
+                highestClearedIndex = Progression.HighestClearedIndex,
+                units = Units.Export(),
+                gachaPity = Gacha.ExportPity(),
+                paybackAttendance = PaybackAttendance?.State,
+            };
+            foreach (var kv in Passes) data.passes[kv.Key] = kv.Value.State;
+            _saveStore.Store(JsonConvert.SerializeObject(data));
+        }
+
+        private SaveData LoadOrCreate()
+        {
+            var json = _saveStore.Load();
+            if (string.IsNullOrEmpty(json)) return new SaveData();
+            var data = JsonConvert.DeserializeObject<SaveData>(json);
+            return SaveMigrator.Migrate(data);
+        }
+    }
+}
