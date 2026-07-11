@@ -37,6 +37,9 @@ namespace IdleCore.Save
         // BM
         public PaybackAttendanceState paybackAttendance;
         public Dictionary<string, PassState> passes = new Dictionary<string, PassState>();
+        public Dictionary<string, SubscriptionState> subscriptions = new Dictionary<string, SubscriptionState>();
+        public Dictionary<string, int> adSlotUses = new Dictionary<string, int>();
+        public DateTime adSlotDate;
     }
 
     public interface ISaveStore

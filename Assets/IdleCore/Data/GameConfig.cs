@@ -27,6 +27,8 @@ namespace IdleCore.Data
         public List<StoreSku> skus = new List<StoreSku>();
         public List<PassDef> passes = new List<PassDef>();
         public PaybackAttendanceDef paybackAttendance;
+        public List<SubscriptionDef> subscriptions = new List<SubscriptionDef>();
+        public List<AdSlotDef> adSlots = new List<AdSlotDef>();
     }
 
     public static class GameConfigLoader

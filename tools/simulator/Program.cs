@@ -45,10 +45,15 @@ namespace IdleFactory.Simulator
             long totalPulls = 0;
             var milestones = new List<string>();
 
-            // 소과금 봇: 첫날 ₩5,500 결제 → 스타터팩 + 페이백 출석 구매
+            // 소과금 봇: 첫날 결제 → 구독 3종(연금+명부계약+프리패스) + 스타터팩 + 페이백 출석
+            // = BM 기획서의 '소과금 정착 세트' (기본 캐시플로우)
             if (payer)
             {
+                fakeStore.Purchase(config.skus.First(s => s.skuId == "gem_33000"), null);
                 fakeStore.Purchase(config.skus.First(s => s.skuId == "gem_11000"), null);
+                session.Subscriptions.TryPurchase("pension");
+                session.Subscriptions.TryPurchase("membership");
+                session.Subscriptions.TryPurchase("ad_pass");
                 session.Shop.TryPurchase("starter_pack", 0);
                 session.PaybackAttendance?.TryPurchase();
             }
@@ -58,6 +63,8 @@ namespace IdleFactory.Simulator
                 session.Wallet.Earn(CurrencyIds.GemSoft, DailySoftGems);
                 if (payer)
                 {
+                    session.Subscriptions.TryClaimDaily("pension");
+                    session.Subscriptions.TryClaimDaily("membership");
                     session.PaybackAttendance?.TryClaimToday();
                     session.Shop.TryPurchase("daily_pack", session.Progression.Current.Index);
                 }
@@ -67,7 +74,16 @@ namespace IdleFactory.Simulator
                     // 세션 사이 오프라인 방치
                     double offlineHours = (24.0 - SessionsPerDay * SessionMinutes / 60.0) / SessionsPerDay;
                     clock.Advance(TimeSpan.FromHours(offlineHours));
-                    session.ClaimOfflineReward();
+                    var offline = session.ClaimOfflineReward();
+
+                    // 광고 슬롯: 오프라인 보상 2배 (무과금은 시청, 프리패스는 스킵 — 동일 보상)
+                    if (offline.Gold > 0 && session.Ads.CanUse("offline_double"))
+                        session.Ads.Use("offline_double", ok =>
+                        {
+                            if (!ok) return;
+                            session.Wallet.Earn(CurrencyIds.Gold, offline.Gold);
+                            session.Wallet.Earn(CurrencyIds.Soul, offline.Soul);
+                        });
 
                     // 온라인 플레이
                     for (int m = 0; m < SessionMinutes; m++)

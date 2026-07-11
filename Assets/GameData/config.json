@@ -185,6 +185,33 @@
     }
   ],
 
+  "subscriptions": [
+    {
+      "id": "pension", "name": "윤회 연금", "price": 1490, "durationDays": 30,
+      "dailyGrant": [ { "currency": "gem_hard", "amount": 100 } ]
+    },
+    {
+      "id": "membership", "name": "명부 계약", "price": 990, "durationDays": 30,
+      "effects": [
+        { "stat": "OfflineCapHours", "mode": "Add", "value": { "baseValue": 4 } },
+        { "stat": "OfflineRate", "mode": "Mul", "value": { "baseValue": 0.5 } }
+      ],
+      "dailyGrant": [ { "currency": "sweep_ticket", "amount": 2 } ]
+    },
+    {
+      "id": "ad_pass", "name": "저승 프리패스", "price": 990, "durationDays": 30,
+      "adSkip": true
+    }
+  ],
+
+  "adSlots": [
+    { "id": "offline_double", "name": "오프라인 보상 2배", "dailyLimit": 3 },
+    { "id": "free_daily_pack", "name": "무료 일일 팩", "dailyLimit": 1 },
+    { "id": "dungeon_sweep", "name": "던전 소탕 +1", "dailyLimit": 2 },
+    { "id": "wall_boost", "name": "돌파 버프 10분", "dailyLimit": 2 },
+    { "id": "free_summon", "name": "무료 소환 1회", "dailyLimit": 1 }
+  ],
+
   "paybackAttendance": {
     "id": "payback_7days",
     "name": "환생 출석부",

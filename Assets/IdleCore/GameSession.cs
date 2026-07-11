@@ -26,11 +26,13 @@ namespace IdleCore
         public ShopSystem Shop { get; }
         public PaybackAttendanceSystem PaybackAttendance { get; }
         public Dictionary<string, PassSystem> Passes { get; } = new Dictionary<string, PassSystem>();
+        public SubscriptionSystem Subscriptions { get; }
+        public AdGateway Ads { get; }
 
         private readonly ISaveStore _saveStore;
         private DateTime _firstPlayedUtc;
 
-        public GameSession(GameConfig config, ISaveStore saveStore, IClock clock, IRng rng)
+        public GameSession(GameConfig config, ISaveStore saveStore, IClock clock, IRng rng, IAdAdapter adAdapter = null)
         {
             Config = config;
             Clock = clock;
@@ -48,7 +50,7 @@ namespace IdleCore
 
             Units = new UnitInventory(config.units);
             Units.Import(save.units);
-            Units.UnitChanged += _ => SyncUnitEffects();
+            Units.UnitChanged += _ => SyncExternalEffects();
 
             Gacha = new GachaSystem(config.banners, Units, Wallet, rng);
             Gacha.ImportPity(save.gachaPity);
@@ -65,14 +67,26 @@ namespace IdleCore
                 Passes[passDef.id] = new PassSystem(passDef, Wallet, clock, passState);
             }
 
+            Subscriptions = new SubscriptionSystem(config.subscriptions, Wallet, clock);
+            Subscriptions.Import(save.subscriptions);
+            Subscriptions.SubscriptionChanged += _ => SyncExternalEffects();
+
+            Ads = new AdGateway(config.adSlots, adAdapter ?? new FakeAdAdapter(), Subscriptions, clock);
+            Ads.Import(save.adSlotUses, save.adSlotDate == default ? clock.UtcNow.Date : save.adSlotDate);
+
             _firstPlayedUtc = save.firstPlayedUtc == default ? clock.UtcNow : save.firstPlayedUtc;
             LastSeenUtc = save.lastSeenUtc;
-            SyncUnitEffects();
+            SyncExternalEffects();
         }
 
         public DateTime LastSeenUtc { get; private set; }
 
-        private void SyncUnitEffects() => Stats.SetExternalEffects(Units.ContributeEffects());
+        private void SyncExternalEffects()
+        {
+            var effects = Units.ContributeEffects();
+            if (Subscriptions != null) effects.AddRange(Subscriptions.ContributeEffects());
+            Stats.SetExternalEffects(effects);
+        }
 
         /// <summary>앱 복귀 시 호출: 오프라인 보상을 계산·지급하고 결과를 반환한다.</summary>
         public OfflineReward ClaimOfflineReward()
@@ -111,6 +125,9 @@ namespace IdleCore
                 units = Units.Export(),
                 gachaPity = Gacha.ExportPity(),
                 paybackAttendance = PaybackAttendance?.State,
+                subscriptions = Subscriptions.Export(),
+                adSlotUses = Ads.ExportTodayUses(),
+                adSlotDate = Ads.ExportTodayDate(),
             };
             foreach (var kv in Passes) data.passes[kv.Key] = kv.Value.State;
             _saveStore.Store(JsonConvert.SerializeObject(data));
