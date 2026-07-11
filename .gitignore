@@ -24,3 +24,5 @@ tools/**/obj/
 # macOS
 .DS_Store
 tools/artgen/venv/
+art/units/
+art/units2/

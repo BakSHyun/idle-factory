@@ -1,0 +1,233 @@
+[
+ {
+  "name": "h_doto",
+  "prompt": "1boy, tiny black hat, oversized dark hanbok, holding lantern, nervous, solo, chibi, korean underworld escort spirit, cute, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+  "width": 1024,
+  "height": 1024,
+  "seed": 70487
+ },
+ {
+  "name": "h_bami",
+  "prompt": "1girl, short black bob hair, small gat, dark hanbok, sleepy eyes, solo, chibi, korean underworld escort spirit, cute, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+  "width": 1024,
+  "height": 1024,
+  "seed": 42685
+ },
+ {
+  "name": "h_chorong",
+  "prompt": "1girl, twin buns hair, holding small paper lantern, dark hanbok, cheerful, solo, chibi, korean underworld escort spirit, cute, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+  "width": 1024,
+  "height": 1024,
+  "seed": 33499
+ },
+ {
+  "name": "h_mudeuk",
+  "prompt": "1boy, chubby, round face, dark hanbok, holding rice cake, happy, solo, chibi, korean underworld escort spirit, cute, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+  "width": 1024,
+  "height": 1024,
+  "seed": 74201
+ },
+ {
+  "name": "h_doyun",
+  "prompt": "1boy, black gat, dark blue hanbok, confident smile, small scroll, solo, chibi, korean underworld escort spirit, cute, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+  "width": 1024,
+  "height": 1024,
+  "seed": 14093
+ },
+ {
+  "name": "h_naru",
+  "prompt": "1boy, messy dark hair, headband, dark hanbok, wooden sword, energetic, solo, chibi, korean underworld escort spirit, cute, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+  "width": 1024,
+  "height": 1024,
+  "seed": 18396
+ },
+ {
+  "name": "h_saebyeok",
+  "prompt": "1girl, long dark braid, dark hanbok with pale blue trim, calm, dawn light wisp, solo, chibi, korean underworld escort spirit, cute, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+  "width": 1024,
+  "height": 1024,
+  "seed": 81962
+ },
+ {
+  "name": "h_baekmu",
+  "prompt": "1boy, black gat with silver trim, flowing dark hanbok, calm, small purple wisp, solo, chibi, korean underworld escort spirit, purple glow, cute, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+  "width": 1024,
+  "height": 1024,
+  "seed": 17881
+ },
+ {
+  "name": "h_cheongram",
+  "prompt": "1boy, teal-tinted dark hair, dark hanbok with teal sash, holding fan, composed, solo, chibi, korean underworld escort spirit, purple glow, cute, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+  "width": 1024,
+  "height": 1024,
+  "seed": 5708
+ },
+ {
+  "name": "h_heukrang",
+  "prompt": "1boy, wolf ears hood, dark fur-trimmed hanbok, sharp eyes, fangs grin, solo, chibi, korean underworld escort spirit, purple glow, cute, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+  "width": 1024,
+  "height": 1024,
+  "seed": 17658
+ },
+ {
+  "name": "h_hongryeon",
+  "prompt": "1girl, red-lined black hanbok, long black hair, red spider lily hairpin, gentle smile, purple flames, solo, chibi, korean underworld escort spirit, spirit energy aura, cute, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+  "width": 1024,
+  "height": 1024,
+  "seed": 94187
+ },
+ {
+  "name": "h_yuha",
+  "prompt": "1girl, water-blue gradient long hair, dark hanbok, floating water orbs, serene, solo, chibi, korean underworld escort spirit, spirit energy aura, cute, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+  "width": 1024,
+  "height": 1024,
+  "seed": 28437
+ },
+ {
+  "name": "h_dambi",
+  "prompt": "1girl, raccoon ears, brown-dark hanbok, playful grin, coin pouch, solo, chibi, korean underworld escort spirit, spirit energy aura, cute, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+  "width": 1024,
+  "height": 1024,
+  "seed": 41372
+ },
+ {
+  "name": "h_mukhyang",
+  "prompt": "1boy, elite ornate black gat, black and silver hanbok, ink brush, mysterious smile, blue ghost flames, solo, chibi, korean underworld escort spirit, blue flame aura, luxurious, cute, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+  "width": 1024,
+  "height": 1024,
+  "seed": 8221
+ },
+ {
+  "name": "h_eunseori",
+  "prompt": "1girl, silver short hair, frost-trimmed dark hanbok, ice crystals floating, cold elegant, solo, chibi, korean underworld escort spirit, blue flame aura, luxurious, cute, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+  "width": 1024,
+  "height": 1024,
+  "seed": 96230
+ },
+ {
+  "name": "h_seolyacha",
+  "prompt": "1girl, snow spirit, long white hair, white and black hanbok, snowflakes, pale blue flames, serene, ethereal glow, solo, chibi, korean underworld escort spirit, dramatic glowing aura, ethereal, sparkles, cute, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+  "width": 1024,
+  "height": 1024,
+  "seed": 21630
+ },
+ {
+  "name": "h_gangrim",
+  "prompt": "1boy, grand black gat, majestic dark robe with gold trim, giant glowing crescent scythe, commanding aura, solo, chibi, korean underworld escort spirit, dramatic glowing aura, ethereal, sparkles, cute, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+  "width": 1024,
+  "height": 1024,
+  "seed": 53451
+ },
+ {
+  "name": "s_natjil",
+  "prompt": "no humans, magic effect, single purple energy slash, curved arc, glowing, simple dark purple background, game skill icon art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 18
+ },
+ {
+  "name": "s_honjjireugi",
+  "prompt": "no humans, magic effect, purple energy thrust, straight spear of light, glowing, simple dark purple background, game skill icon art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 61856
+ },
+ {
+  "name": "s_honbul",
+  "prompt": "no humans, magic effect, small thrown purple fireball with trail, glowing, simple dark purple background, game skill icon art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 93906
+ },
+ {
+  "name": "s_hongareugi",
+  "prompt": "no humans, magic effect, double crossing spirit slashes, glowing, glowing, simple dark purple background, game skill icon art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 6468
+ },
+ {
+  "name": "s_yuryeongbal",
+  "prompt": "no humans, magic effect, ghostly footsteps afterimages, speed lines, mist, glowing, simple dark purple background, game skill icon art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 66336
+ },
+ {
+  "name": "s_gwihwa",
+  "prompt": "no humans, magic effect, swirling purple ghost flame vortex, purple glow, glowing, simple dark purple background, game skill icon art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 64005
+ },
+ {
+  "name": "s_wonhon",
+  "prompt": "no humans, magic effect, tornado of wailing spirits, purple, purple glow, glowing, simple dark purple background, game skill icon art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 18661
+ },
+ {
+  "name": "s_songagwi",
+  "prompt": "no humans, magic effect, giant ghostly hand made of purple mist, grabbing, spirit energy aura, glowing, simple dark purple background, game skill icon art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 76243
+ },
+ {
+  "name": "s_honbaeksaseul",
+  "prompt": "no humans, magic effect, glowing spectral chains, binding circle, spirit energy aura, glowing, simple dark purple background, game skill icon art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 71592
+ },
+ {
+  "name": "s_dokkaebibul",
+  "prompt": "no humans, magic effect, blue dokkaebi fire, three floating blue flames, sparks, blue flame aura, luxurious, glowing, simple dark purple background, game skill icon art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 47543
+ },
+ {
+  "name": "s_wongwi",
+  "prompt": "no humans, magic effect, spirit summoning circle, rising ghosts, purple glow, blue flame aura, luxurious, glowing, simple dark purple background, game skill icon art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 65538
+ },
+ {
+  "name": "s_samdo",
+  "prompt": "no humans, magic effect, giant glowing crescent moon blade wave over a dark river, dramatic, dramatic glowing aura, ethereal, sparkles, glowing, simple dark purple background, game skill icon art, thick outline, flat color",
+  "width": 1024,
+  "height": 1024,
+  "seed": 60965
+ },
+ {
+  "name": "main_hires_a",
+  "prompt": "1girl, solo, chibi, korean grim reaper girl, large pointed black gat korean hat with small flower ornament, long purple gradient hair covering one eye, half-closed purple eyes, smug, dark black hanbok with purple inner robe, hands hidden in long sleeves, cute, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+  "width": 1024,
+  "height": 1024,
+  "seed": 6
+ },
+ {
+  "name": "main_hires_b",
+  "prompt": "1girl, solo, chibi, korean grim reaper girl, large pointed black gat korean hat with small flower ornament, long purple gradient hair covering one eye, half-closed purple eyes, smug, dark black hanbok with purple inner robe, hands hidden in long sleeves, cute, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+  "width": 1024,
+  "height": 1024,
+  "seed": 66
+ },
+ {
+  "name": "main_hires_c",
+  "prompt": "1girl, solo, chibi, korean grim reaper girl, large pointed black gat korean hat with small flower ornament, long purple gradient hair covering one eye, half-closed purple eyes, smug, dark black hanbok with purple inner robe, hands hidden in long sleeves, cute, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+  "width": 1024,
+  "height": 1024,
+  "seed": 666
+ },
+ {
+  "name": "main_hires_d",
+  "prompt": "1girl, solo, chibi, korean grim reaper girl, large pointed black gat korean hat, long purple gradient hair covering one eye, half-closed purple eyes, smug, holding small glowing purple crescent scythe, dark black hanbok with purple inner robe, cute, full body, standing, thick outline, flat color, simple dark purple background, game character art",
+  "width": 1024,
+  "height": 1024,
+  "seed": 42
+ }
+]

@@ -1,0 +1,5 @@
+[
+ {"name": "orb_epic", "prompt": "no humans, still life, one glowing magic orb, luxurious, silver filigree, blue flame aura, gems, swirling spirit energy inside, floating, plain flat dark purple background, no frame, no border, game item art, thick outline, flat color", "width": 1024, "height": 1024, "seed": 7101},
+ {"name": "ornament_epic", "prompt": "no humans, still life, korean traditional norigae ornament with tassel, luxurious, silver filigree, blue flame aura, gems, floating, plain flat dark purple background, no frame, no border, game item art, thick outline, flat color", "width": 1024, "height": 1024, "seed": 7102},
+ {"name": "weapon_epic", "prompt": "no humans, weapon focus, still life, a korean crescent scythe, luxurious, silver filigree, blue flame aura, gems, floating diagonally, plain flat dark purple background, no frame, no border, game item art, thick outline, flat color", "width": 1024, "height": 1024, "seed": 7103}
+]
