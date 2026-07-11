@@ -1,6 +1,6 @@
 {
-  "gameId": "soul_reaper",
-  "gameName": "저승사자 키우기: 방치형",
+  "gameId": "kkoma_chasa",
+  "gameName": "꼬마 차사 키우기: 방치형 RPG",
   "baseStats": {
     "Attack": 10,
     "AttackSpeed": 1.0,
