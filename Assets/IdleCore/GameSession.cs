@@ -105,10 +105,39 @@ namespace IdleCore
 
         public DateTime LastSeenUtc { get; private set; }
 
+        /// <summary>현재 챕터 몬스터 속성 대비 파티 상성 보너스 (합산, ±). UI 표시용으로도 공개.</summary>
+        public double ElementAdvantage()
+        {
+            string mobElement = Elements.MobElement(Progression.Current.Chapter(Config.stage));
+            double advantage = 0;
+            foreach (var unit in Units.AllOwned())
+            {
+                if (!unit.equipped) continue;
+                var def = Units.Defs[unit.unitId];
+                if (string.IsNullOrEmpty(def.element)) continue;
+                if (Elements.Beats(def.element, mobElement)) advantage += 0.06;      // 유리: 유닛당 +6%
+                else if (Elements.Beats(mobElement, def.element)) advantage -= 0.04; // 불리: 유닛당 -4%
+            }
+            return advantage;
+        }
+
+        private int _lastElementChapter = -1;
+
         private void SyncExternalEffects()
         {
             var effects = Units.ContributeEffects();
             if (Subscriptions != null) effects.AddRange(Subscriptions.ContributeEffects());
+
+            // 속성 상성 → 최종 데미지 배율로 주입
+            double advantage = ElementAdvantage();
+            if (System.Math.Abs(advantage) > 0.0001)
+                effects.Add(new Stats.StatEffect
+                {
+                    stat = Stats.StatType.FinalDamage,
+                    mode = Stats.EffectMode.Mul,
+                    value = new Stats.ValueCurve { baseValue = advantage },
+                });
+            _lastElementChapter = Progression.Current.Chapter(Config.stage);
             Stats.SetExternalEffects(effects);
         }
 
@@ -158,6 +187,10 @@ namespace IdleCore
                 }
                 _skillTimers[unit.unitId] = timer;
             }
+
+            // 챕터가 바뀌면 몬스터 속성이 바뀜 → 상성 재계산
+            if (Progression.Current.Chapter(Config.stage) != _lastElementChapter)
+                SyncExternalEffects();
 
             LastSeenUtc = Clock.UtcNow;
             if (result.Kills > 0) Missions.Report("kill", result.Kills);

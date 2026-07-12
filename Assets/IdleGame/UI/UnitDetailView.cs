@@ -62,7 +62,10 @@ namespace IdleGame.UI
                 UIFactory.TopBand(iconRect, 20, 210);
             }
 
-            var title = UIFactory.CreateText(panel, "Title", $"[{GachaPanel.GradeLabel(def.grade)}] {def.name}", 38,
+            string elementTag = string.IsNullOrEmpty(def.element)
+                ? "" : $" {IdleCore.Elements.Icon(def.element)}{IdleCore.Elements.Label(def.element)}";
+            var title = UIFactory.CreateText(panel, "Title",
+                $"[{GachaPanel.GradeLabel(def.grade)}] {def.name}{elementTag}", 38,
                 TextAnchor.MiddleCenter, gradeColor);
             UIFactory.TopBand(title.rectTransform, 236, 54, 20);
 

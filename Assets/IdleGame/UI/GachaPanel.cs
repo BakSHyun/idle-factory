@@ -234,6 +234,15 @@ namespace IdleGame.UI
                     iconRect.sizeDelta = new Vector2(150, 150);
                 }
 
+                // 속성 아이콘 (좌상단)
+                if (!string.IsNullOrEmpty(def.element))
+                {
+                    var elem = UIFactory.CreateText(tile.transform, "Elem",
+                        IdleCore.Elements.Icon(def.element), 26, TextAnchor.UpperLeft);
+                    elem.raycastTarget = false;
+                    UIFactory.TopBand(elem.rectTransform, 8, 36, 10);
+                }
+
                 // 이름
                 var nameText = UIFactory.CreateText(tile.transform, "Name", def.name, 23,
                     TextAnchor.MiddleCenter, isOwned ? gradeColor : UIFactory.TextDim);

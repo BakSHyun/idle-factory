@@ -18,6 +18,7 @@ namespace IdleGame.UI
         private Image _mobImage, _playerHpFill, _weaponImage, _gateFill, _bossMobFill;
         private Text _gateText;
         private RectTransform _partyContainer, _skillBar;
+        private Text _mobElementText, _advantageText;
         private readonly System.Collections.Generic.List<(string unitId, Image overlay, RectTransform rect)> _skillIcons
             = new System.Collections.Generic.List<(string, Image, RectTransform)>();
         private BattleAnimator _battleAnimator;
@@ -203,6 +204,12 @@ namespace IdleGame.UI
 
             _killText = UIFactory.CreateText(battle, "Kills", "", 30, TextAnchor.LowerRight, UIFactory.TextDim);
             UIFactory.Fill(_killText.rectTransform, 24);
+
+            // 속성 표시: 몬스터 속성(우상단) + 내 파티 상성(좌상단)
+            _mobElementText = UIFactory.CreateText(battle, "MobElem", "", 26, TextAnchor.UpperRight, UIFactory.TextMain);
+            UIFactory.Fill(_mobElementText.rectTransform, 20);
+            _advantageText = UIFactory.CreateText(battle, "Adv", "", 26, TextAnchor.UpperLeft, UIFactory.TextMain);
+            UIFactory.Fill(_advantageText.rectTransform, 20);
 
             // 처치 게이지: 몇 마리 잡으면 보스가 나오는지 — '왜 진행 안 되는지'의 답
             var gateBg = UIFactory.CreatePanel(battle, "GateBar", new Color(0, 0, 0, 0.55f));
@@ -588,11 +595,11 @@ namespace IdleGame.UI
             // 스킬 쿨타임 오버레이 갱신
             foreach (var (unitId, overlay, _) in _skillIcons)
             {
-                var def = _session.Units.Defs[unitId];
-                float ratio = def.skillCooldown > 0
-                    ? (float)(_session.SkillCooldownRemaining(unitId) / def.skillCooldown) : 0;
-                ((RectTransform)overlay.transform).anchorMax = new Vector2(1, Mathf.Clamp01(ratio));
-                overlay.enabled = ratio > 0.02f;
+                var skillDef = _session.Units.Defs[unitId];
+                float cdRatio = skillDef.skillCooldown > 0
+                    ? (float)(_session.SkillCooldownRemaining(unitId) / skillDef.skillCooldown) : 0;
+                ((RectTransform)overlay.transform).anchorMax = new Vector2(1, Mathf.Clamp01(cdRatio));
+                overlay.enabled = cdRatio > 0.02f;
             }
 
             var snapshot = _session.Stats.Snapshot();
@@ -663,6 +670,25 @@ namespace IdleGame.UI
                 var mob = UIFactory.LoadSprite($"art/units/{MobIds[chapter % MobIds.Length]}.png");
                 _mobImage.sprite = mob;
                 _mobImage.enabled = mob != null;
+
+                // 속성 표기 + 상성 안내
+                string mobElement = IdleCore.Elements.MobElement(chapter);
+                _mobElementText.text = $"{IdleCore.Elements.Icon(mobElement)} {IdleCore.Elements.Label(mobElement)} 속성";
+                double advantage = _session.ElementAdvantage();
+                if (System.Math.Abs(advantage) < 0.001)
+                {
+                    _advantageText.text = "";
+                }
+                else if (advantage > 0)
+                {
+                    _advantageText.text = $"상성 유리 +{advantage * 100:0}%";
+                    _advantageText.color = new Color(0.45f, 0.9f, 0.5f);
+                }
+                else
+                {
+                    _advantageText.text = $"상성 불리 {advantage * 100:0}%";
+                    _advantageText.color = new Color(0.95f, 0.45f, 0.5f);
+                }
             }
         }
 

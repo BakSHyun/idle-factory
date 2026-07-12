@@ -3481,7 +3481,8 @@
             "baseValue": 1.5
           }
         }
-      ]
+      ],
+      "element": "fire"
     },
     {
       "id": "h_bami",
@@ -3506,7 +3507,8 @@
             "baseValue": 1.5
           }
         }
-      ]
+      ],
+      "element": "dark"
     },
     {
       "id": "h_chorong",
@@ -3531,7 +3533,8 @@
             "baseValue": 1.5
           }
         }
-      ]
+      ],
+      "element": "lightning"
     },
     {
       "id": "h_mudeuk",
@@ -3556,7 +3559,8 @@
             "baseValue": 1.5
           }
         }
-      ]
+      ],
+      "element": "fire"
     },
     {
       "id": "h_doyun",
@@ -3581,7 +3585,8 @@
             "baseValue": 3.3
           }
         }
-      ]
+      ],
+      "element": "lightning"
     },
     {
       "id": "h_naru",
@@ -3606,7 +3611,8 @@
             "baseValue": 3.3
           }
         }
-      ]
+      ],
+      "element": "fire"
     },
     {
       "id": "h_saebyeok",
@@ -3631,7 +3637,8 @@
             "baseValue": 3.3
           }
         }
-      ]
+      ],
+      "element": "lightning"
     },
     {
       "id": "h_baekmu",
@@ -3656,7 +3663,8 @@
             "baseValue": 7.2
           }
         }
-      ]
+      ],
+      "element": "dark"
     },
     {
       "id": "h_cheongram",
@@ -3681,7 +3689,8 @@
             "baseValue": 7.2
           }
         }
-      ]
+      ],
+      "element": "lightning"
     },
     {
       "id": "h_heukrang",
@@ -3706,7 +3715,8 @@
             "baseValue": 7.2
           }
         }
-      ]
+      ],
+      "element": "dark"
     },
     {
       "id": "h_hongryeon",
@@ -3731,7 +3741,8 @@
             "baseValue": 15.8
           }
         }
-      ]
+      ],
+      "element": "fire"
     },
     {
       "id": "h_yuha",
@@ -3756,7 +3767,8 @@
             "baseValue": 15.8
           }
         }
-      ]
+      ],
+      "element": "lightning"
     },
     {
       "id": "h_dambi",
@@ -3781,7 +3793,8 @@
             "baseValue": 15.8
           }
         }
-      ]
+      ],
+      "element": "fire"
     },
     {
       "id": "h_mukhyang",
@@ -3806,7 +3819,8 @@
             "baseValue": 34.5
           }
         }
-      ]
+      ],
+      "element": "dark"
     },
     {
       "id": "h_eunseori",
@@ -3831,7 +3845,8 @@
             "baseValue": 34.5
           }
         }
-      ]
+      ],
+      "element": "lightning"
     },
     {
       "id": "h_seolyacha",
@@ -3868,7 +3883,8 @@
             }
           }
         }
-      ]
+      ],
+      "element": "dark"
     },
     {
       "id": "h_gangrim",
@@ -3905,7 +3921,8 @@
             }
           }
         }
-      ]
+      ],
+      "element": "fire"
     },
     {
       "id": "s_natjil",
@@ -3932,7 +3949,8 @@
         }
       ],
       "skillCooldown": 9,
-      "skillBurstSeconds": 2
+      "skillBurstSeconds": 2,
+      "element": "lightning"
     },
     {
       "id": "s_honjjireugi",
@@ -3959,7 +3977,8 @@
         }
       ],
       "skillCooldown": 9,
-      "skillBurstSeconds": 2
+      "skillBurstSeconds": 2,
+      "element": "fire"
     },
     {
       "id": "s_honbul",
@@ -3986,7 +4005,8 @@
         }
       ],
       "skillCooldown": 9,
-      "skillBurstSeconds": 2
+      "skillBurstSeconds": 2,
+      "element": "fire"
     },
     {
       "id": "s_hongareugi",
@@ -4013,7 +4033,8 @@
         }
       ],
       "skillCooldown": 8,
-      "skillBurstSeconds": 2.5
+      "skillBurstSeconds": 2.5,
+      "element": "dark"
     },
     {
       "id": "s_yuryeongbal",
@@ -4040,7 +4061,8 @@
         }
       ],
       "skillCooldown": 8,
-      "skillBurstSeconds": 2.5
+      "skillBurstSeconds": 2.5,
+      "element": "lightning"
     },
     {
       "id": "s_gwihwa",
@@ -4067,7 +4089,8 @@
         }
       ],
       "skillCooldown": 7,
-      "skillBurstSeconds": 3
+      "skillBurstSeconds": 3,
+      "element": "fire"
     },
     {
       "id": "s_wonhon",
@@ -4094,7 +4117,8 @@
         }
       ],
       "skillCooldown": 7,
-      "skillBurstSeconds": 3
+      "skillBurstSeconds": 3,
+      "element": "dark"
     },
     {
       "id": "s_songagwi",
@@ -4121,7 +4145,8 @@
         }
       ],
       "skillCooldown": 6,
-      "skillBurstSeconds": 4
+      "skillBurstSeconds": 4,
+      "element": "dark"
     },
     {
       "id": "s_honbaeksaseul",
@@ -4148,7 +4173,8 @@
         }
       ],
       "skillCooldown": 6,
-      "skillBurstSeconds": 4
+      "skillBurstSeconds": 4,
+      "element": "lightning"
     },
     {
       "id": "s_dokkaebibul",
@@ -4175,7 +4201,8 @@
         }
       ],
       "skillCooldown": 5,
-      "skillBurstSeconds": 5
+      "skillBurstSeconds": 5,
+      "element": "lightning"
     },
     {
       "id": "s_wongwi",
@@ -4202,7 +4229,8 @@
         }
       ],
       "skillCooldown": 5,
-      "skillBurstSeconds": 5
+      "skillBurstSeconds": 5,
+      "element": "dark"
     },
     {
       "id": "s_samdo",
@@ -4241,7 +4269,8 @@
         }
       ],
       "skillCooldown": 4,
-      "skillBurstSeconds": 7
+      "skillBurstSeconds": 7,
+      "element": "dark"
     }
   ],
   "banners": [
