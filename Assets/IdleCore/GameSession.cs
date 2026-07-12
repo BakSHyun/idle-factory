@@ -184,35 +184,83 @@ namespace IdleCore
         /// <summary>스킬 자동 시전 시 (unitId) — UI 연출/사운드용</summary>
         public event Action<string> SkillCast;
         private readonly Dictionary<string, double> _skillTimers = new Dictionary<string, double>();
+        private readonly Dictionary<string, double> _procAccumulators = new Dictionary<string, double>();
 
         public double SkillCooldownRemaining(string unitId) =>
             _skillTimers.TryGetValue(unitId, out var t) ? Math.Max(0, t) : 0;
+
+        /// <summary>돌파 마일스톤이 반영된 실효 스킬 수치 (UI 표시와 실제 계산의 단일 출처).</summary>
+        public (double cooldown, double procChance, double damageSeconds, int hits, double statusChance)
+            EffectiveSkill(string unitId)
+        {
+            var def = Units.Defs[unitId];
+            var spec = def.activeSkill;
+            var unit = Units.Get(unitId);
+            int lb = unit?.limitBreak ?? 0;
+
+            double cdReduction = 0, damageBonus = 0, chanceBonus = 0;
+            int extraHits = 0;
+            foreach (var mod in def.skillMilestones)
+            {
+                if (lb < mod.atLimitBreak) continue;
+                cdReduction += mod.cooldownReduction;
+                damageBonus += mod.damageBonus;
+                chanceBonus += mod.chanceBonus;
+                extraHits += mod.extraHits;
+            }
+
+            double heroBonus = def.kind == "hero"
+                ? Math.Max(0, Stats.Snapshot().Get(StatType.HeroSkillDamage)) : 0;
+            int hits = spec.hitCount + extraHits;
+            double damageSeconds = spec.damagePerHit * hits * (1 + damageBonus) * (1 + heroBonus);
+            double cooldown = Math.Max(1.0, spec.cooldown - cdReduction);
+            double procChance = spec.trigger == "proc"
+                ? Math.Min(0.8, spec.procChance + chanceBonus) : 0;
+            double statusChance = spec.statusEffect != null
+                ? Math.Min(1.0, spec.statusChance + (spec.trigger == "proc" ? 0 : chanceBonus)) : 0;
+            return (cooldown, procChance, damageSeconds, hits, statusChance);
+        }
 
         public FarmResult Tick(double seconds)
         {
             // 보스 도전은 UI가 전투 연출과 함께 수동/자동 트리거한다 (자동 즉시 돌파 없음)
             var result = Progression.Advance(seconds, autoPush: false);
 
-            // 장착 스킬 자동 시전: 쿨타임마다 burstSeconds어치 파밍을 즉시 수행 (실제 보상)
+            // 장착 스킬 자동 시전 (쿨타임형: N초마다 / proc형: 평타당 확률 — 기대값 누적, 결정론)
+            double attackSpeed = Math.Max(0.1, Stats.Snapshot().Get(StatType.AttackSpeed));
             foreach (var unit in Units.AllOwned())
             {
                 if (!unit.equipped) continue;
                 var def = Units.Defs[unit.unitId];
-                if (def.skillCooldown <= 0) continue;
-                _skillTimers.TryGetValue(unit.unitId, out var timer);
-                timer -= seconds;
-                if (timer <= 0)
+                if (def.activeSkill == null) continue;
+                var skill = EffectiveSkill(unit.unitId);
+                int casts = 0;
+
+                if (def.activeSkill.trigger == "proc")
                 {
-                    timer = def.skillCooldown;
-                    // 돌파할수록 스킬이 강해진다 (돌파당 버스트 +8%)
-                    double burstSeconds = def.skillBurstSeconds * (1 + 0.08 * unit.limitBreak);
+                    _procAccumulators.TryGetValue(unit.unitId, out var accum);
+                    accum += attackSpeed * seconds * skill.procChance;
+                    while (accum >= 1) { accum -= 1; casts++; }
+                    _procAccumulators[unit.unitId] = accum;
+                }
+                else
+                {
+                    _skillTimers.TryGetValue(unit.unitId, out var timer);
+                    timer -= seconds;
+                    while (timer <= 0) { timer += skill.cooldown; casts++; }
+                    _skillTimers[unit.unitId] = timer;
+                }
+
+                for (int c = 0; c < casts && c < 20; c++)
+                {
+                    // 스킬 피해 + 상태이상 기대 피해(부여 확률 × 1초어치)
+                    double burstSeconds = skill.damageSeconds + skill.statusChance * 1.0;
                     var burst = Progression.Advance(burstSeconds, autoPush: false);
                     result.Kills += burst.Kills;
                     result.Gold += burst.Gold;
                     result.Soul += burst.Soul;
                     SkillCast?.Invoke(unit.unitId);
                 }
-                _skillTimers[unit.unitId] = timer;
             }
 
             // 챕터가 바뀌면 몬스터 속성이 바뀜 → 상성 재계산

@@ -56,11 +56,13 @@ namespace IdleCore.Gacha
         /// <summary>한계돌파 비례 보유 효과 — 돌파 수치를 곡선에 대입 ('한계 돌파 시 공격력 %' 패턴, 항상 적용)</summary>
         public List<StatEffect> limitBreakScalingEffects = new List<StatEffect>();
 
-        // ── 액티브 스킬 (kind=skill 전용): 쿨타임마다 자동 시전 ──
-        /// <summary>시전 주기 (초, 0 = 액티브 아님)</summary>
-        public double skillCooldown;
-        /// <summary>시전 시 즉시 가하는 피해 = 이 초数만큼의 파밍 DPS (버스트)</summary>
-        public double skillBurstSeconds;
+        // ── 액티브 스킬 (차사/스킬 유닛): 쿨타임형 또는 확률(proc)형 ──
+        public ActiveSkillSpec activeSkill;
+        /// <summary>돌파 마일스톤 — 1/3/6/9/10성에서 자기 스킬 강화</summary>
+        public List<LimitBreakSkillMod> skillMilestones = new List<LimitBreakSkillMod>();
+        /// <summary>차사 고유 패시브 표기 (효과는 baseEffects에 포함)</summary>
+        public string passiveName;
+        public string passiveDesc;
 
         // ── 장비 레벨 (소헌키: 대낫/오브/장식은 개별 강화, 최대 200) ──
         /// <summary>1이면 레벨 없음(스킬/차사), 장비는 200</summary>

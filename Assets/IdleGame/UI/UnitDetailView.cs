@@ -164,11 +164,30 @@ namespace IdleGame.UI
                 sb.AppendLine($"· 한계돌파 시 {Describe(e, System.Math.Max(1, lb))}" +
                               (lb > 0 ? $" (현재 {lb}돌)" : " (돌파당 증가)"));
             }
-            if (def.skillCooldown > 0)
+            // 고유 패시브
+            if (!string.IsNullOrEmpty(def.passiveName))
+                sb.AppendLine($"\n── 고유 패시브 ──\n✦ {def.passiveName}: {def.passiveDesc}");
+
+            // 액티브 스킬 (돌파 마일스톤 반영 실효치)
+            if (def.activeSkill != null)
             {
-                double burst = def.skillBurstSeconds * (1 + 0.08 * (unit?.limitBreak ?? 0));
-                sb.AppendLine($"\n── 스킬 ──\n쿨타임 {def.skillCooldown:0.#}초 · 버스트 {burst:0.#}초어치 피해" +
-                              (unit != null ? $" (돌파 보정 +{unit.limitBreak * 8}%)" : ""));
+                var spec = def.activeSkill;
+                var skill = _session.EffectiveSkill(_unitId);
+                sb.AppendLine($"\n── 스킬: {spec.name} ──");
+                sb.AppendLine(spec.trigger == "proc"
+                    ? $"발동: 평타당 {(spec.procChance + (skill.procChance - spec.procChance)) * 100:0.#}% 확률 (실효 {skill.procChance * 100:0.#}%)"
+                    : $"발동: {skill.cooldown:0.#}초마다 자동");
+                sb.AppendLine($"피해: {skill.damageSeconds:0.#}초어치 (타격 {skill.hits}회)");
+                if (spec.statusEffect != null)
+                    sb.AppendLine($"상태이상: {StatusLabel(spec.statusEffect)} 부여 {skill.statusChance * 100:0}%");
+
+                if (def.skillMilestones.Count > 0)
+                {
+                    sb.AppendLine("\n── 돌파 마일스톤 ──");
+                    int lb = unit?.limitBreak ?? 0;
+                    foreach (var mod in def.skillMilestones)
+                        sb.AppendLine($"{(lb >= mod.atLimitBreak ? "✓" : "🔒")} {mod.description}");
+                }
             }
 
             if (def.upgradeToId != null && _session.Units.Defs.TryGetValue(def.upgradeToId, out var up))
@@ -203,6 +222,14 @@ namespace IdleGame.UI
             }
         }
 
+        public static string StatusLabel(string status) => status switch
+        {
+            "burn" => "🔥 화상",
+            "shock" => "⚡ 감전",
+            "chaos" => "🌑 혼돈",
+            _ => status,
+        };
+
         public static string Describe(StatEffect effect, int level)
         {
             string stat = effect.stat switch
@@ -224,11 +251,12 @@ namespace IdleGame.UI
                 StatType.AllElementDamage => "모든 속성 피해",
                 StatType.DefensePierce => "방어 무시",
                 StatType.SoftGemGain => "영옥 획득량",
+                StatType.HeroSkillDamage => "영웅 스킬 피해량",
                 _ => effect.stat.ToString(),
             };
             bool percentStat = effect.stat is StatType.CritChance
                 or StatType.FireDamage or StatType.LightningDamage or StatType.DarkDamage
-                or StatType.SoftGemGain;
+                or StatType.SoftGemGain or StatType.HeroSkillDamage;
             double v = effect.value.Evaluate(level);
             return effect.mode == EffectMode.Mul || percentStat
                 ? $"{stat} +{v * 100:0.##}%"

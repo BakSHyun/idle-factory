@@ -4763,20 +4763,25 @@
           "value": {
             "baseValue": 10
           }
+        },
+        {
+          "stat": "CritChance",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0.03
+          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 1.5
+            "baseValue": 0.005
           }
         }
       ],
       "element": "fire",
-      "skillCooldown": 12,
-      "skillBurstSeconds": 1.5,
       "limitBreakScalingEffects": [
         {
           "stat": "Attack",
@@ -4784,6 +4789,53 @@
           "value": {
             "baseValue": 0,
             "perLevel": 0.005
+          }
+        }
+      ],
+      "activeSkill": {
+        "name": "겁먹은격",
+        "trigger": "proc",
+        "damagePerHit": 0.4,
+        "hitCount": 2,
+        "procChance": 0.18
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "chanceBonus": 0.03,
+          "description": "3성: 발동 확률 +3%"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "extraHits": 1,
+          "description": "9성: 타격수 +1"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
+        }
+      ],
+      "passiveName": "겁먹은 반격",
+      "passiveDesc": "피격이 두려워 빠르게 휘두른다 — 치명타 확률 +3%",
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "Attack",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 2.0
+            }
           }
         }
       ]
@@ -4801,20 +4853,25 @@
           "value": {
             "baseValue": 10
           }
+        },
+        {
+          "stat": "DarkDamage",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0.05
+          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 1.5
+            "baseValue": 0.005
           }
         }
       ],
       "element": "dark",
-      "skillCooldown": 12,
-      "skillBurstSeconds": 1.5,
       "limitBreakScalingEffects": [
         {
           "stat": "Attack",
@@ -4822,6 +4879,55 @@
           "value": {
             "baseValue": 0,
             "perLevel": 0.005
+          }
+        }
+      ],
+      "activeSkill": {
+        "name": "졸린격",
+        "trigger": "cooldown",
+        "damagePerHit": 0.8,
+        "hitCount": 1,
+        "cooldown": 12,
+        "statusEffect": "chaos",
+        "statusChance": 0.25
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "cooldownReduction": 1.0,
+          "description": "3성: 쿨타임 -1초"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "chanceBonus": 0.2,
+          "description": "9성: 상태이상 확률 +20%"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
+        }
+      ],
+      "passiveName": "졸린 저주",
+      "passiveDesc": "닿은 적을 잠재운다 — 어둠 속성 피해 +5%",
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "Attack",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 2.0
+            }
           }
         }
       ]
@@ -4843,16 +4949,14 @@
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 1.5
+            "baseValue": 0.005
           }
         }
       ],
       "element": "lightning",
-      "skillCooldown": 12,
-      "skillBurstSeconds": 1.5,
       "limitBreakScalingEffects": [
         {
           "stat": "Attack",
@@ -4860,6 +4964,53 @@
           "value": {
             "baseValue": 0,
             "perLevel": 0.005
+          }
+        }
+      ],
+      "activeSkill": {
+        "name": "등불격",
+        "trigger": "proc",
+        "damagePerHit": 0.267,
+        "hitCount": 4,
+        "procChance": 0.18
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "chanceBonus": 0.03,
+          "description": "3성: 발동 확률 +3%"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "extraHits": 1,
+          "description": "9성: 타격수 +1"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
+        }
+      ],
+      "passiveName": "등불 연타",
+      "passiveDesc": "등불을 빠르게 휘두른다 — 기본 타격수 +1",
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "Attack",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 2.0
+            }
           }
         }
       ]
@@ -4877,20 +5028,25 @@
           "value": {
             "baseValue": 10
           }
+        },
+        {
+          "stat": "Health",
+          "mode": "Add",
+          "value": {
+            "baseValue": 80
+          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 1.5
+            "baseValue": 0.005
           }
         }
       ],
       "element": "fire",
-      "skillCooldown": 12,
-      "skillBurstSeconds": 1.5,
       "limitBreakScalingEffects": [
         {
           "stat": "Attack",
@@ -4898,6 +5054,53 @@
           "value": {
             "baseValue": 0,
             "perLevel": 0.005
+          }
+        }
+      ],
+      "activeSkill": {
+        "name": "든든한격",
+        "trigger": "cooldown",
+        "damagePerHit": 0.8,
+        "hitCount": 1,
+        "cooldown": 12
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "cooldownReduction": 1.0,
+          "description": "3성: 쿨타임 -1초"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "extraHits": 1,
+          "description": "9성: 타격수 +1"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
+        }
+      ],
+      "passiveName": "든든한 배",
+      "passiveDesc": "맷집이 좋다 — 체력 +80",
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "Attack",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 2.0
+            }
           }
         }
       ]
@@ -4915,20 +5118,25 @@
           "value": {
             "baseValue": 22.0
           }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 8
+          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 3.3
+            "baseValue": 0.011
           }
         }
       ],
       "element": "lightning",
-      "skillCooldown": 11,
-      "skillBurstSeconds": 2,
       "limitBreakScalingEffects": [
         {
           "stat": "Attack",
@@ -4936,6 +5144,53 @@
           "value": {
             "baseValue": 0,
             "perLevel": 0.011
+          }
+        }
+      ],
+      "activeSkill": {
+        "name": "문서격",
+        "trigger": "cooldown",
+        "damagePerHit": 0.5,
+        "hitCount": 2,
+        "cooldown": 11
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "cooldownReduction": 1.0,
+          "description": "3성: 쿨타임 -1초"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "extraHits": 1,
+          "description": "9성: 타격수 +1"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
+        }
+      ],
+      "passiveName": "문서 정리",
+      "passiveDesc": "약점을 기록한다 — 방어 무시 +8",
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "Attack",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 2.0
+            }
           }
         }
       ]
@@ -4953,20 +5208,25 @@
           "value": {
             "baseValue": 22.0
           }
+        },
+        {
+          "stat": "FireDamage",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0.06
+          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 3.3
+            "baseValue": 0.011
           }
         }
       ],
       "element": "fire",
-      "skillCooldown": 11,
-      "skillBurstSeconds": 2,
       "limitBreakScalingEffects": [
         {
           "stat": "Attack",
@@ -4974,6 +5234,55 @@
           "value": {
             "baseValue": 0,
             "perLevel": 0.011
+          }
+        }
+      ],
+      "activeSkill": {
+        "name": "불장난격",
+        "trigger": "proc",
+        "damagePerHit": 0.5,
+        "hitCount": 2,
+        "procChance": 0.18,
+        "statusEffect": "burn",
+        "statusChance": 0.25
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "chanceBonus": 0.03,
+          "description": "3성: 발동 확률 +3%"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "chanceBonus": 0.2,
+          "description": "9성: 상태이상 확률 +20%"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
+        }
+      ],
+      "passiveName": "불장난",
+      "passiveDesc": "불씨를 흩뿌린다 — 불 속성 피해 +6%",
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "Attack",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 2.0
+            }
           }
         }
       ]
@@ -4991,20 +5300,25 @@
           "value": {
             "baseValue": 22.0
           }
+        },
+        {
+          "stat": "HeroSkillDamage",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0.08
+          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 3.3
+            "baseValue": 0.011
           }
         }
       ],
       "element": "lightning",
-      "skillCooldown": 11,
-      "skillBurstSeconds": 2,
       "limitBreakScalingEffects": [
         {
           "stat": "Attack",
@@ -5012,6 +5326,53 @@
           "value": {
             "baseValue": 0,
             "perLevel": 0.011
+          }
+        }
+      ],
+      "activeSkill": {
+        "name": "새벽격",
+        "trigger": "cooldown",
+        "damagePerHit": 1.0,
+        "hitCount": 1,
+        "cooldown": 11
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "cooldownReduction": 1.0,
+          "description": "3성: 쿨타임 -1초"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "extraHits": 1,
+          "description": "9성: 타격수 +1"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
+        }
+      ],
+      "passiveName": "새벽 집중",
+      "passiveDesc": "고요한 집중 — 영웅 스킬 피해 +8%",
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "Attack",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 2.0
+            }
           }
         }
       ]
@@ -5029,20 +5390,25 @@
           "value": {
             "baseValue": 48.0
           }
+        },
+        {
+          "stat": "DarkDamage",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0.08
+          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 7.2
+            "baseValue": 0.024
           }
         }
       ],
       "element": "dark",
-      "skillCooldown": 10,
-      "skillBurstSeconds": 2.5,
       "limitBreakScalingEffects": [
         {
           "stat": "Attack",
@@ -5050,6 +5416,55 @@
           "value": {
             "baseValue": 0,
             "perLevel": 0.024
+          }
+        }
+      ],
+      "activeSkill": {
+        "name": "명계의격",
+        "trigger": "cooldown",
+        "damagePerHit": 0.6,
+        "hitCount": 2,
+        "cooldown": 10,
+        "statusEffect": "chaos",
+        "statusChance": 0.25
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "cooldownReduction": 1.0,
+          "description": "3성: 쿨타임 -1초"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "chanceBonus": 0.2,
+          "description": "9성: 상태이상 확률 +20%"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
+        }
+      ],
+      "passiveName": "명계의 인도",
+      "passiveDesc": "죽음을 인도한다 — 어둠 속성 피해 +8%",
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "Attack",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 2.0
+            }
           }
         }
       ]
@@ -5067,20 +5482,25 @@
           "value": {
             "baseValue": 48.0
           }
+        },
+        {
+          "stat": "CritChance",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0.05
+          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 7.2
+            "baseValue": 0.024
           }
         }
       ],
       "element": "lightning",
-      "skillCooldown": 10,
-      "skillBurstSeconds": 2.5,
       "limitBreakScalingEffects": [
         {
           "stat": "Attack",
@@ -5088,6 +5508,53 @@
           "value": {
             "baseValue": 0,
             "perLevel": 0.024
+          }
+        }
+      ],
+      "activeSkill": {
+        "name": "부채격",
+        "trigger": "proc",
+        "damagePerHit": 0.6,
+        "hitCount": 2,
+        "procChance": 0.18
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "chanceBonus": 0.03,
+          "description": "3성: 발동 확률 +3%"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "extraHits": 1,
+          "description": "9성: 타격수 +1"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
+        }
+      ],
+      "passiveName": "부채 바람",
+      "passiveDesc": "연격이 날카롭다 — 치명타 확률 +5%",
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "Attack",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 2.0
+            }
           }
         }
       ]
@@ -5109,16 +5576,14 @@
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 7.2
+            "baseValue": 0.024
           }
         }
       ],
       "element": "dark",
-      "skillCooldown": 10,
-      "skillBurstSeconds": 2.5,
       "limitBreakScalingEffects": [
         {
           "stat": "Attack",
@@ -5126,6 +5591,53 @@
           "value": {
             "baseValue": 0,
             "perLevel": 0.024
+          }
+        }
+      ],
+      "activeSkill": {
+        "name": "늑대격",
+        "trigger": "proc",
+        "damagePerHit": 0.4,
+        "hitCount": 4,
+        "procChance": 0.18
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "chanceBonus": 0.03,
+          "description": "3성: 발동 확률 +3%"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "extraHits": 1,
+          "description": "9성: 타격수 +1"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
+        }
+      ],
+      "passiveName": "늑대 발톱",
+      "passiveDesc": "할퀴기 — 기본 타격수 +1",
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "Attack",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 2.0
+            }
           }
         }
       ]
@@ -5143,20 +5655,25 @@
           "value": {
             "baseValue": 0.126
           }
+        },
+        {
+          "stat": "FireDamage",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0.1
+          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 15.8
+            "baseValue": 0.0525
           }
         }
       ],
       "element": "fire",
-      "skillCooldown": 9,
-      "skillBurstSeconds": 3,
       "limitBreakScalingEffects": [
         {
           "stat": "Attack",
@@ -5164,6 +5681,55 @@
           "value": {
             "baseValue": 0,
             "perLevel": 0.0525
+          }
+        }
+      ],
+      "activeSkill": {
+        "name": "홍련의격",
+        "trigger": "cooldown",
+        "damagePerHit": 0.75,
+        "hitCount": 2,
+        "cooldown": 9,
+        "statusEffect": "burn",
+        "statusChance": 0.25
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "cooldownReduction": 1.0,
+          "description": "3성: 쿨타임 -1초"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "chanceBonus": 0.2,
+          "description": "9성: 상태이상 확률 +20%"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
+        }
+      ],
+      "passiveName": "홍련의 업화",
+      "passiveDesc": "화상을 각인한다 — 불 속성 피해 +10%",
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "Attack",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 2.0
+            }
           }
         }
       ]
@@ -5181,20 +5747,25 @@
           "value": {
             "baseValue": 0.105
           }
+        },
+        {
+          "stat": "HeroSkillDamage",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0.1
+          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 15.8
+            "baseValue": 0.0525
           }
         }
       ],
       "element": "lightning",
-      "skillCooldown": 9,
-      "skillBurstSeconds": 3,
       "limitBreakScalingEffects": [
         {
           "stat": "Attack",
@@ -5202,6 +5773,55 @@
           "value": {
             "baseValue": 0,
             "perLevel": 0.0525
+          }
+        }
+      ],
+      "activeSkill": {
+        "name": "물거울격",
+        "trigger": "cooldown",
+        "damagePerHit": 1.5,
+        "hitCount": 1,
+        "cooldown": 9,
+        "statusEffect": "shock",
+        "statusChance": 0.25
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "cooldownReduction": 1.0,
+          "description": "3성: 쿨타임 -1초"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "chanceBonus": 0.2,
+          "description": "9성: 상태이상 확률 +20%"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
+        }
+      ],
+      "passiveName": "물거울",
+      "passiveDesc": "흐름을 읽는다 — 영웅 스킬 피해 +10%",
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "Attack",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 2.0
+            }
           }
         }
       ]
@@ -5219,20 +5839,25 @@
           "value": {
             "baseValue": 0.126
           }
+        },
+        {
+          "stat": "GoldGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.1
+          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 15.8
+            "baseValue": 0.0525
           }
         }
       ],
       "element": "fire",
-      "skillCooldown": 9,
-      "skillBurstSeconds": 3,
       "limitBreakScalingEffects": [
         {
           "stat": "Attack",
@@ -5240,6 +5865,53 @@
           "value": {
             "baseValue": 0,
             "perLevel": 0.0525
+          }
+        }
+      ],
+      "activeSkill": {
+        "name": "동전격",
+        "trigger": "proc",
+        "damagePerHit": 0.75,
+        "hitCount": 2,
+        "procChance": 0.18
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "chanceBonus": 0.03,
+          "description": "3성: 발동 확률 +3%"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "extraHits": 1,
+          "description": "9성: 타격수 +1"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
+        }
+      ],
+      "passiveName": "동전 던지기",
+      "passiveDesc": "돈 냄새를 맡는다 — 골드 획득 +10%",
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "Attack",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 2.0
+            }
           }
         }
       ]
@@ -5257,20 +5929,25 @@
           "value": {
             "baseValue": 0.276
           }
+        },
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.06
+          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 34.5
+            "baseValue": 0.115
           }
         }
       ],
       "element": "dark",
-      "skillCooldown": 8,
-      "skillBurstSeconds": 4,
       "limitBreakScalingEffects": [
         {
           "stat": "Attack",
@@ -5278,6 +5955,55 @@
           "value": {
             "baseValue": 0,
             "perLevel": 0.115
+          }
+        }
+      ],
+      "activeSkill": {
+        "name": "먹의격",
+        "trigger": "cooldown",
+        "damagePerHit": 0.633,
+        "hitCount": 3,
+        "cooldown": 8,
+        "statusEffect": "chaos",
+        "statusChance": 0.25
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "cooldownReduction": 1.0,
+          "description": "3성: 쿨타임 -1초"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "chanceBonus": 0.2,
+          "description": "9성: 상태이상 확률 +20%"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
+        }
+      ],
+      "passiveName": "먹의 결계",
+      "passiveDesc": "붓끝이 어둠을 가른다 — 최종 데미지 +6%",
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "Attack",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 2.0
+            }
           }
         }
       ]
@@ -5295,20 +6021,25 @@
           "value": {
             "baseValue": 0.23
           }
+        },
+        {
+          "stat": "LightningDamage",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0.1
+          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 34.5
+            "baseValue": 0.115
           }
         }
       ],
       "element": "lightning",
-      "skillCooldown": 8,
-      "skillBurstSeconds": 4,
       "limitBreakScalingEffects": [
         {
           "stat": "Attack",
@@ -5316,6 +6047,55 @@
           "value": {
             "baseValue": 0,
             "perLevel": 0.115
+          }
+        }
+      ],
+      "activeSkill": {
+        "name": "서리격",
+        "trigger": "proc",
+        "damagePerHit": 0.95,
+        "hitCount": 2,
+        "procChance": 0.18,
+        "statusEffect": "shock",
+        "statusChance": 0.25
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "chanceBonus": 0.03,
+          "description": "3성: 발동 확률 +3%"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "chanceBonus": 0.2,
+          "description": "9성: 상태이상 확률 +20%"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
+        }
+      ],
+      "passiveName": "서리 파편",
+      "passiveDesc": "연쇄 빙결 — 번개 속성 피해 +10%",
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "Attack",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 2.0
+            }
           }
         }
       ]
@@ -5333,14 +6113,21 @@
           "value": {
             "baseValue": 0.6
           }
+        },
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.1
+          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 75.0
+            "baseValue": 0.25
           }
         }
       ],
@@ -5354,11 +6141,19 @@
               "baseValue": 0.5
             }
           }
+        },
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "Attack",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 2.0
+            }
+          }
         }
       ],
       "element": "dark",
-      "skillCooldown": 7,
-      "skillBurstSeconds": 5.5,
       "limitBreakScalingEffects": [
         {
           "stat": "Attack",
@@ -5368,7 +6163,44 @@
             "perLevel": 0.25
           }
         }
-      ]
+      ],
+      "activeSkill": {
+        "name": "설야의격",
+        "trigger": "cooldown",
+        "damagePerHit": 0.8,
+        "hitCount": 3,
+        "cooldown": 7,
+        "statusEffect": "chaos",
+        "statusChance": 0.25
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "cooldownReduction": 1.0,
+          "description": "3성: 쿨타임 -1초"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "chanceBonus": 0.2,
+          "description": "9성: 상태이상 확률 +20%"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
+        }
+      ],
+      "passiveName": "설야의 진혼곡",
+      "passiveDesc": "눈보라가 적을 삼킨다 — 최종 데미지 +10%"
     },
     {
       "id": "h_gangrim",
@@ -5383,14 +6215,21 @@
           "value": {
             "baseValue": 0.5
           }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 20
+          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 75.0
+            "baseValue": 0.25
           }
         }
       ],
@@ -5404,11 +6243,19 @@
               "baseValue": 0.5
             }
           }
+        },
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "Attack",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 2.0
+            }
+          }
         }
       ],
       "element": "fire",
-      "skillCooldown": 7,
-      "skillBurstSeconds": 5.5,
       "limitBreakScalingEffects": [
         {
           "stat": "Attack",
@@ -5418,7 +6265,44 @@
             "perLevel": 0.25
           }
         }
-      ]
+      ],
+      "activeSkill": {
+        "name": "강림격",
+        "trigger": "cooldown",
+        "damagePerHit": 1.2,
+        "hitCount": 2,
+        "cooldown": 7,
+        "statusEffect": "burn",
+        "statusChance": 0.25
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "cooldownReduction": 1.0,
+          "description": "3성: 쿨타임 -1초"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "chanceBonus": 0.2,
+          "description": "9성: 상태이상 확률 +20%"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
+        }
+      ],
+      "passiveName": "강림",
+      "passiveDesc": "심판을 내린다 — 방어 무시 +20"
     },
     {
       "id": "s_natjil",
@@ -5444,8 +6328,6 @@
           }
         }
       ],
-      "skillCooldown": 9,
-      "skillBurstSeconds": 2,
       "element": "lightning",
       "limitBreakScalingEffects": [
         {
@@ -5455,6 +6337,39 @@
             "baseValue": 0,
             "perLevel": 0.003
           }
+        }
+      ],
+      "activeSkill": {
+        "name": "낫질",
+        "trigger": "cooldown",
+        "cooldown": 9,
+        "damagePerHit": 2.0,
+        "hitCount": 1
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "cooldownReduction": 1.0,
+          "description": "3성: 쿨타임 -1초"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "extraHits": 1,
+          "description": "9성: 타격수 +1"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
         }
       ]
     },
@@ -5482,8 +6397,6 @@
           }
         }
       ],
-      "skillCooldown": 9,
-      "skillBurstSeconds": 2,
       "element": "fire",
       "limitBreakScalingEffects": [
         {
@@ -5493,6 +6406,39 @@
             "baseValue": 0,
             "perLevel": 0.003
           }
+        }
+      ],
+      "activeSkill": {
+        "name": "혼 찌르기",
+        "trigger": "cooldown",
+        "cooldown": 9,
+        "damagePerHit": 2.0,
+        "hitCount": 1
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "cooldownReduction": 1.0,
+          "description": "3성: 쿨타임 -1초"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "extraHits": 1,
+          "description": "9성: 타격수 +1"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
         }
       ]
     },
@@ -5520,8 +6466,6 @@
           }
         }
       ],
-      "skillCooldown": 9,
-      "skillBurstSeconds": 2,
       "element": "fire",
       "limitBreakScalingEffects": [
         {
@@ -5531,6 +6475,39 @@
             "baseValue": 0,
             "perLevel": 0.003
           }
+        }
+      ],
+      "activeSkill": {
+        "name": "혼불 던지기",
+        "trigger": "cooldown",
+        "cooldown": 9,
+        "damagePerHit": 2.0,
+        "hitCount": 1
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "cooldownReduction": 1.0,
+          "description": "3성: 쿨타임 -1초"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "extraHits": 1,
+          "description": "9성: 타격수 +1"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
         }
       ]
     },
@@ -5558,8 +6535,6 @@
           }
         }
       ],
-      "skillCooldown": 8,
-      "skillBurstSeconds": 2.5,
       "element": "dark",
       "limitBreakScalingEffects": [
         {
@@ -5569,6 +6544,39 @@
             "baseValue": 0,
             "perLevel": 0.0066
           }
+        }
+      ],
+      "activeSkill": {
+        "name": "혼 가르기",
+        "trigger": "cooldown",
+        "cooldown": 8,
+        "damagePerHit": 1.25,
+        "hitCount": 2
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "cooldownReduction": 1.0,
+          "description": "3성: 쿨타임 -1초"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "extraHits": 1,
+          "description": "9성: 타격수 +1"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
         }
       ]
     },
@@ -5596,8 +6604,6 @@
           }
         }
       ],
-      "skillCooldown": 8,
-      "skillBurstSeconds": 2.5,
       "element": "lightning",
       "limitBreakScalingEffects": [
         {
@@ -5607,6 +6613,39 @@
             "baseValue": 0,
             "perLevel": 0.0066
           }
+        }
+      ],
+      "activeSkill": {
+        "name": "유령 발걸음",
+        "trigger": "cooldown",
+        "cooldown": 8,
+        "damagePerHit": 1.25,
+        "hitCount": 2
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "cooldownReduction": 1.0,
+          "description": "3성: 쿨타임 -1초"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "extraHits": 1,
+          "description": "9성: 타격수 +1"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
         }
       ]
     },
@@ -5634,8 +6673,6 @@
           }
         }
       ],
-      "skillCooldown": 7,
-      "skillBurstSeconds": 3,
       "element": "fire",
       "limitBreakScalingEffects": [
         {
@@ -5645,6 +6682,39 @@
             "baseValue": 0,
             "perLevel": 0.0144
           }
+        }
+      ],
+      "activeSkill": {
+        "name": "귀화술",
+        "trigger": "cooldown",
+        "cooldown": 7,
+        "damagePerHit": 1.5,
+        "hitCount": 2
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "cooldownReduction": 1.0,
+          "description": "3성: 쿨타임 -1초"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "extraHits": 1,
+          "description": "9성: 타격수 +1"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
         }
       ]
     },
@@ -5672,8 +6742,6 @@
           }
         }
       ],
-      "skillCooldown": 7,
-      "skillBurstSeconds": 3,
       "element": "dark",
       "limitBreakScalingEffects": [
         {
@@ -5683,6 +6751,39 @@
             "baseValue": 0,
             "perLevel": 0.0144
           }
+        }
+      ],
+      "activeSkill": {
+        "name": "원혼 회오리",
+        "trigger": "cooldown",
+        "cooldown": 7,
+        "damagePerHit": 1.0,
+        "hitCount": 3
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "cooldownReduction": 1.0,
+          "description": "3성: 쿨타임 -1초"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "extraHits": 1,
+          "description": "9성: 타격수 +1"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
         }
       ]
     },
@@ -5710,8 +6811,6 @@
           }
         }
       ],
-      "skillCooldown": 6,
-      "skillBurstSeconds": 4,
       "element": "dark",
       "limitBreakScalingEffects": [
         {
@@ -5721,6 +6820,39 @@
             "baseValue": 0,
             "perLevel": 0.0315
           }
+        }
+      ],
+      "activeSkill": {
+        "name": "유령 손아귀",
+        "trigger": "cooldown",
+        "cooldown": 6,
+        "damagePerHit": 4.0,
+        "hitCount": 1
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "cooldownReduction": 1.0,
+          "description": "3성: 쿨타임 -1초"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "extraHits": 1,
+          "description": "9성: 타격수 +1"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
         }
       ]
     },
@@ -5748,8 +6880,6 @@
           }
         }
       ],
-      "skillCooldown": 6,
-      "skillBurstSeconds": 4,
       "element": "lightning",
       "limitBreakScalingEffects": [
         {
@@ -5759,6 +6889,39 @@
             "baseValue": 0,
             "perLevel": 0.0315
           }
+        }
+      ],
+      "activeSkill": {
+        "name": "혼백 사슬",
+        "trigger": "cooldown",
+        "cooldown": 6,
+        "damagePerHit": 2.0,
+        "hitCount": 2
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "cooldownReduction": 1.0,
+          "description": "3성: 쿨타임 -1초"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "extraHits": 1,
+          "description": "9성: 타격수 +1"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
         }
       ]
     },
@@ -5786,8 +6949,6 @@
           }
         }
       ],
-      "skillCooldown": 5,
-      "skillBurstSeconds": 5,
       "element": "lightning",
       "limitBreakScalingEffects": [
         {
@@ -5797,6 +6958,39 @@
             "baseValue": 0,
             "perLevel": 0.069
           }
+        }
+      ],
+      "activeSkill": {
+        "name": "도깨비불",
+        "trigger": "cooldown",
+        "cooldown": 5,
+        "damagePerHit": 1.667,
+        "hitCount": 3
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "cooldownReduction": 1.0,
+          "description": "3성: 쿨타임 -1초"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "extraHits": 1,
+          "description": "9성: 타격수 +1"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
         }
       ]
     },
@@ -5824,8 +7018,6 @@
           }
         }
       ],
-      "skillCooldown": 5,
-      "skillBurstSeconds": 5,
       "element": "dark",
       "limitBreakScalingEffects": [
         {
@@ -5835,6 +7027,39 @@
             "baseValue": 0,
             "perLevel": 0.069
           }
+        }
+      ],
+      "activeSkill": {
+        "name": "원귀 소환",
+        "trigger": "cooldown",
+        "cooldown": 5,
+        "damagePerHit": 2.5,
+        "hitCount": 2
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "cooldownReduction": 1.0,
+          "description": "3성: 쿨타임 -1초"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "extraHits": 1,
+          "description": "9성: 타격수 +1"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
         }
       ]
     },
@@ -5874,8 +7099,6 @@
           }
         }
       ],
-      "skillCooldown": 4,
-      "skillBurstSeconds": 7,
       "element": "dark",
       "limitBreakScalingEffects": [
         {
@@ -5885,6 +7108,39 @@
             "baseValue": 0,
             "perLevel": 0.15
           }
+        }
+      ],
+      "activeSkill": {
+        "name": "삼도천 베기",
+        "trigger": "cooldown",
+        "cooldown": 4,
+        "damagePerHit": 2.333,
+        "hitCount": 3
+      },
+      "skillMilestones": [
+        {
+          "atLimitBreak": 1,
+          "damageBonus": 0.1,
+          "description": "1성: 스킬 피해 +10%"
+        },
+        {
+          "atLimitBreak": 3,
+          "cooldownReduction": 1.0,
+          "description": "3성: 쿨타임 -1초"
+        },
+        {
+          "atLimitBreak": 6,
+          "damageBonus": 0.3,
+          "description": "6성: 스킬 피해 +30%"
+        },
+        {
+          "atLimitBreak": 9,
+          "extraHits": 1,
+          "description": "9성: 타격수 +1"
+        },
+        {
+          "atLimitBreak": 10,
+          "description": "10성: 공격력 +200%"
         }
       ]
     }

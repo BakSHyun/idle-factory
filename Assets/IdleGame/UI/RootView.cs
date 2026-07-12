@@ -351,7 +351,7 @@ namespace IdleGame.UI
             {
                 if (!unit.equipped) continue;
                 var def = _session.Units.Defs[unit.unitId];
-                if (def.kind != "skill" || def.skillCooldown <= 0) continue;
+                if (def.kind != "skill" || def.activeSkill == null) continue;
                 if (_skillIcons.Count >= 4) break;
 
                 var slot = UIFactory.CreatePanel(_skillBar, $"SK_{def.id}", new Color(0, 0, 0, 0.5f));
@@ -601,12 +601,18 @@ namespace IdleGame.UI
                     : "벽 — 성장 필요";
             RefreshBossButton(); // 처치 게이지는 매 틱 갱신
 
-            // 스킬 쿨타임 오버레이 갱신
+            // 스킬 쿨타임 오버레이 갱신 (proc형은 오버레이 없음 — 확률 발동)
             foreach (var (unitId, overlay, _) in _skillIcons)
             {
                 var skillDef = _session.Units.Defs[unitId];
-                float cdRatio = skillDef.skillCooldown > 0
-                    ? (float)(_session.SkillCooldownRemaining(unitId) / skillDef.skillCooldown) : 0;
+                if (skillDef.activeSkill == null || skillDef.activeSkill.trigger == "proc")
+                {
+                    overlay.enabled = false;
+                    continue;
+                }
+                double cooldown = _session.EffectiveSkill(unitId).cooldown;
+                float cdRatio = cooldown > 0
+                    ? (float)(_session.SkillCooldownRemaining(unitId) / cooldown) : 0;
                 ((RectTransform)overlay.transform).anchorMax = new Vector2(1, Mathf.Clamp01(cdRatio));
                 overlay.enabled = cdRatio > 0.02f;
             }

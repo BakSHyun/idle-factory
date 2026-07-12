@@ -22,5 +22,6 @@ namespace IdleCore.Stats
         AllElementDamage,// 모든 속성 피해 배율 (오브 장착 효과)
         DefensePierce,   // 방어 무시 (적 방어도 상쇄, 장식 장착 효과)
         SoftGemGain,     // 영옥 획득량 배율 (미션/출석 보상에 적용)
+        HeroSkillDamage, // 영웅(차사) 스킬 피해량 배율 (차사 보유 효과)
     }
 }
