@@ -129,7 +129,8 @@ namespace IdleCore
         /// <summary>온라인 파밍 틱. 뷰의 프레임/초 단위 어디서 불러도 된다 (수식 기반이라 주기 무관).</summary>
         public FarmResult Tick(double seconds)
         {
-            var result = Progression.Advance(seconds);
+            // 보스 도전은 UI가 전투 연출과 함께 수동/자동 트리거한다 (자동 즉시 돌파 없음)
+            var result = Progression.Advance(seconds, autoPush: false);
             LastSeenUtc = Clock.UtcNow;
             if (result.Kills > 0) Missions.Report("kill", result.Kills);
             return result;

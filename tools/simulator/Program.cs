@@ -88,6 +88,7 @@ namespace IdleFactory.Simulator
                     {
                         clock.Advance(TimeSpan.FromMinutes(1));
                         session.Tick(60);
+                        while (session.Progression.TryPush()) { } // 봇은 보스 즉시 도전
                         SpendGreedily(session);
                     }
                     totalPulls += PullGachaIfAffordable(session);

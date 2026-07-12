@@ -27,6 +27,8 @@ namespace IdleCore.Progression
         public double survivalKillBuffer = 3;
         /// <summary>보스 등장에 필요한 처치 수 (0 = 게이트 없음). '왜 진행 안 되는지'를 보이게 하는 장치</summary>
         public int killsToBoss = 0;
+        /// <summary>수문장 공격력 = 일반 몹 공격력 × 이 배율</summary>
+        public double bossAttackMultiplier = 2.5;
     }
 
     /// <summary>챕터-단계 (예: 12-3). 내부적으로는 0부터 시작하는 선형 인덱스.</summary>

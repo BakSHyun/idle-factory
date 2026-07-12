@@ -15,7 +15,7 @@ namespace IdleGame.UI
 
         private Text _stageText, _goldText, _soulText, _softText, _hardText, _dpsText, _killText, _powerText;
         private Button _bossButton;
-        private Image _mobImage, _playerHpFill, _weaponImage, _gateFill;
+        private Image _mobImage, _playerHpFill, _weaponImage, _gateFill, _bossMobFill;
         private Text _gateText;
         private BattleAnimator _battleAnimator;
         private static readonly string[] MobIds = { "mob_wisp", "mob_gwisin", "mob_dokkaebi" };
@@ -163,9 +163,9 @@ namespace IdleGame.UI
                 artRect.anchoredPosition = new Vector2(0, 10);
                 artRect.sizeDelta = new Vector2(250, 250); // 좌측 아군 / 우측 몬스터 대치 구도
                 // 체력바: 적(몬스터 위) + 아군(캐릭터 위)
-                var mobHpFill = CreateHpBar(battle, new Vector2(0.78f, 0.78f), new Color(0.9f, 0.3f, 0.35f));
+                _bossMobFill = CreateHpBar(battle, new Vector2(0.78f, 0.78f), new Color(0.9f, 0.3f, 0.35f));
                 _playerHpFill = CreateHpBar(battle, new Vector2(0.28f, 0.86f), new Color(0.35f, 0.85f, 0.45f));
-                _battleAnimator = BattleAnimator.Attach(battle, artRect, _mobImage, mobHpFill);
+                _battleAnimator = BattleAnimator.Attach(battle, artRect, _mobImage, _bossMobFill);
             }
             else
             {
@@ -253,29 +253,77 @@ namespace IdleGame.UI
             rect.anchorMax = new Vector2(Mathf.Clamp01(ratio), 1);
         }
 
+        private bool _bossFighting;
+
         private void OnBossChallenge()
         {
-            double ratio = _session.Progression.NextBossDamageRatio();
-            if (_session.Progression.TryPush())
+            if (_bossFighting || !_session.Progression.BossGateOpen) return;
+            StartCoroutine(BossFightSequence());
+        }
+
+        /// <summary>
+        /// 실제 보스전 연출: 시뮬레이션 타임라인을 압축 재생 —
+        /// 보스 체력 vs 내 체력 vs 제한시간의 경주를 눈으로 보고, 결과가 그대로 판정.
+        /// </summary>
+        private System.Collections.IEnumerator BossFightSequence()
+        {
+            _bossFighting = true;
+            var preview = _session.Progression.SimulateBossFight();
+            var label = _bossButton.GetComponentInChildren<Text>();
+            _bossButton.interactable = false;
+
+            // 수문장 등장 연출: 몬스터 확대 + 붉은 기운
+            var mobRect = _mobImage != null ? (RectTransform)_mobImage.transform : null;
+            if (mobRect != null) { mobRect.localScale = Vector3.one * 1.5f; _mobImage.color = new Color(1f, 0.75f, 0.75f); }
+            _gateText.text = "⚔ 수문장 전투!";
+            AudioManager.Play("hit", 0.8f);
+
+            const float playback = 4.5f; // 실제 전투 시간을 이 길이로 압축 재생
+            float simLength = (float)System.Math.Min(preview.EndTime, preview.TimeLimit);
+            for (float t = 0; t < 1f; t += Time.deltaTime / playback)
             {
-                _killText.text = "보스 격파! 다음 구역으로";
-                RefreshStage();
+                float simTime = t * simLength;
+                // 보스 체력 vs 내 체력의 경주
+                SetHpFill(_bossMobFill, Mathf.Clamp01(1f - (float)(simTime / preview.TimeToKillBoss)));
+                SetHpFill(_playerHpFill, preview.TimeToDie == double.PositiveInfinity
+                    ? 1f : Mathf.Clamp01(1f - (float)(simTime / preview.TimeToDie)));
+                label.text = $"⏱ {System.Math.Max(0, preview.TimeLimit - simTime):0.0}초";
+                yield return null;
+            }
+
+            // 판정 — 시뮬레이션 결과 그대로
+            if (preview.Victory && _session.Progression.TryPush())
+            {
+                _gateText.text = "🔥 수문장 격파!";
+                _killText.text = "격파! 다음 구역으로";
+                AudioManager.Play("victory", 0.8f);
+            }
+            else if (preview.Reason == "death")
+            {
+                _gateText.text = "💀 쓰러졌다...";
+                _killText.text = "수문장에게 당했다 — 체력을 키우세요";
+                AudioManager.Play("hurt", 0.7f);
             }
             else
             {
-                _killText.text = $"도전 실패 — 피해 {ratio * 100:0.#}%까지. 더 성장하세요";
+                _gateText.text = "⏱ 시간 초과!";
+                _killText.text = "제한시간 안에 못 잡았다 — 공격력을 키우세요";
+                AudioManager.Play("hurt", 0.7f);
             }
-            RefreshBossButton();
+
+            if (mobRect != null) { mobRect.localScale = Vector3.one; _mobImage.color = Color.white; }
+            SetHpFill(_bossMobFill, 1f);
+            _bossButton.interactable = true;
+            _bossFighting = false;
+            RefreshStage();
         }
 
         private void RefreshBossButton()
         {
-            if (_bossButton == null) return;
+            if (_bossButton == null || _bossFighting) return; // 전투 중엔 코루틴이 라벨 소유
             var progression = _session.Progression;
             var cfg = _session.Config.stage;
-            double ratio = progression.NextBossDamageRatio();
             var label = _bossButton.GetComponentInChildren<Text>();
-            if (ratio <= 0) { _bossButton.gameObject.SetActive(false); return; }
 
             // 처치 게이지 갱신
             int need = cfg.killsToBoss;
@@ -284,24 +332,18 @@ namespace IdleGame.UI
             {
                 SetHpFill(_gateFill, Mathf.Clamp01(kills / (float)need));
                 _gateText.text = progression.BossGateOpen
-                    ? "🔥 수문장 등장!"
-                    : $"몬스터 처치 {kills}/{need} — 다 잡으면 수문장 등장";
+                    ? "🔥 수문장이 나타났다!"
+                    : $"몬스터 처치 {kills}/{need}";
             }
 
             var nextStage = new StageId(progression.HighestClearedIndex + 1);
-            string stageName = nextStage.Display(cfg);
-            bool ready = progression.BossGateOpen && progression.CanClearNext();
-
-            // 막힌 이유를 한 문장으로 — 유저가 '왜 안 가는지' 즉시 알 수 있게
-            if (!progression.BossGateOpen)
-                label.text = $"⚔ {stageName} 수문장 대기 중 ({kills}/{need} 처치)";
-            else if (ready)
-                label.text = $"⚔ {stageName} 수문장 격파 가능!";
-            else if (progression.BlockedBySurvival())
-                label.text = $"🛡 수문장이 너무 아프다 — 체력을 키우세요";
-            else
-                label.text = $"💪 수문장이 너무 단단하다 — 예상 피해 {System.Math.Min(99.9, ratio * 100):0.#}% (공격력 필요)";
-            _bossButton.image.color = ready ? new Color(0.85f, 0.35f, 0.35f) : UIFactory.Panel;
+            bool open = progression.BossGateOpen;
+            // 결과는 싸워봐야 안다 — 사전 판정 노출 없음
+            label.text = open
+                ? $"⚔ {nextStage.Display(cfg)} 수문장 도전!"
+                : $"수문장 대기 중 ({kills}/{need} 처치)";
+            _bossButton.interactable = open;
+            _bossButton.image.color = open ? new Color(0.85f, 0.35f, 0.35f) : UIFactory.Panel;
         }
 
         private void BuildTabBar(Transform root)
