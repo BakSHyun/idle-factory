@@ -111,7 +111,7 @@ namespace IdleGame.UI
             _hardText = UIFactory.CreateText(hud, "Hard", "수정 0", 30, TextAnchor.MiddleRight, new Color(1f, 0.5f, 0.55f));
             UIFactory.TopBand(_hardText.rectTransform, 130, 40, 30);
 
-            var missionButton = UIFactory.CreateButton(hud, "MissionBtn", "📋 미션",
+            var missionButton = UIFactory.CreateButton(hud, "MissionBtn", " 미션",
                 () => MissionView.Open(_safeRoot, _session), UIFactory.Accent, 26);
             var missionRect = (RectTransform)missionButton.transform;
             missionRect.anchorMin = new Vector2(1, 1);
@@ -144,7 +144,7 @@ namespace IdleGame.UI
             _mobImage = mobGo.GetComponent<Image>();
             _mobImage.preserveAspect = true;
             var mobRect = (RectTransform)mobGo.transform;
-            mobRect.anchorMin = mobRect.anchorMax = new Vector2(0.78f, 0.55f);
+            mobRect.anchorMin = mobRect.anchorMax = new Vector2(0.80f, 0.60f);
             mobRect.sizeDelta = new Vector2(170, 170);
 
             // 장착 무기 (캐릭터 등 뒤에 메는 연출 — 캐릭터보다 먼저 생성해 뒤에 깔림)
@@ -154,7 +154,7 @@ namespace IdleGame.UI
             _weaponImage.preserveAspect = true;
             _weaponImage.enabled = false;
             var weaponRect = (RectTransform)weaponGo.transform;
-            weaponRect.anchorMin = weaponRect.anchorMax = new Vector2(0.28f, 0.5f);
+            weaponRect.anchorMin = weaponRect.anchorMax = new Vector2(0.24f, 0.56f);
             weaponRect.anchoredPosition = new Vector2(72, 88);   // 캐릭터 오른쪽 어깨 뒤
             weaponRect.sizeDelta = new Vector2(150, 150);
             weaponRect.localRotation = Quaternion.Euler(0, 0, -35f);
@@ -176,39 +176,39 @@ namespace IdleGame.UI
                 image.sprite = sprite;
                 image.preserveAspect = true;
                 var artRect = (RectTransform)artGo.transform;
-                artRect.anchorMin = artRect.anchorMax = new Vector2(0.28f, 0.5f);
+                artRect.anchorMin = artRect.anchorMax = new Vector2(0.24f, 0.56f);
                 artRect.anchoredPosition = new Vector2(0, 10);
                 artRect.sizeDelta = new Vector2(250, 250); // 좌측 아군 / 우측 몬스터 대치 구도
                 // 체력바: 적(몬스터 위) + 아군(캐릭터 위)
-                _bossMobFill = CreateHpBar(battle, new Vector2(0.78f, 0.78f), new Color(0.9f, 0.3f, 0.35f));
-                _playerHpFill = CreateHpBar(battle, new Vector2(0.28f, 0.86f), new Color(0.35f, 0.85f, 0.45f));
+                _bossMobFill = CreateHpBar(battle, new Vector2(0.80f, 0.84f), new Color(0.9f, 0.3f, 0.35f));
+                _playerHpFill = CreateHpBar(battle, new Vector2(0.24f, 0.88f), new Color(0.35f, 0.85f, 0.45f));
                 _battleAnimator = BattleAnimator.Attach(battle, artRect, _mobImage, _bossMobFill, _playerHpFill);
             }
             else
             {
-                var reaper = UIFactory.CreateText(battle, "ReaperArt", "🌙\n저승사자", 60);
+                var reaper = UIFactory.CreateText(battle, "ReaperArt", "\n저승사자", 60);
                 UIFactory.Fill(reaper.rectTransform);
             }
 
-            _dpsText = UIFactory.CreateText(battle, "Dps", "DPS 0", 34, TextAnchor.LowerLeft, UIFactory.TextDim);
-            UIFactory.Fill(_dpsText.rectTransform, 24);
+            _dpsText = UIFactory.CreateText(battle, "Dps", "DPS 0", 26, TextAnchor.UpperLeft, UIFactory.TextDim);
+            UIFactory.TopBand(_dpsText.rectTransform, 52, 34, 20);
 
             // 스킬 쿨타임 아이콘 바 (우하단) — 장착 스킬이 자동 시전되는 게 보인다
             var skillBarGo = new GameObject("SkillBar", typeof(RectTransform));
             skillBarGo.transform.SetParent(battle, false);
             _skillBar = (RectTransform)skillBarGo.transform;
-            _skillBar.anchorMin = _skillBar.anchorMax = new Vector2(1, 0);
-            _skillBar.pivot = new Vector2(1, 0);
-            _skillBar.anchoredPosition = new Vector2(-18, 170);
-            _skillBar.sizeDelta = new Vector2(4 * 92, 86);
+            _skillBar.anchorMin = _skillBar.anchorMax = new Vector2(0, 0);
+            _skillBar.pivot = new Vector2(0, 0);
+            _skillBar.anchoredPosition = new Vector2(18, 70);
+            _skillBar.sizeDelta = new Vector2(4 * 68, 62);
             var skillLayout = skillBarGo.AddComponent<HorizontalLayoutGroup>();
             skillLayout.childControlWidth = false;
             skillLayout.childControlHeight = false;
             skillLayout.childAlignment = TextAnchor.LowerRight;
             skillLayout.spacing = 8;
 
-            _killText = UIFactory.CreateText(battle, "Kills", "", 30, TextAnchor.LowerRight, UIFactory.TextDim);
-            UIFactory.Fill(_killText.rectTransform, 24);
+            _killText = UIFactory.CreateText(battle, "Kills", "", 26, TextAnchor.UpperRight, UIFactory.TextDim);
+            UIFactory.TopBand(_killText.rectTransform, 52, 34, 20);
 
             // 속성 표시: 몬스터 속성(우상단) + 내 파티 상성(좌상단)
             _mobElementText = UIFactory.CreateText(battle, "MobElem", "", 26, TextAnchor.UpperRight, UIFactory.TextMain);
@@ -219,11 +219,11 @@ namespace IdleGame.UI
             // 처치 게이지: 몇 마리 잡으면 보스가 나오는지 — '왜 진행 안 되는지'의 답
             var gateBg = UIFactory.CreatePanel(battle, "GateBar", new Color(0, 0, 0, 0.55f));
             UIFactory.Roundify(gateBg.GetComponent<Image>(), shadow: false);
-            gateBg.anchorMin = new Vector2(0.5f, 0);
-            gateBg.anchorMax = new Vector2(0.5f, 0);
-            gateBg.pivot = new Vector2(0.5f, 0);
-            gateBg.anchoredPosition = new Vector2(0, 168);
-            gateBg.sizeDelta = new Vector2(520, 40);
+            gateBg.anchorMin = new Vector2(1, 0);
+            gateBg.anchorMax = new Vector2(1, 0);
+            gateBg.pivot = new Vector2(1, 0);
+            gateBg.anchoredPosition = new Vector2(-24, 74);
+            gateBg.sizeDelta = new Vector2(560, 32);
             var gateFillGo = new GameObject("Fill", typeof(RectTransform), typeof(Image));
             gateFillGo.transform.SetParent(gateBg, false);
             _gateFill = gateFillGo.GetComponent<Image>();
@@ -234,17 +234,17 @@ namespace IdleGame.UI
             gateFillRect.anchorMax = new Vector2(0, 1);
             gateFillRect.offsetMin = new Vector2(3, 3);
             gateFillRect.offsetMax = new Vector2(-3, -3);
-            _gateText = UIFactory.CreateText(gateBg, "T", "", 24, TextAnchor.MiddleCenter, UIFactory.TextMain);
+            _gateText = UIFactory.CreateText(gateBg, "T", "", 20, TextAnchor.MiddleCenter, UIFactory.TextMain);
             UIFactory.Fill(_gateText.rectTransform);
 
             // 보스 도전 — 벽을 '보이게' 만드는 연출 (예상 피해 % + 도전 버튼)
             _bossButton = UIFactory.CreateButton(battle, "BossBtn", "", OnBossChallenge, UIFactory.Accent, 28);
             var bossRect = (RectTransform)_bossButton.transform;
-            bossRect.anchorMin = new Vector2(0.5f, 0);
-            bossRect.anchorMax = new Vector2(0.5f, 0);
+            bossRect.anchorMin = new Vector2(0, 0);
+            bossRect.anchorMax = new Vector2(1, 0);
             bossRect.pivot = new Vector2(0.5f, 0);
-            bossRect.anchoredPosition = new Vector2(0, 76);
-            bossRect.sizeDelta = new Vector2(520, 82);
+            bossRect.offsetMin = new Vector2(24, 8);
+            bossRect.offsetMax = new Vector2(-24, 66);
         }
 
         private static Image CreateHpBar(RectTransform parent, Vector2 anchor, Color color)
@@ -338,8 +338,8 @@ namespace IdleGame.UI
 
             var heroAnchors = new[]
             {
-                new Vector2(0.09f, 0.40f), new Vector2(0.15f, 0.62f),
-                new Vector2(0.42f, 0.36f), new Vector2(0.44f, 0.64f),
+                new Vector2(0.07f, 0.44f), new Vector2(0.12f, 0.68f),
+                new Vector2(0.38f, 0.40f), new Vector2(0.40f, 0.70f),
             };
             int heroIndex = 0;
             foreach (var unit in _session.Units.AllOwned())
@@ -374,7 +374,7 @@ namespace IdleGame.UI
 
                 var slot = UIFactory.CreatePanel(_skillBar, $"SK_{def.id}", new Color(0, 0, 0, 0.5f));
                 UIFactory.Roundify(slot.GetComponent<Image>(), shadow: false);
-                slot.sizeDelta = new Vector2(84, 84);
+                slot.sizeDelta = new Vector2(60, 60);
                 var outline = slot.gameObject.AddComponent<Outline>();
                 outline.effectColor = UIFactory.GradeColor(def.grade);
                 outline.effectDistance = new Vector2(2, 2);
@@ -491,7 +491,7 @@ namespace IdleGame.UI
             // 수문장 등장 연출: 몬스터 확대 + 붉은 기운
             var mobRect = _mobImage != null ? (RectTransform)_mobImage.transform : null;
             if (mobRect != null) { mobRect.localScale = Vector3.one * 1.5f; _mobImage.color = new Color(1f, 0.75f, 0.75f); }
-            _gateText.text = "⚔ 수문장 전투!";
+            _gateText.text = " 수문장 전투!";
             AudioManager.Play("hit", 0.8f);
 
             // 타격 교환식 재생: 때릴 때마다 그 데미지만큼 뚝뚝 닳는다 (독처럼 스르륵 X)
@@ -509,7 +509,7 @@ namespace IdleGame.UI
             {
                 // 내 공격 → 보스 체력이 타격량만큼 감소
                 AudioManager.Play("hit", 0.55f);
-                SpawnFightText(new Vector2(0.78f, 0.62f),
+                SpawnFightText(new Vector2(0.80f, 0.70f),
                     "-" + UIFactory.FormatNumber(bossHpTotal * killFrac / exchanges), UIFactory.Gold);
                 SetHpFill(_bossMobFill, Mathf.Clamp01(1f - (float)(killFrac * i / exchanges)));
                 if (mobRect != null) StartCoroutine(PunchScale(mobRect, 1.5f));
@@ -520,7 +520,7 @@ namespace IdleGame.UI
                 if (bossDps > 0)
                 {
                     AudioManager.Play("hurt", 0.4f);
-                    SpawnFightText(new Vector2(0.28f, 0.66f),
+                    SpawnFightText(new Vector2(0.24f, 0.72f),
                         "-" + UIFactory.FormatNumber(bossDps * simLength / exchanges),
                         new Color(1f, 0.35f, 0.4f));
                     SetHpFill(_playerHpFill, Mathf.Clamp01(1f - (float)(dieFrac * i / exchanges)));
@@ -531,13 +531,13 @@ namespace IdleGame.UI
             // 판정 — 시뮬레이션 결과 그대로
             if (preview.Victory && _session.Progression.TryPush())
             {
-                _gateText.text = "🔥 수문장 격파!";
+                _gateText.text = " 수문장 격파!";
                 _killText.text = "격파! 다음 구역으로";
                 AudioManager.Play("victory", 0.8f);
             }
             else if (preview.Reason == "death")
             {
-                _gateText.text = "💀 쓰러졌다...";
+                _gateText.text = " 쓰러졌다...";
                 _killText.text = "수문장에게 당했다 — 체력을 키우세요";
                 AudioManager.Play("hurt", 0.7f);
             }
@@ -569,7 +569,7 @@ namespace IdleGame.UI
             {
                 SetHpFill(_gateFill, Mathf.Clamp01(kills / (float)need));
                 _gateText.text = progression.BossGateOpen
-                    ? "🔥 수문장이 나타났다!"
+                    ? " 수문장이 나타났다!"
                     : $"몬스터 처치 {kills}/{need}";
             }
 
@@ -577,7 +577,7 @@ namespace IdleGame.UI
             bool open = progression.BossGateOpen;
             // 결과는 싸워봐야 안다 — 사전 판정 노출 없음
             label.text = open
-                ? $"⚔ {nextStage.Display(cfg)} 수문장 도전!"
+                ? $" {nextStage.Display(cfg)} 수문장 도전!"
                 : $"수문장 대기 중 ({kills}/{need} 처치)";
             _bossButton.interactable = open;
             _bossButton.image.color = open ? new Color(0.85f, 0.35f, 0.35f) : UIFactory.Panel;
@@ -637,7 +637,7 @@ namespace IdleGame.UI
         {
             if (result.StagePushed || result.Retreated) RefreshStage();
             _killText.text = result.Retreated
-                ? "💀 밀려났다! 체력을 키우세요"
+                ? " 밀려났다! 체력을 키우세요"
                 : result.Kills > 0
                     ? $"{UIFactory.FormatNumber(result.Kills / result.Seconds)}킬/초"
                     : "벽 — 성장 필요";
@@ -718,7 +718,7 @@ namespace IdleGame.UI
             var snapshot = _session.Stats.Snapshot();
             _dpsText.text = $"DPS {UIFactory.FormatNumber(snapshot.Dps())}";
             if (_powerText != null)
-                _powerText.text = $"⚔ 전투력 {UIFactory.FormatNumber(snapshot.CombatPower())}";
+                _powerText.text = $" 전투력 {UIFactory.FormatNumber(snapshot.CombatPower())}";
             RefreshBossButton();
 
             if (_mobImage != null)

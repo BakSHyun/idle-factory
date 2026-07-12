@@ -126,7 +126,7 @@ namespace IdleGame.UI
             UIFactory.Roundify(card.GetComponent<Image>());
             card.gameObject.AddComponent<LayoutElement>().preferredHeight = 158;
 
-            var name = UIFactory.CreateText(card, "N", $"💜 {payback.Def.name}", 30, TextAnchor.UpperLeft);
+            var name = UIFactory.CreateText(card, "N", $" {payback.Def.name}", 30, TextAnchor.UpperLeft);
             UIFactory.TopBand(name.rectTransform, 20, 42, 28);
             var desc = UIFactory.CreateText(card, "D",
                 $"수정 {payback.Def.price} 구매 → {payback.Def.days}일 출석 완주 시 전액 환급!", 22,
@@ -152,7 +152,7 @@ namespace IdleGame.UI
             {
                 if (payback.State?.refunded == true)
                 {
-                    status.text = "✓ 완주 — 전액 환급 완료";
+                    status.text = " 완주 — 전액 환급 완료";
                     action.GetComponentInChildren<Text>().text = "완료";
                     action.interactable = false;
                 }
@@ -266,7 +266,7 @@ namespace IdleGame.UI
             {
                 var s = sku;
                 var tile = UIFactory.CreateButton(grid, $"K_{s.skuId}",
-                    $"💎 {UIFactory.FormatNumber(s.grantHardGems)}\n₩{s.priceKrw:N0}", () =>
+                    $" {UIFactory.FormatNumber(s.grantHardGems)}\n₩{s.priceKrw:N0}", () =>
                     {
                         _fakeStore.Purchase(s, null);
                         _toast.text = $"수정 {s.grantHardGems} 충전! (결제 시뮬레이션)";

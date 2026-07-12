@@ -70,7 +70,7 @@ namespace IdleGame.UI
                     if (_session.Gacha.TryPullFree(_bannerId, 1, out var result))
                     {
                         var def = _session.Units.Defs[result.UnitIds[0]];
-                        _resultText.text = $"📺 무료 소환: [{GradeLabel(def.grade)}] {def.name}";
+                        _resultText.text = $" 무료 소환: [{GradeLabel(def.grade)}] {def.name}";
                     }
                     Refresh();
                 });
@@ -129,8 +129,8 @@ namespace IdleGame.UI
             int adLeft = _session.Ads.RemainingToday("free_summon");
             _adPullButton.GetComponentInChildren<Text>().text =
                 _session.Subscriptions.HasAdSkip()
-                    ? $"✨ 무료 소환 1회 (프리패스, 남은 {adLeft}회)"
-                    : $"📺 광고 보고 무료 소환 (남은 {adLeft}회)";
+                    ? $" 무료 소환 1회 (프리패스, 남은 {adLeft}회)"
+                    : $" 광고 보고 무료 소환 (남은 {adLeft}회)";
             _adPullButton.interactable = adLeft > 0;
         }
 

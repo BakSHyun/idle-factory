@@ -104,7 +104,7 @@ namespace IdleGame.UI
                     var stage = new IdleCore.Progression.StageId(axis.unlockStageIndex);
                     level.text = "";
                     effect.text = "";
-                    lockText.text = $"🔒 {stage.Display(_session.Config.stage)} 클리어 시 해금";
+                    lockText.text = $" {stage.Display(_session.Config.stage)} 클리어 시 해금";
                     button.gameObject.SetActive(false);
                     continue;
                 }

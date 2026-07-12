@@ -12,14 +12,26 @@ NEG = ("lowres, bad anatomy, bad hands, text, watermark, worst quality, low qual
        "multiple views, character sheet, 2girls, realistic, photo")
 
 COSTUMES = {
-    "costume_crimson": "1girl, solo, chibi, korean grim reaper girl, large pointed black gat, purple hair covering one eye, wearing crimson red royal hanbok with flower embroidery, cute, full body, thick outline, flat color, simple dark purple background",
-    "costume_snow":    "1girl, solo, chibi, korean grim reaper girl, large pointed white gat, purple hair covering one eye, wearing pure white mourning hanbok with silver trim, snowflakes, cute, full body, thick outline, flat color, simple dark purple background",
-    "costume_gold":    "1girl, solo, chibi, korean grim reaper girl, large pointed black gat with gold trim, purple hair covering one eye, wearing black official robe with golden embroidery, majestic, cute, full body, thick outline, flat color, simple dark purple background",
-    "costume_shadow":  "1girl, solo, chibi, korean grim reaper girl, large pointed black gat, purple hair covering one eye, wearing pitch black shadow cloak with dark mist, mysterious, cute, full body, thick outline, flat color, simple dark purple background",
+    "costume_crimson": "1girl, solo, chibi, korean grim reaper girl, large pointed black gat, purple hair covering one eye, wearing bright crimson red hanbok, red dress, red robe, red clothes with gold flower embroidery, cute, full body, thick outline, flat color, simple dark purple background",
+    "costume_snow":    "1girl, solo, chibi, korean grim reaper girl, large pointed white gat, purple hair covering one eye, wearing pure white hanbok, white dress, white robe, white clothes, silver trim, snowflakes, cute, full body, thick outline, flat color, simple dark purple background",
+    "costume_gold":    "1girl, solo, chibi, korean grim reaper girl, large pointed black gat with gold trim, purple hair covering one eye, wearing golden yellow royal robe, gold dress, gold embroidered clothes, shining gold, majestic, cute, full body, thick outline, flat color, simple dark purple background",
+    "costume_shadow":  "1girl, solo, chibi, korean grim reaper girl, large pointed black gat, purple hair covering one eye, wearing pitch black hooded cloak, black mist aura, glowing purple runes on fabric, mysterious, cute, full body, thick outline, flat color, simple dark purple background",
 }
 for name, prompt in COSTUMES.items():
     image = pipe(prompt=prompt + ", masterpiece, high score", negative_prompt=NEG,
-                 image=base, strength=0.6, guidance_scale=6.0, num_inference_steps=30,
-                 generator=torch.Generator("cpu").manual_seed(6)).images[0]
-    image.save(f"../../art/costumes/{name}.png")
+                 image=base, strength=0.85, guidance_scale=6.0, num_inference_steps=30,
+                 generator=torch.Generator("cpu").manual_seed(77)).images[0]
+    # 모듈화: 원본 머리(얼굴+갓)를 목선에서 합성 — 얼굴은 절대 안 바뀐다
+    import numpy as np
+    v = np.array(image).astype(float)
+    b = np.array(base).astype(float)
+    H = v.shape[0]
+    head_end = int(H * 0.52)   # 치비 비율: 머리+갓이 상단 ~52%
+    band = 80                   # 목선 블렌드 밴드
+    mask = np.zeros((H, 1, 1))
+    mask[:head_end - band] = 1.0
+    ramp = np.linspace(1, 0, band).reshape(-1, 1, 1)
+    mask[head_end - band:head_end] = ramp
+    out = v * (1 - mask) + b * mask
+    Image.fromarray(out.astype("uint8")).save(f"../../art/costumes/{name}.png")
     print("saved", name, flush=True)

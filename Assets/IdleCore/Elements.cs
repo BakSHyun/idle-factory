@@ -27,12 +27,13 @@ namespace IdleCore
             _ => "무",
         };
 
+        /// <summary>짧은 표기 (Unity 기본 폰트는 이모지 미지원 — 한 글자 한글 사용, UI에서 색 입힘)</summary>
         public static string Icon(string element) => element switch
         {
-            Fire => "🔥",
-            Lightning => "⚡",
-            Dark => "🌑",
-            _ => "◦",
+            Fire => "불",
+            Lightning => "뇌",
+            Dark => "암",
+            _ => "무",
         };
     }
 }

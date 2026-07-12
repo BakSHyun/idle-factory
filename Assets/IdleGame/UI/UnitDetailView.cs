@@ -153,7 +153,7 @@ namespace IdleGame.UI
             foreach (var lb in def.limitBreakEffects)
             {
                 bool active = unit != null && unit.limitBreak >= lb.atLimitBreak;
-                sb.AppendLine($"{(active ? "✓" : "🔒")} {lb.atLimitBreak}돌파: {Describe(lb.effect, 1)}");
+                sb.AppendLine($"{(active ? "" : "")} {lb.atLimitBreak}돌파: {Describe(lb.effect, 1)}");
             }
 
             sb.AppendLine("\n── 보유 효과 (도감, 미장착에도 적용) ──");
@@ -166,7 +166,7 @@ namespace IdleGame.UI
             }
             // 고유 패시브
             if (!string.IsNullOrEmpty(def.passiveName))
-                sb.AppendLine($"\n── 고유 패시브 ──\n✦ {def.passiveName}: {def.passiveDesc}");
+                sb.AppendLine($"\n── 고유 패시브 ──\n {def.passiveName}: {def.passiveDesc}");
 
             // 액티브 스킬 (돌파 마일스톤 반영 실효치)
             if (def.activeSkill != null)
@@ -186,7 +186,7 @@ namespace IdleGame.UI
                     sb.AppendLine("\n── 돌파 마일스톤 ──");
                     int lb = unit?.limitBreak ?? 0;
                     foreach (var mod in def.skillMilestones)
-                        sb.AppendLine($"{(lb >= mod.atLimitBreak ? "✓" : "🔒")} {mod.description}");
+                        sb.AppendLine($"{(lb >= mod.atLimitBreak ? "" : "")} {mod.description}");
                 }
             }
 
@@ -217,16 +217,16 @@ namespace IdleGame.UI
             if (_composeButton.gameObject.activeSelf)
             {
                 _composeButton.GetComponentInChildren<Text>().text =
-                    $"⚗ 승급 {_session.Units.SurplusCopies(_unitId)}/{_session.Units.ComposeCost}";
+                    $" 승급 {_session.Units.SurplusCopies(_unitId)}/{_session.Units.ComposeCost}";
                 _composeButton.interactable = composable;
             }
         }
 
         public static string StatusLabel(string status) => status switch
         {
-            "burn" => "🔥 화상",
-            "shock" => "⚡ 감전",
-            "chaos" => "🌑 혼돈",
+            "burn" => " 화상",
+            "shock" => " 감전",
+            "chaos" => " 혼돈",
             _ => status,
         };
 
@@ -245,9 +245,9 @@ namespace IdleGame.UI
                 StatType.SoulGain => "영혼 획득",
                 StatType.OfflineRate => "방치 보상",
                 StatType.OfflineCapHours => "방치 상한",
-                StatType.FireDamage => "🔥 불 속성 공격력",
-                StatType.LightningDamage => "⚡ 번개 속성 공격력",
-                StatType.DarkDamage => "🌑 어둠 속성 공격력",
+                StatType.FireDamage => " 불 속성 공격력",
+                StatType.LightningDamage => " 번개 속성 공격력",
+                StatType.DarkDamage => " 어둠 속성 공격력",
                 StatType.AllElementDamage => "모든 속성 피해",
                 StatType.DefensePierce => "방어 무시",
                 StatType.SoftGemGain => "영옥 획득량",

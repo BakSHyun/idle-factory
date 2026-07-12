@@ -89,7 +89,7 @@ namespace IdleGame.UI
             layout.childForceExpandWidth = true;
             layout.spacing = 10;
 
-            var challenge = UIFactory.CreateButton(buttonBar, "Go", "⚔ 도전", () =>
+            var challenge = UIFactory.CreateButton(buttonBar, "Go", " 도전", () =>
             {
                 var result = _session.Dungeons.TryChallenge(def.id, _session.Progression.HighestClearedIndex);
                 Toast(def, result, "입장 횟수가 없습니다");
@@ -134,8 +134,8 @@ namespace IdleGame.UI
         public void Refresh()
         {
             if (_session == null || _ticketText == null) return;
-            _ticketText.text = $"🎟 소탕권 {_session.Wallet.Get(CurrencyIds.SweepTicket)}장  ·  " +
-                               $"📺 광고 소탕 {_session.Ads.RemainingToday("dungeon_sweep")}회";
+            _ticketText.text = $" 소탕권 {_session.Wallet.Get(CurrencyIds.SweepTicket)}장  ·  " +
+                               $" 광고 소탕 {_session.Ads.RemainingToday("dungeon_sweep")}회";
 
             foreach (var (def, title, floor, pips, challenge, sweep, ad, lockText) in _cards)
             {
@@ -152,7 +152,7 @@ namespace IdleGame.UI
                 if (!unlocked)
                 {
                     var unlockStage = new StageId(def.unlockStageIndex);
-                    lockText.text = $"🔒 {def.name} — {unlockStage.Display(_session.Config.stage)} 클리어 시 해금";
+                    lockText.text = $" {def.name} — {unlockStage.Display(_session.Config.stage)} 클리어 시 해금";
                     continue;
                 }
                 lockText.text = "";
@@ -165,13 +165,13 @@ namespace IdleGame.UI
                           + string.Concat(System.Linq.Enumerable.Repeat("○", def.freeEntriesPerDay - free));
 
                 challenge.interactable = free > 0;
-                challenge.GetComponentInChildren<Text>().text = free > 0 ? $"⚔ 도전 ({free})" : "내일 다시";
+                challenge.GetComponentInChildren<Text>().text = free > 0 ? $" 도전 ({free})" : "내일 다시";
                 long tickets = _session.Wallet.Get(CurrencyIds.SweepTicket);
                 sweep.interactable = tickets > 0 && state.highestFloorCleared >= 1;
-                sweep.GetComponentInChildren<Text>().text = $"🎟 소탕";
+                sweep.GetComponentInChildren<Text>().text = $" 소탕";
                 int adLeft = _session.Ads.RemainingToday("dungeon_sweep");
                 ad.interactable = adLeft > 0 && state.highestFloorCleared >= 1;
-                ad.GetComponentInChildren<Text>().text = $"📺 소탕 ({adLeft})";
+                ad.GetComponentInChildren<Text>().text = $" 소탕 ({adLeft})";
             }
         }
     }

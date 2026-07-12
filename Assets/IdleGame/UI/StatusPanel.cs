@@ -40,7 +40,7 @@ namespace IdleGame.UI
             var heroCard = UIFactory.CreatePanel(list, "PowerCard", new Color(0.20f, 0.16f, 0.30f));
             UIFactory.Roundify(heroCard.GetComponent<Image>());
             heroCard.gameObject.AddComponent<LayoutElement>().preferredHeight = 150;
-            var heroTitle = UIFactory.CreateText(heroCard, "T", "⚔ 전투력", 26, TextAnchor.UpperCenter, UIFactory.TextDim);
+            var heroTitle = UIFactory.CreateText(heroCard, "T", " 전투력", 26, TextAnchor.UpperCenter, UIFactory.TextDim);
             UIFactory.TopBand(heroTitle.rectTransform, 16, 36);
             var heroValue = UIFactory.CreateText(heroCard, "V", "0", 56, TextAnchor.MiddleCenter, UIFactory.Gold);
             UIFactory.BottomBand(heroValue.rectTransform, 14, 86);

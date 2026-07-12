@@ -33,7 +33,7 @@ namespace IdleGame.UI
             panel.sizeDelta = new Vector2(660, 96);
 
             var text = UIFactory.CreateText(panel, "T",
-                $"⚔ {UIFactory.FormatNumber(before)} → {UIFactory.FormatNumber(after)}  " +
+                $" {UIFactory.FormatNumber(before)} → {UIFactory.FormatNumber(after)}  " +
                 (up ? $"<color=#7dffa0>▲ +{percent:0.#}%</color>" : $"<color=#ff8090>▼ {percent:0.#}%</color>"),
                 32, TextAnchor.MiddleCenter);
             UIFactory.Fill(text.rectTransform);

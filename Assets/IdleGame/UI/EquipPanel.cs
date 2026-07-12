@@ -64,7 +64,7 @@ namespace IdleGame.UI
             actionLayout.childControlHeight = true;
             actionLayout.childForceExpandWidth = true;
             actionLayout.spacing = 10;
-            UIFactory.CreateButton(actionBar, "ComposeAll", "⚗ 일괄 승급", () =>
+            UIFactory.CreateButton(actionBar, "ComposeAll", " 일괄 승급", () =>
                 PowerToast.Wrap(_session, Rect.parent, () =>
                 {
                     int composed = 0;
@@ -77,7 +77,7 @@ namespace IdleGame.UI
                     _infoText.text = composed > 0 ? $"일괄 승급 {composed}회 완료!" : "승급 가능한 잉여 사본 없음 (같은 유닛 잉여 5개)";
                     Refresh();
                 }), new Color(0.32f, 0.24f, 0.15f), 27);
-            UIFactory.CreateButton(actionBar, "AutoEquip", "✦ 자동 장착", () =>
+            UIFactory.CreateButton(actionBar, "AutoEquip", " 자동 장착", () =>
                 PowerToast.Wrap(_session, Rect.parent, () =>
                 {
                     _session.Units.AutoEquipBest();
@@ -118,8 +118,8 @@ namespace IdleGame.UI
             int total = _session.Units.Defs.Count;
             var next = _session.Units.Milestones.FirstOrDefault(m => owned < m.count);
             _collectionText.text = next == null
-                ? $"📖 도감 {owned}/{total} 완성!"
-                : $"📖 도감 {owned}/{total} — 다음 보너스까지 {next.count - owned}종";
+                ? $" 도감 {owned}/{total} 완성!"
+                : $" 도감 {owned}/{total} — 다음 보너스까지 {next.count - owned}종";
 
             RebuildCatalog();
         }
@@ -203,7 +203,7 @@ namespace IdleGame.UI
                     int surplus = _session.Units.SurplusCopies(def.id);
                     var gaugeText = UIFactory.CreateText(tile.transform, "Gauge",
                         surplus >= _session.Units.ComposeCost
-                            ? $"⚗ 승급 가능 {surplus}/{_session.Units.ComposeCost}"
+                            ? $" 승급 가능 {surplus}/{_session.Units.ComposeCost}"
                             : $"승급 {surplus}/{_session.Units.ComposeCost}",
                         20, TextAnchor.MiddleCenter,
                         surplus >= _session.Units.ComposeCost ? UIFactory.Gold : UIFactory.TextDim);

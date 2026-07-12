@@ -27,7 +27,7 @@ namespace IdleGame.UI
             panel.anchorMax = new Vector2(0.95f, 0.9f);
             panel.offsetMin = panel.offsetMax = Vector2.zero;
 
-            var title = UIFactory.CreateText(panel, "Title", "📋 일일 미션 · 출석", 40);
+            var title = UIFactory.CreateText(panel, "Title", " 일일 미션 · 출석", 40);
             UIFactory.TopBand(title.rectTransform, 10, 70, 20);
 
             var listArea = UIFactory.CreatePanel(panel, "ListArea", UIFactory.Panel);
@@ -48,8 +48,8 @@ namespace IdleGame.UI
             var att = _session.Attendance;
             var attRow = UIFactory.CreateButton(_list, "Attendance",
                 att.CanClaimToday()
-                    ? $"🗓 출석부 {att.CurrentDay}일차 — 받기!"
-                    : $"🗓 출석부 {(att.CurrentDay > 1 ? att.CurrentDay - 1 : att.DayCount)}일차 수령 완료 (내일 또 만나요)",
+                    ? $" 출석부 {att.CurrentDay}일차 — 받기!"
+                    : $" 출석부 {(att.CurrentDay > 1 ? att.CurrentDay - 1 : att.DayCount)}일차 수령 완료 (내일 또 만나요)",
                 () => { if (_session.Attendance.TryClaimToday()) Rebuild(); },
                 att.CanClaimToday() ? UIFactory.Accent : UIFactory.Bg, 28);
             attRow.gameObject.AddComponent<LayoutElement>().preferredHeight = 90;
@@ -59,7 +59,7 @@ namespace IdleGame.UI
             {
                 var state = _session.Missions.State(def.id);
                 bool claimable = _session.Missions.CanClaim(def.id);
-                string status = state.claimed ? "✓ 완료"
+                string status = state.claimed ? " 완료"
                     : claimable ? "받기!"
                     : $"{state.progress}/{def.target}";
                 string rewards = string.Join(" ", def.rewards.Select(r =>

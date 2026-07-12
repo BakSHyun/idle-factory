@@ -152,7 +152,7 @@ namespace IdleGame.UI
                 TextAnchor.MiddleCenter, new Color(1f, 0.35f, 0.4f));
             text.fontStyle = FontStyle.Bold;
             var rect = text.rectTransform;
-            rect.anchorMin = rect.anchorMax = new Vector2(0.28f, 0.66f);
+            rect.anchorMin = rect.anchorMax = new Vector2(0.24f, 0.72f);
             rect.anchoredPosition = new Vector2(Random.Range(-24f, 24f), 0);
             StartCoroutine(FloatAndFade(text));
         }
@@ -231,7 +231,7 @@ namespace IdleGame.UI
                 TextAnchor.MiddleCenter, new Color(1f, 0.85f, 0.4f));
             text.fontStyle = FontStyle.Bold;
             var rect = text.rectTransform;
-            rect.anchorMin = rect.anchorMax = new Vector2(0.78f, 0.62f);
+            rect.anchorMin = rect.anchorMax = new Vector2(0.80f, 0.70f);
             rect.anchoredPosition = new Vector2(Random.Range(-30f, 30f), Random.Range(-10f, 10f));
             StartCoroutine(FloatAndFade(text));
         }

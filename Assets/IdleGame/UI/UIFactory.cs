@@ -13,6 +13,15 @@ namespace IdleGame.UI
         public static readonly Color TextMain = new Color(0.92f, 0.90f, 0.97f);
         public static readonly Color TextDim = new Color(0.62f, 0.60f, 0.70f);
 
+        /// <summary>속성 컬러 (불 주황 / 뇌 노랑 / 암 보라)</summary>
+        public static Color ElementColor(string element) => element switch
+        {
+            IdleCore.Elements.Fire => new Color(1f, 0.55f, 0.3f),
+            IdleCore.Elements.Lightning => new Color(1f, 0.9f, 0.35f),
+            IdleCore.Elements.Dark => new Color(0.75f, 0.55f, 1f),
+            _ => TextDim,
+        };
+
         /// <summary>등급 컬러 토큰 — 텍스트/테두리/아이콘 배경에 일관 적용 (게이머 관습 준수).</summary>
         public static Color GradeColor(IdleCore.Gacha.UnitGrade grade) => grade switch
         {
