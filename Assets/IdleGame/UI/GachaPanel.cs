@@ -17,7 +17,7 @@ namespace IdleGame.UI
         public RectTransform Rect { get; private set; }
         private GameSession _session;
         private Text _pityText, _resultText, _collectionText;
-        private Button _pull1Button, _pull10Button;
+        private Button _pull1Button, _pull10Button, _adPullButton;
         private RectTransform _catalogGrid;
         private readonly List<Button> _bannerButtons = new List<Button>();
         private string _bannerId;
@@ -65,6 +65,23 @@ namespace IdleGame.UI
             _pull10Button = UIFactory.CreateButton(list, "Pull10", "", () => Pull(10), UIFactory.Gold);
             _pull10Button.GetComponentInChildren<Text>().color = Color.black;
             _pull10Button.gameObject.AddComponent<LayoutElement>().preferredHeight = 96;
+
+            // 광고 무료 소환 (소헌키의 보라색 광고 버튼 — IAA 슬롯, 프리패스 구독자는 즉시)
+            _adPullButton = UIFactory.CreateButton(list, "AdPull", "", () =>
+            {
+                if (!_session.Ads.CanUse("free_summon")) { _resultText.text = "오늘의 무료 소환을 다 썼습니다"; return; }
+                _session.Ads.Use("free_summon", ok =>
+                {
+                    if (!ok) return;
+                    if (_session.Gacha.TryPullFree(_bannerId, 1, out var result))
+                    {
+                        var def = _session.Units.Defs[result.UnitIds[0]];
+                        _resultText.text = $"📺 무료 소환: [{GradeLabel(def.grade)}] {def.name}";
+                    }
+                    Refresh();
+                });
+            }, new Color(0.55f, 0.3f, 0.75f), 27);
+            _adPullButton.gameObject.AddComponent<LayoutElement>().preferredHeight = 84;
 
             _resultText = UIFactory.CreateText(list, "Result", "", 26, TextAnchor.UpperCenter);
             _resultText.gameObject.AddComponent<LayoutElement>().preferredHeight = 150;
@@ -150,6 +167,12 @@ namespace IdleGame.UI
                 $"\n{string.Join(" · ", rates)}";
             _pull1Button.GetComponentInChildren<Text>().text = $"1회 소환  (영옥 {banner.costPerPull})";
             _pull10Button.GetComponentInChildren<Text>().text = $"10연 소환  (영옥 {banner.CostFor(10)})";
+            int adLeft = _session.Ads.RemainingToday("free_summon");
+            _adPullButton.GetComponentInChildren<Text>().text =
+                _session.Subscriptions.HasAdSkip()
+                    ? $"✨ 무료 소환 1회 (프리패스, 남은 {adLeft}회)"
+                    : $"📺 광고 보고 무료 소환 (남은 {adLeft}회)";
+            _adPullButton.interactable = adLeft > 0;
 
             int owned = _session.Units.UniqueOwnedCount;
             int total = _session.Units.Defs.Count;
@@ -178,11 +201,7 @@ namespace IdleGame.UI
 
                 var tile = UIFactory.CreateButton(_catalogGrid, $"T_{def.id}", "", () =>
                 {
-                    if (unit == null) { _resultText.text = $"{def.name} — 미보유 (소환으로 획득)"; return; }
-                    if (unit.equipped) _session.Units.Unequip(def.id);
-                    else if (!_session.Units.TryEquip(def.id))
-                        _resultText.text = $"{KindLabel(def.kind)} 슬롯이 가득 찼습니다 — 먼저 해제하세요";
-                    Refresh();
+                    UnitDetailView.Open(Rect.parent, _session, def.id, Refresh); // 상세 팝업 (장착/강화/승급)
                 }, isOwned
                     ? Color.Lerp(UIFactory.Panel, gradeColor, unit.equipped ? 0.45f : 0.18f)
                     : new Color(0.10f, 0.09f, 0.14f), 22);

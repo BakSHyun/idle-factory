@@ -45,6 +45,7 @@ namespace IdleGame
                 new SystemClock(),
                 new SeededRng(unchecked((int)System.DateTime.UtcNow.Ticks)));
 
+            AudioManager.Ensure(Session);
             var offline = Session.ClaimOfflineReward();
             _ui = UI.RootView.Create(Session);
             if (offline.CreditedHours > 0.01)

@@ -48,7 +48,9 @@ namespace IdleGame.UI
         private static Text Body(RectTransform list, float height)
         {
             var text = UIFactory.CreateText(list, "Body", "", 28, TextAnchor.UpperLeft);
-            text.gameObject.AddComponent<LayoutElement>().preferredHeight = height;
+            // 내용에 맞춰 높이 자동 확장 (고정 높이 → 섹션 겹침 버그의 원인이었음)
+            text.horizontalOverflow = HorizontalWrapMode.Wrap;
+            text.gameObject.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
             text.lineSpacing = 1.35f;
             return text;
         }

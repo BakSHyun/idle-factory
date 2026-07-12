@@ -127,7 +127,19 @@ namespace IdleCore.Gacha
             if (!_banners.TryGetValue(bannerId, out var banner)) return false;
             long cost = banner.CostFor(count);
             if (!_wallet.TrySpend(banner.costCurrency, cost)) return false;
+            return DoPull(bannerId, banner, count, out result);
+        }
 
+        /// <summary>무료 소환 (광고 보상 등) — 재화를 소모하지 않는다.</summary>
+        public bool TryPullFree(string bannerId, int count, out GachaResult result)
+        {
+            result = null;
+            if (!_banners.TryGetValue(bannerId, out var banner)) return false;
+            return DoPull(bannerId, banner, count, out result);
+        }
+
+        private bool DoPull(string bannerId, BannerDef banner, int count, out GachaResult result)
+        {
             result = new GachaResult();
             int pity = PityCounter(bannerId);
 

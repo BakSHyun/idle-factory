@@ -95,6 +95,7 @@ namespace IdleGame.UI
             }
             _mob.anchoredPosition = _mobBase;
 
+            AudioManager.Play("hurt", 0.4f);
             // 캐릭터 피격: 빨간 플래시 + 흔들림 + 빨간 데미지 숫자
             if (_charImage != null)
             {
@@ -129,6 +130,7 @@ namespace IdleGame.UI
 
             if (_mob != null && _mobImage != null && _mobImage.enabled)
             {
+                AudioManager.Play("hit", 0.45f);
                 SpawnDamageText();
                 StartCoroutine(MobHit());
             }
