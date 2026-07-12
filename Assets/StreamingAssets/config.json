@@ -6317,14 +6317,21 @@
           "value": {
             "baseValue": 8
           }
+        },
+        {
+          "stat": "AttackSpeed",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0.05
+          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 1.5
+            "baseValue": 0.004
           }
         }
       ],
@@ -6371,6 +6378,20 @@
           "atLimitBreak": 10,
           "description": "10성: 공격력 +200%"
         }
+      ],
+      "passiveName": "기본기",
+      "passiveDesc": "꾸준한 낫질 — 공격 속도 +0.05",
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "FinalDamage",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 1.0
+            }
+          }
+        }
       ]
     },
     {
@@ -6386,14 +6407,21 @@
           "value": {
             "baseValue": 8
           }
+        },
+        {
+          "stat": "CritChance",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0.04
+          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 1.5
+            "baseValue": 0.004
           }
         }
       ],
@@ -6440,6 +6468,20 @@
           "atLimitBreak": 10,
           "description": "10성: 공격력 +200%"
         }
+      ],
+      "passiveName": "급소 찌르기",
+      "passiveDesc": "약점을 노린다 — 치명타 확률 +4%",
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "FinalDamage",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 1.0
+            }
+          }
+        }
       ]
     },
     {
@@ -6455,14 +6497,21 @@
           "value": {
             "baseValue": 8
           }
+        },
+        {
+          "stat": "FireDamage",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0.06
+          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 1.5
+            "baseValue": 0.004
           }
         }
       ],
@@ -6509,6 +6558,20 @@
           "atLimitBreak": 10,
           "description": "10성: 공격력 +200%"
         }
+      ],
+      "passiveName": "잔불",
+      "passiveDesc": "불씨가 남는다 — 불 속성 피해 +6%",
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "FinalDamage",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 1.0
+            }
+          }
+        }
       ]
     },
     {
@@ -6524,14 +6587,21 @@
           "value": {
             "baseValue": 17.6
           }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 6
+          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 3.3
+            "baseValue": 0.0088
           }
         }
       ],
@@ -6578,6 +6648,20 @@
           "atLimitBreak": 10,
           "description": "10성: 공격력 +200%"
         }
+      ],
+      "passiveName": "이중 절단",
+      "passiveDesc": "깊게 벤다 — 방어 무시 +6",
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "FinalDamage",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 1.0
+            }
+          }
+        }
       ]
     },
     {
@@ -6593,14 +6677,21 @@
           "value": {
             "baseValue": 17.6
           }
+        },
+        {
+          "stat": "AttackSpeed",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0.1
+          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 3.3
+            "baseValue": 0.0088
           }
         }
       ],
@@ -6647,6 +6738,20 @@
           "atLimitBreak": 10,
           "description": "10성: 공격력 +200%"
         }
+      ],
+      "passiveName": "잔상",
+      "passiveDesc": "흐릿한 움직임 — 공격 속도 +0.10",
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "FinalDamage",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 1.0
+            }
+          }
+        }
       ]
     },
     {
@@ -6662,14 +6767,21 @@
           "value": {
             "baseValue": 38.4
           }
+        },
+        {
+          "stat": "FireDamage",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0.08
+          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 7.2
+            "baseValue": 0.0192
           }
         }
       ],
@@ -6716,6 +6828,20 @@
           "atLimitBreak": 10,
           "description": "10성: 공격력 +200%"
         }
+      ],
+      "passiveName": "귀화 점화",
+      "passiveDesc": "혼이 타오른다 — 불 속성 피해 +8%",
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "FinalDamage",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 1.0
+            }
+          }
+        }
       ]
     },
     {
@@ -6731,14 +6857,21 @@
           "value": {
             "baseValue": 38.4
           }
+        },
+        {
+          "stat": "DarkDamage",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0.08
+          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 7.2
+            "baseValue": 0.0192
           }
         }
       ],
@@ -6785,6 +6918,20 @@
           "atLimitBreak": 10,
           "description": "10성: 공격력 +200%"
         }
+      ],
+      "passiveName": "원혼의 절규",
+      "passiveDesc": "공포를 퍼뜨린다 — 어둠 속성 피해 +8%",
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "FinalDamage",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 1.0
+            }
+          }
+        }
       ]
     },
     {
@@ -6800,14 +6947,21 @@
           "value": {
             "baseValue": 0.126
           }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 12
+          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 15.8
+            "baseValue": 0.042
           }
         }
       ],
@@ -6854,6 +7008,20 @@
           "atLimitBreak": 10,
           "description": "10성: 공격력 +200%"
         }
+      ],
+      "passiveName": "움켜쥐기",
+      "passiveDesc": "적을 붙잡는다 — 방어 무시 +12",
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "FinalDamage",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 1.0
+            }
+          }
+        }
       ]
     },
     {
@@ -6869,14 +7037,21 @@
           "value": {
             "baseValue": 0.105
           }
+        },
+        {
+          "stat": "LightningDamage",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0.08
+          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 15.8
+            "baseValue": 0.042
           }
         }
       ],
@@ -6923,6 +7098,20 @@
           "atLimitBreak": 10,
           "description": "10성: 공격력 +200%"
         }
+      ],
+      "passiveName": "속박",
+      "passiveDesc": "사슬이 조인다 — 번개 속성 피해 +8%",
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "FinalDamage",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 1.0
+            }
+          }
+        }
       ]
     },
     {
@@ -6938,14 +7127,21 @@
           "value": {
             "baseValue": 0.276
           }
+        },
+        {
+          "stat": "CritMultiplier",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0.3
+          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 34.5
+            "baseValue": 0.092
           }
         }
       ],
@@ -6992,6 +7188,20 @@
           "atLimitBreak": 10,
           "description": "10성: 공격력 +200%"
         }
+      ],
+      "passiveName": "도깨비 심술",
+      "passiveDesc": "불꽃이 튄다 — 치명타 피해 +0.3",
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "FinalDamage",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 1.0
+            }
+          }
+        }
       ]
     },
     {
@@ -7007,14 +7217,21 @@
           "value": {
             "baseValue": 0.23
           }
+        },
+        {
+          "stat": "HeroSkillDamage",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0.08
+          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 34.5
+            "baseValue": 0.092
           }
         }
       ],
@@ -7061,6 +7278,20 @@
           "atLimitBreak": 10,
           "description": "10성: 공격력 +200%"
         }
+      ],
+      "passiveName": "사령 소환",
+      "passiveDesc": "원귀가 돕는다 — 스킬 피해량 +8%",
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "FinalDamage",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 1.0
+            }
+          }
+        }
       ]
     },
     {
@@ -7076,14 +7307,21 @@
           "value": {
             "baseValue": 0.6
           }
+        },
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.08
+          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
+          "stat": "HeroSkillDamage",
           "mode": "Add",
           "value": {
-            "baseValue": 75.0
+            "baseValue": 0.2
           }
         }
       ],
@@ -7095,6 +7333,16 @@
             "mode": "Mul",
             "value": {
               "baseValue": 0.5
+            }
+          }
+        },
+        {
+          "atLimitBreak": 10,
+          "effect": {
+            "stat": "FinalDamage",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 1.0
             }
           }
         }
@@ -7142,7 +7390,9 @@
           "atLimitBreak": 10,
           "description": "10성: 공격력 +200%"
         }
-      ]
+      ],
+      "passiveName": "삼도천의 심판",
+      "passiveDesc": "강을 건너게 한다 — 최종 데미지 +8%"
     }
   ],
   "banners": [

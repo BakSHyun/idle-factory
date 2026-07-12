@@ -19,6 +19,8 @@ namespace IdleGame.UI
         private Text _gateText;
         private RectTransform _partyContainer, _skillBar;
         private Text _mobElementText, _advantageText;
+        private readonly System.Collections.Generic.List<Button> _tabButtons
+            = new System.Collections.Generic.List<Button>();
         private readonly System.Collections.Generic.List<(string unitId, Image overlay, RectTransform rect)> _skillIcons
             = new System.Collections.Generic.List<(string, Image, RectTransform)>();
         private BattleAnimator _battleAnimator;
@@ -576,11 +578,33 @@ namespace IdleGame.UI
             layout.spacing = 4;
 
             string[] names = { "성장", "편성", "소환", "던전", "상점", "정보" };
+            string[] icons = { "tab_growth", "tab_equip", "tab_gacha", "tab_dungeon", "tab_shop", "tab_status" };
             for (int i = 0; i < names.Length; i++)
             {
                 int index = i;
-                UIFactory.CreateButton(bar, $"Tab_{names[i]}", names[i], () => ShowPanel(index),
-                    UIFactory.Panel, 38);
+                var tab = UIFactory.CreateButton(bar, $"Tab_{names[i]}", "", () => ShowPanel(index),
+                    UIFactory.Panel, 24);
+                // 아이콘 (위) + 라벨 (아래)
+                var sprite = UIFactory.LoadSprite($"art/icons/{icons[i]}.png");
+                if (sprite != null)
+                {
+                    var iconGo = new GameObject("Icon", typeof(RectTransform), typeof(Image));
+                    iconGo.transform.SetParent(tab.transform, false);
+                    var iconImage = iconGo.GetComponent<Image>();
+                    iconImage.sprite = sprite;
+                    iconImage.preserveAspect = true;
+                    iconImage.raycastTarget = false;
+                    var iconRect = (RectTransform)iconGo.transform;
+                    iconRect.anchorMin = iconRect.anchorMax = new Vector2(0.5f, 1);
+                    iconRect.pivot = new Vector2(0.5f, 1);
+                    iconRect.anchoredPosition = new Vector2(0, -14);
+                    iconRect.sizeDelta = new Vector2(56, 56);
+                }
+                var label = tab.GetComponentInChildren<Text>();
+                label.text = names[i];
+                label.alignment = TextAnchor.LowerCenter;
+                label.rectTransform.offsetMin = new Vector2(0, 12);
+                _tabButtons.Add(tab);
             }
         }
 
@@ -588,6 +612,8 @@ namespace IdleGame.UI
         {
             for (int i = 0; i < _panels.Length; i++)
                 _panels[i].gameObject.SetActive(i == index);
+            for (int i = 0; i < _tabButtons.Count; i++)
+                _tabButtons[i].image.color = i == index ? UIFactory.Accent : UIFactory.Panel; // 선택 탭 강조
             RefreshAll();
         }
 

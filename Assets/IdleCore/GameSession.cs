@@ -209,8 +209,8 @@ namespace IdleCore
                 extraHits += mod.extraHits;
             }
 
-            double heroBonus = def.kind == "hero"
-                ? Math.Max(0, Stats.Snapshot().Get(StatType.HeroSkillDamage)) : 0;
+            // 스킬 피해량 스탯: 차사·스킬 유닛의 보유 효과가 서로의 스킬을 강화
+            double heroBonus = Math.Max(0, Stats.Snapshot().Get(StatType.HeroSkillDamage));
             int hits = spec.hitCount + extraHits;
             double damageSeconds = spec.damagePerHit * hits * (1 + damageBonus) * (1 + heroBonus);
             double cooldown = Math.Max(1.0, spec.cooldown - cdReduction);
