@@ -52,6 +52,12 @@ namespace IdleCore.Gacha
         /// <summary>도감(보유) 효과 — 장착하지 않아도 계정에 기여 ('잉여 제로' 원칙)</summary>
         public List<StatEffect> collectionEffects = new List<StatEffect>();
 
+        // ── 액티브 스킬 (kind=skill 전용): 쿨타임마다 자동 시전 ──
+        /// <summary>시전 주기 (초, 0 = 액티브 아님)</summary>
+        public double skillCooldown;
+        /// <summary>시전 시 즉시 가하는 피해 = 이 초数만큼의 파밍 DPS (버스트)</summary>
+        public double skillBurstSeconds;
+
         // ── 장비 레벨 (소헌키: 대낫/오브/장식은 개별 강화, 최대 200) ──
         /// <summary>1이면 레벨 없음(스킬/차사), 장비는 200</summary>
         public int maxLevel = 1;

@@ -127,10 +127,38 @@ namespace IdleCore
         }
 
         /// <summary>온라인 파밍 틱. 뷰의 프레임/초 단위 어디서 불러도 된다 (수식 기반이라 주기 무관).</summary>
+        /// <summary>스킬 자동 시전 시 (unitId) — UI 연출/사운드용</summary>
+        public event Action<string> SkillCast;
+        private readonly Dictionary<string, double> _skillTimers = new Dictionary<string, double>();
+
+        public double SkillCooldownRemaining(string unitId) =>
+            _skillTimers.TryGetValue(unitId, out var t) ? Math.Max(0, t) : 0;
+
         public FarmResult Tick(double seconds)
         {
             // 보스 도전은 UI가 전투 연출과 함께 수동/자동 트리거한다 (자동 즉시 돌파 없음)
             var result = Progression.Advance(seconds, autoPush: false);
+
+            // 장착 스킬 자동 시전: 쿨타임마다 burstSeconds어치 파밍을 즉시 수행 (실제 보상)
+            foreach (var unit in Units.AllOwned())
+            {
+                if (!unit.equipped) continue;
+                var def = Units.Defs[unit.unitId];
+                if (def.skillCooldown <= 0) continue;
+                _skillTimers.TryGetValue(unit.unitId, out var timer);
+                timer -= seconds;
+                if (timer <= 0)
+                {
+                    timer = def.skillCooldown;
+                    var burst = Progression.Advance(def.skillBurstSeconds, autoPush: false);
+                    result.Kills += burst.Kills;
+                    result.Gold += burst.Gold;
+                    result.Soul += burst.Soul;
+                    SkillCast?.Invoke(unit.unitId);
+                }
+                _skillTimers[unit.unitId] = timer;
+            }
+
             LastSeenUtc = Clock.UtcNow;
             if (result.Kills > 0) Missions.Report("kill", result.Kills);
             return result;

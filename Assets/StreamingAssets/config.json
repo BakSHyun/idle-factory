@@ -3930,7 +3930,9 @@
             "baseValue": 1.5
           }
         }
-      ]
+      ],
+      "skillCooldown": 9,
+      "skillBurstSeconds": 2
     },
     {
       "id": "s_honjjireugi",
@@ -3955,7 +3957,9 @@
             "baseValue": 1.5
           }
         }
-      ]
+      ],
+      "skillCooldown": 9,
+      "skillBurstSeconds": 2
     },
     {
       "id": "s_honbul",
@@ -3980,7 +3984,9 @@
             "baseValue": 1.5
           }
         }
-      ]
+      ],
+      "skillCooldown": 9,
+      "skillBurstSeconds": 2
     },
     {
       "id": "s_hongareugi",
@@ -4005,7 +4011,9 @@
             "baseValue": 3.3
           }
         }
-      ]
+      ],
+      "skillCooldown": 8,
+      "skillBurstSeconds": 2.5
     },
     {
       "id": "s_yuryeongbal",
@@ -4030,7 +4038,9 @@
             "baseValue": 3.3
           }
         }
-      ]
+      ],
+      "skillCooldown": 8,
+      "skillBurstSeconds": 2.5
     },
     {
       "id": "s_gwihwa",
@@ -4055,7 +4065,9 @@
             "baseValue": 7.2
           }
         }
-      ]
+      ],
+      "skillCooldown": 7,
+      "skillBurstSeconds": 3
     },
     {
       "id": "s_wonhon",
@@ -4080,7 +4092,9 @@
             "baseValue": 7.2
           }
         }
-      ]
+      ],
+      "skillCooldown": 7,
+      "skillBurstSeconds": 3
     },
     {
       "id": "s_songagwi",
@@ -4105,7 +4119,9 @@
             "baseValue": 15.8
           }
         }
-      ]
+      ],
+      "skillCooldown": 6,
+      "skillBurstSeconds": 4
     },
     {
       "id": "s_honbaeksaseul",
@@ -4130,7 +4146,9 @@
             "baseValue": 15.8
           }
         }
-      ]
+      ],
+      "skillCooldown": 6,
+      "skillBurstSeconds": 4
     },
     {
       "id": "s_dokkaebibul",
@@ -4155,7 +4173,9 @@
             "baseValue": 34.5
           }
         }
-      ]
+      ],
+      "skillCooldown": 5,
+      "skillBurstSeconds": 5
     },
     {
       "id": "s_wongwi",
@@ -4180,7 +4200,9 @@
             "baseValue": 34.5
           }
         }
-      ]
+      ],
+      "skillCooldown": 5,
+      "skillBurstSeconds": 5
     },
     {
       "id": "s_samdo",
@@ -4217,7 +4239,9 @@
             }
           }
         }
-      ]
+      ],
+      "skillCooldown": 4,
+      "skillBurstSeconds": 7
     }
   ],
   "banners": [

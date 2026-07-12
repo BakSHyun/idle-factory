@@ -17,6 +17,9 @@ namespace IdleGame.UI
         private Button _bossButton;
         private Image _mobImage, _playerHpFill, _weaponImage, _gateFill, _bossMobFill;
         private Text _gateText;
+        private RectTransform _partyContainer, _skillBar;
+        private readonly System.Collections.Generic.List<(string unitId, Image overlay, RectTransform rect)> _skillIcons
+            = new System.Collections.Generic.List<(string, Image, RectTransform)>();
         private BattleAnimator _battleAnimator;
         private static readonly string[] MobIds = { "mob_wisp", "mob_gwisin", "mob_dokkaebi" };
         private GrowthPanel _growthPanel;
@@ -73,8 +76,10 @@ namespace IdleGame.UI
 
             _session.Wallet.BalanceChanged += (_, _, _) => RefreshCurrencies();
             _session.Progression.StageCleared += _ => RefreshStage();
-            _session.Units.UnitChanged += _ => RefreshHeldWeapon();
+            _session.Units.UnitChanged += _ => { RefreshHeldWeapon(); RefreshSkillIcons(); };
+            _session.SkillCast += OnSkillCast;
             RefreshHeldWeapon();
+            RefreshSkillIcons();
         }
 
         private void BuildHud(Transform root)
@@ -149,6 +154,12 @@ namespace IdleGame.UI
             weaponRect.sizeDelta = new Vector2(150, 150);
             weaponRect.localRotation = Quaternion.Euler(0, 0, -35f);
 
+            // 장착 파티(차사 미니/오브) 컨테이너 — 캐릭터보다 먼저 생성해 뒤에 깔림
+            var partyGo = new GameObject("Party", typeof(RectTransform));
+            partyGo.transform.SetParent(battle, false);
+            _partyContainer = (RectTransform)partyGo.transform;
+            UIFactory.Fill(_partyContainer);
+
             // 메인 캐릭터: StreamingAssets/art의 스프라이트를 런타임 로드 (없으면 텍스트 폴백)
             var sprite = UIFactory.LoadSprite("art/main_character.png");
             if (sprite != null)
@@ -175,6 +186,20 @@ namespace IdleGame.UI
 
             _dpsText = UIFactory.CreateText(battle, "Dps", "DPS 0", 34, TextAnchor.LowerLeft, UIFactory.TextDim);
             UIFactory.Fill(_dpsText.rectTransform, 24);
+
+            // 스킬 쿨타임 아이콘 바 (우하단) — 장착 스킬이 자동 시전되는 게 보인다
+            var skillBarGo = new GameObject("SkillBar", typeof(RectTransform));
+            skillBarGo.transform.SetParent(battle, false);
+            _skillBar = (RectTransform)skillBarGo.transform;
+            _skillBar.anchorMin = _skillBar.anchorMax = new Vector2(1, 0);
+            _skillBar.pivot = new Vector2(1, 0);
+            _skillBar.anchoredPosition = new Vector2(-18, 170);
+            _skillBar.sizeDelta = new Vector2(4 * 92, 86);
+            var skillLayout = skillBarGo.AddComponent<HorizontalLayoutGroup>();
+            skillLayout.childControlWidth = false;
+            skillLayout.childControlHeight = false;
+            skillLayout.childAlignment = TextAnchor.LowerRight;
+            skillLayout.spacing = 8;
 
             _killText = UIFactory.CreateText(battle, "Kills", "", 30, TextAnchor.LowerRight, UIFactory.TextDim);
             UIFactory.Fill(_killText.rectTransform, 24);
@@ -227,22 +252,179 @@ namespace IdleGame.UI
             return fill;
         }
 
-        /// <summary>장착 중인 낫을 캐릭터 등 뒤에 표시 — 장비 교체가 눈에 보인다.</summary>
+        /// <summary>전투 중 타격 데미지 숫자 (보스전용).</summary>
+        private void SpawnFightText(Vector2 anchor, string message, Color color)
+        {
+            var battle = transform.Find("SafeArea/Battle");
+            if (battle == null) return;
+            var text = UIFactory.CreateText(battle, "FDmg", message, 34, TextAnchor.MiddleCenter, color);
+            text.fontStyle = FontStyle.Bold;
+            text.rectTransform.anchorMin = text.rectTransform.anchorMax = anchor;
+            text.rectTransform.anchoredPosition = new Vector2(Random.Range(-26f, 26f), 0);
+            StartCoroutine(FloatFade(text));
+        }
+
+        private System.Collections.IEnumerator FloatFade(Text text)
+        {
+            var start = text.rectTransform.anchoredPosition;
+            var baseColor = text.color;
+            for (float t = 0; t < 1f; t += Time.deltaTime / 0.7f)
+            {
+                text.rectTransform.anchoredPosition = start + new Vector2(0, t * 64f);
+                text.color = new Color(baseColor.r, baseColor.g, baseColor.b, 1f - t * t);
+                yield return null;
+            }
+            Destroy(text.gameObject);
+        }
+
+        private System.Collections.IEnumerator PunchScale(RectTransform rect, float baseScale)
+        {
+            for (float t = 0; t < 1f; t += Time.deltaTime / 0.18f)
+            {
+                rect.localScale = Vector3.one * (baseScale + Mathf.Sin(t * Mathf.PI) * 0.12f);
+                yield return null;
+            }
+            rect.localScale = Vector3.one * baseScale;
+        }
+
+        /// <summary>장착 시각화: 낫(등 뒤) + 차사 미니(파티) + 오브(부유) — 장비 교체가 눈에 보인다.</summary>
         private void RefreshHeldWeapon()
         {
-            if (_weaponImage == null) return;
-            var equipped = System.Linq.Enumerable.FirstOrDefault(
-                _session.Units.AllOwned(),
-                u => u.equipped && _session.Units.Defs[u.unitId].kind == "weapon");
-            if (equipped == null)
+            if (_weaponImage != null)
             {
-                _weaponImage.enabled = false;
-                return;
+                var weapon = System.Linq.Enumerable.FirstOrDefault(
+                    _session.Units.AllOwned(),
+                    u => u.equipped && _session.Units.Defs[u.unitId].kind == "weapon");
+                if (weapon == null) _weaponImage.enabled = false;
+                else
+                {
+                    var def = _session.Units.Defs[weapon.unitId];
+                    var sprite = UIFactory.LoadSprite($"art/units/{def.artId ?? def.id}.png");
+                    _weaponImage.sprite = sprite;
+                    _weaponImage.enabled = sprite != null;
+                }
             }
-            var def = _session.Units.Defs[equipped.unitId];
+
+            // 차사 미니 파티 + 오브
+            if (_partyContainer == null) return;
+            foreach (Transform child in _partyContainer) Destroy(child.gameObject);
+
+            var heroAnchors = new[]
+            {
+                new Vector2(0.09f, 0.40f), new Vector2(0.15f, 0.62f),
+                new Vector2(0.42f, 0.36f), new Vector2(0.44f, 0.64f),
+            };
+            int heroIndex = 0;
+            foreach (var unit in _session.Units.AllOwned())
+            {
+                if (!unit.equipped) continue;
+                var def = _session.Units.Defs[unit.unitId];
+                if (def.kind == "hero" && heroIndex < heroAnchors.Length)
+                {
+                    AddBattleSprite(def, heroAnchors[heroIndex], 118);
+                    heroIndex++;
+                }
+                else if (def.kind == "orb")
+                {
+                    AddBattleSprite(def, new Vector2(0.38f, 0.78f), 76);
+                }
+            }
+        }
+
+        /// <summary>장착 스킬 아이콘 재구성 (아이콘 + 쿨타임 오버레이).</summary>
+        private void RefreshSkillIcons()
+        {
+            if (_skillBar == null) return;
+            foreach (Transform child in _skillBar) Destroy(child.gameObject);
+            _skillIcons.Clear();
+
+            foreach (var unit in _session.Units.AllOwned())
+            {
+                if (!unit.equipped) continue;
+                var def = _session.Units.Defs[unit.unitId];
+                if (def.kind != "skill" || def.skillCooldown <= 0) continue;
+                if (_skillIcons.Count >= 4) break;
+
+                var slot = UIFactory.CreatePanel(_skillBar, $"SK_{def.id}", new Color(0, 0, 0, 0.5f));
+                UIFactory.Roundify(slot.GetComponent<Image>(), shadow: false);
+                slot.sizeDelta = new Vector2(84, 84);
+                var outline = slot.gameObject.AddComponent<Outline>();
+                outline.effectColor = UIFactory.GradeColor(def.grade);
+                outline.effectDistance = new Vector2(2, 2);
+
+                var sprite = UIFactory.LoadSprite($"art/units/{def.artId ?? def.id}.png");
+                if (sprite != null)
+                {
+                    var iconGo = new GameObject("I", typeof(RectTransform), typeof(Image));
+                    iconGo.transform.SetParent(slot, false);
+                    var iconImage = iconGo.GetComponent<Image>();
+                    iconImage.sprite = sprite;
+                    iconImage.preserveAspect = true;
+                    UIFactory.Fill((RectTransform)iconGo.transform, 5);
+                }
+
+                // 쿨타임 오버레이: 위에서부터 어둡게 덮였다가 준비되면 사라짐
+                var overlayGo = new GameObject("CD", typeof(RectTransform), typeof(Image));
+                overlayGo.transform.SetParent(slot, false);
+                var overlay = overlayGo.GetComponent<Image>();
+                overlay.color = new Color(0, 0, 0, 0.65f);
+                overlay.raycastTarget = false;
+                var overlayRect = (RectTransform)overlayGo.transform;
+                overlayRect.anchorMin = new Vector2(0, 0);
+                overlayRect.anchorMax = new Vector2(1, 1);
+                overlayRect.offsetMin = overlayRect.offsetMax = Vector2.zero;
+
+                _skillIcons.Add((unit.unitId, overlay, slot));
+            }
+        }
+
+        private void OnSkillCast(string unitId)
+        {
+            AudioManager.Play("hit", 0.35f);
+            foreach (var (id, _, rect) in _skillIcons)
+                if (id == unitId) StartCoroutine(PunchScale(rect, 1f));
+            // 시전 이펙트: 몬스터 위에 스킬 아트 플래시
+            var def = _session.Units.Defs[unitId];
             var sprite = UIFactory.LoadSprite($"art/units/{def.artId ?? def.id}.png");
-            _weaponImage.sprite = sprite;
-            _weaponImage.enabled = sprite != null;
+            var battle = transform.Find("SafeArea/Battle");
+            if (sprite == null || battle == null) return;
+            var fx = new GameObject("SkillFx", typeof(RectTransform), typeof(Image));
+            fx.transform.SetParent(battle, false);
+            var fxImage = fx.GetComponent<Image>();
+            fxImage.sprite = sprite;
+            fxImage.preserveAspect = true;
+            fxImage.raycastTarget = false;
+            var fxRect = (RectTransform)fx.transform;
+            fxRect.anchorMin = fxRect.anchorMax = new Vector2(0.78f, 0.55f);
+            fxRect.sizeDelta = new Vector2(200, 200);
+            StartCoroutine(FadeOutAndDestroy(fxImage));
+        }
+
+        private System.Collections.IEnumerator FadeOutAndDestroy(Image image)
+        {
+            for (float t = 0; t < 1f; t += Time.deltaTime / 0.5f)
+            {
+                if (image == null) yield break;
+                image.color = new Color(1, 1, 1, 1f - t);
+                ((RectTransform)image.transform).sizeDelta = Vector2.one * (200 + t * 60);
+                yield return null;
+            }
+            if (image != null) Destroy(image.gameObject);
+        }
+
+        private void AddBattleSprite(IdleCore.Gacha.UnitDef def, Vector2 anchor, float size)
+        {
+            var sprite = UIFactory.LoadSprite($"art/units/{def.artId ?? def.id}.png");
+            if (sprite == null) return;
+            var go = new GameObject($"P_{def.id}", typeof(RectTransform), typeof(Image));
+            go.transform.SetParent(_partyContainer, false);
+            var image = go.GetComponent<Image>();
+            image.sprite = sprite;
+            image.preserveAspect = true;
+            image.raycastTarget = false;
+            var rect = (RectTransform)go.transform;
+            rect.anchorMin = rect.anchorMax = anchor;
+            rect.sizeDelta = new Vector2(size, size);
         }
 
         /// <summary>체력바 채움 비율 (anchorMax.x 조절 — 스프라이트 불필요)</summary>
@@ -278,17 +460,38 @@ namespace IdleGame.UI
             _gateText.text = "⚔ 수문장 전투!";
             AudioManager.Play("hit", 0.8f);
 
-            const float playback = 4.5f; // 실제 전투 시간을 이 길이로 압축 재생
+            // 타격 교환식 재생: 때릴 때마다 그 데미지만큼 뚝뚝 닳는다 (독처럼 스르륵 X)
             float simLength = (float)System.Math.Min(preview.EndTime, preview.TimeLimit);
-            for (float t = 0; t < 1f; t += Time.deltaTime / playback)
+            int next = _session.Progression.HighestClearedIndex + 1;
+            double bossHpTotal = IdleCore.Progression.StageMath.BossHp(_session.Config.stage, next);
+            double bossDps = IdleCore.Progression.StageMath.EnemyAttack(_session.Config.stage, next)
+                             * _session.Config.stage.bossAttackMultiplier;
+            double killFrac = System.Math.Min(1.0, simLength / preview.TimeToKillBoss);
+            double dieFrac = double.IsInfinity(preview.TimeToDie)
+                ? 0 : System.Math.Min(1.0, simLength / preview.TimeToDie);
+            const int exchanges = 7;
+
+            for (int i = 1; i <= exchanges; i++)
             {
-                float simTime = t * simLength;
-                // 보스 체력 vs 내 체력의 경주
-                SetHpFill(_bossMobFill, Mathf.Clamp01(1f - (float)(simTime / preview.TimeToKillBoss)));
-                SetHpFill(_playerHpFill, preview.TimeToDie == double.PositiveInfinity
-                    ? 1f : Mathf.Clamp01(1f - (float)(simTime / preview.TimeToDie)));
-                label.text = $"⏱ {System.Math.Max(0, preview.TimeLimit - simTime):0.0}초";
-                yield return null;
+                // 내 공격 → 보스 체력이 타격량만큼 감소
+                AudioManager.Play("hit", 0.55f);
+                SpawnFightText(new Vector2(0.78f, 0.62f),
+                    "-" + UIFactory.FormatNumber(bossHpTotal * killFrac / exchanges), UIFactory.Gold);
+                SetHpFill(_bossMobFill, Mathf.Clamp01(1f - (float)(killFrac * i / exchanges)));
+                if (mobRect != null) StartCoroutine(PunchScale(mobRect, 1.5f));
+                label.text = $"⏱ {System.Math.Max(0, preview.TimeLimit - simLength * i / exchanges):0.0}초";
+                yield return new WaitForSeconds(0.28f);
+
+                // 보스 반격 → 내 체력이 타격량만큼 감소
+                if (bossDps > 0)
+                {
+                    AudioManager.Play("hurt", 0.4f);
+                    SpawnFightText(new Vector2(0.28f, 0.66f),
+                        "-" + UIFactory.FormatNumber(bossDps * simLength / exchanges),
+                        new Color(1f, 0.35f, 0.4f));
+                    SetHpFill(_playerHpFill, Mathf.Clamp01(1f - (float)(dieFrac * i / exchanges)));
+                }
+                yield return new WaitForSeconds(0.30f);
             }
 
             // 판정 — 시뮬레이션 결과 그대로
@@ -381,6 +584,17 @@ namespace IdleGame.UI
                     ? $"{UIFactory.FormatNumber(result.Kills / result.Seconds)}킬/초"
                     : "벽 — 성장 필요";
             RefreshBossButton(); // 처치 게이지는 매 틱 갱신
+
+            // 스킬 쿨타임 오버레이 갱신
+            foreach (var (unitId, overlay, _) in _skillIcons)
+            {
+                var def = _session.Units.Defs[unitId];
+                float ratio = def.skillCooldown > 0
+                    ? (float)(_session.SkillCooldownRemaining(unitId) / def.skillCooldown) : 0;
+                ((RectTransform)overlay.transform).anchorMax = new Vector2(1, Mathf.Clamp01(ratio));
+                overlay.enabled = ratio > 0.02f;
+            }
+
             var snapshot = _session.Stats.Snapshot();
             var cfg = _session.Config.stage;
             int stage = _session.Progression.Current.Index;

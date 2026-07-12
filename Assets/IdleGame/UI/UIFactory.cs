@@ -238,7 +238,9 @@ namespace IdleGame.UI
             var layout = rect.gameObject.AddComponent<VerticalLayoutGroup>();
             layout.spacing = spacing;
             layout.padding = new RectOffset(padding, padding, padding, padding);
-            layout.childControlHeight = false;
+            // childControlHeight=true 여야 LayoutElement.preferredHeight가 실제로 적용된다
+            // (false면 모든 카드가 기본 높이로 뭉개져 텍스트 겹침/잘림 발생 — 반복됐던 레이아웃 버그의 근본 원인)
+            layout.childControlHeight = true;
             layout.childControlWidth = true;
             layout.childForceExpandHeight = false;
             return layout;
