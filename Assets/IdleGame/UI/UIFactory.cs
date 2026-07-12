@@ -6,12 +6,24 @@ namespace IdleGame.UI
     /// <summary>코드 기반 uGUI 생성 헬퍼 — 프리팹/씬 없이 UI를 조립한다.</summary>
     public static class UIFactory
     {
-        public static readonly Color Bg = new Color(0.08f, 0.07f, 0.12f);        // 저승 남색
-        public static readonly Color Panel = new Color(0.14f, 0.12f, 0.20f);
-        public static readonly Color Accent = new Color(0.55f, 0.45f, 0.95f);    // 도깨비불 보라
-        public static readonly Color Gold = new Color(0.95f, 0.78f, 0.35f);
-        public static readonly Color TextMain = new Color(0.92f, 0.90f, 0.97f);
-        public static readonly Color TextDim = new Color(0.62f, 0.60f, 0.70f);
+        public const float HudHeight = 170f;
+        // 전투가 제품의 첫 인상이다. 상단 절반 가까이를 확보하고 목록 UI는 아래에서 스크롤한다.
+        public const float BattleHeight = 700f;
+        public const float MainContentTop = HudHeight + BattleHeight;
+        public const float TabBarHeight = 132f;
+        public const float MainContentBottom = TabBarHeight + 12f;
+        public const float ScreenGutter = 16f;
+
+        // 먹빛 바탕 + 도깨비불 청록. 기존의 탁한 보라 단색보다 아트가 선명하게 뜬다.
+        public static readonly Color Bg = new Color(0.035f, 0.045f, 0.075f);
+        public static readonly Color Panel = new Color(0.075f, 0.09f, 0.14f);
+        public static readonly Color PanelRaised = new Color(0.105f, 0.12f, 0.18f);
+        public static readonly Color Accent = new Color(0.20f, 0.78f, 0.72f);
+        public static readonly Color AccentDeep = new Color(0.10f, 0.46f, 0.48f);
+        public static readonly Color Gold = new Color(1.00f, 0.73f, 0.28f);
+        public static readonly Color TextMain = new Color(0.94f, 0.96f, 1.00f);
+        public static readonly Color TextDim = new Color(0.58f, 0.65f, 0.74f);
+        public static readonly Color Stroke = new Color(0.30f, 0.72f, 0.70f, 0.22f);
 
         /// <summary>속성 컬러 (불 주황 / 뇌 노랑 / 암 보라)</summary>
         public static Color ElementColor(string element) => element switch
@@ -104,11 +116,14 @@ namespace IdleGame.UI
         {
             image.sprite = RoundedSprite;
             image.type = Image.Type.Sliced;
+            var outline = image.gameObject.AddComponent<Outline>();
+            outline.effectColor = Stroke;
+            outline.effectDistance = new Vector2(1, -1);
             if (shadow)
             {
                 var s = image.gameObject.AddComponent<Shadow>();
-                s.effectColor = new Color(0, 0, 0, 0.45f);
-                s.effectDistance = new Vector2(0, -5);
+                s.effectColor = new Color(0, 0, 0, 0.32f);
+                s.effectDistance = new Vector2(0, -3);
             }
         }
 
@@ -120,9 +135,11 @@ namespace IdleGame.UI
             var scaler = go.GetComponent<CanvasScaler>();
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             scaler.referenceResolution = new Vector2(1080, 1920); // 세로 모바일 기준
-            scaler.matchWidthOrHeight = 0.5f;
+            // 세로형 모바일 UI는 폭을 기준으로 고정해야 기기 비율에 따라 좌우가 잘리지 않는다.
+            // 높이가 긴 기기에는 여백이 늘어나고, 모든 기기에서 1080 기준 가로 레이아웃이 유지된다.
+            scaler.matchWidthOrHeight = 0f;
 
-            if (Object.FindFirstObjectByType<UnityEngine.EventSystems.EventSystem>() == null)
+            if (Object.FindAnyObjectByType<UnityEngine.EventSystems.EventSystem>() == null)
             {
                 var es = new GameObject("EventSystem",
                     typeof(UnityEngine.EventSystems.EventSystem),
@@ -151,8 +168,12 @@ namespace IdleGame.UI
             text.fontSize = size;
             text.alignment = anchor;
             text.color = color ?? TextMain;
+            text.raycastTarget = false;
             text.horizontalOverflow = HorizontalWrapMode.Overflow;
             text.verticalOverflow = VerticalWrapMode.Overflow;
+            var shadow = go.AddComponent<Shadow>();
+            shadow.effectColor = new Color(0, 0, 0, 0.62f);
+            shadow.effectDistance = new Vector2(1.5f, -2f);
             return text;
         }
 
@@ -172,13 +193,24 @@ namespace IdleGame.UI
             button.onClick.AddListener(onClick);
             // 눌림/비활성 트랜지션 (입체감: 누르면 어두워짐)
             var colors = button.colors;
-            colors.pressedColor = new Color(0.75f, 0.75f, 0.8f);
-            colors.highlightedColor = new Color(1.06f, 1.06f, 1.1f);
-            colors.disabledColor = new Color(0.55f, 0.55f, 0.6f, 0.6f);
+            colors.colorMultiplier = 1f;
+            colors.fadeDuration = 0.08f;
+            colors.pressedColor = new Color(0.68f, 0.82f, 0.82f);
+            colors.highlightedColor = new Color(1f, 1f, 1f);
+            colors.disabledColor = new Color(0.35f, 0.40f, 0.46f, 0.62f);
             button.colors = colors;
             var label_ = CreateText(go.transform, "Label", label, fontSize);
+            label_.fontStyle = FontStyle.Bold;
             Fill(label_.rectTransform);
             return button;
+        }
+
+        /// <summary>HUD용 작은 재화 칩. 흩어진 숫자를 한 덩어리로 읽히게 한다.</summary>
+        public static RectTransform CreateChip(Transform parent, string name, Color tint)
+        {
+            var chip = CreatePanel(parent, name, Color.Lerp(PanelRaised, tint, 0.12f));
+            Roundify(chip.GetComponent<Image>(), shadow: false);
+            return chip;
         }
 
         /// <summary>부모를 가득 채우는 앵커</summary>
@@ -211,12 +243,12 @@ namespace IdleGame.UI
         }
 
         /// <summary>위/아래 오프셋만 고정하고 나머지를 채우는 앵커 — 화면비가 달라도 겹치지 않는다.</summary>
-        public static void Stretch(RectTransform rect, float topOffset, float bottomOffset)
+        public static void Stretch(RectTransform rect, float topOffset, float bottomOffset, float sideMargin = 0)
         {
             rect.anchorMin = Vector2.zero;
             rect.anchorMax = Vector2.one;
-            rect.offsetMin = new Vector2(0, bottomOffset);
-            rect.offsetMax = new Vector2(0, -topOffset);
+            rect.offsetMin = new Vector2(sideMargin, bottomOffset);
+            rect.offsetMax = new Vector2(-sideMargin, -topOffset);
         }
 
         /// <summary>세로 스크롤 목록 생성 — content에 자식을 추가하면 된다.</summary>

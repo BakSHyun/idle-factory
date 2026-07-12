@@ -21,6 +21,8 @@ namespace IdleGame.UI
         private Text _mobElementText, _advantageText;
         private readonly System.Collections.Generic.List<Button> _tabButtons
             = new System.Collections.Generic.List<Button>();
+        private readonly System.Collections.Generic.List<Image> _tabIndicators
+            = new System.Collections.Generic.List<Image>();
         private readonly System.Collections.Generic.List<(string unitId, Image overlay, RectTransform rect)> _skillIcons
             = new System.Collections.Generic.List<(string, Image, RectTransform)>();
         private BattleAnimator _battleAnimator;
@@ -90,7 +92,11 @@ namespace IdleGame.UI
         private void BuildHud(Transform root)
         {
             var hud = UIFactory.CreatePanel(root, "HUD", UIFactory.Panel);
-            UIFactory.TopBand(hud, 0, 170);
+            UIFactory.TopBand(hud, 0, UIFactory.HudHeight);
+
+            // 하단의 가는 도깨비불 라인으로 HUD와 전투 영역을 명확히 분리한다.
+            var hudLine = UIFactory.CreatePanel(hud, "AccentLine", UIFactory.Accent);
+            UIFactory.BottomBand(hudLine, 0, 3);
 
             _stageText = UIFactory.CreateText(hud, "Stage", "1-1", 52, TextAnchor.MiddleLeft);
             UIFactory.TopBand(_stageText.rectTransform, 10, 70, 30);
@@ -99,17 +105,18 @@ namespace IdleGame.UI
             UIFactory.TopBand(_powerText.rectTransform, 14, 60, 30);
             _powerText.rectTransform.offsetMax = new Vector2(-210, _powerText.rectTransform.offsetMax.y); // 미션 버튼 회피
 
-            _goldText = UIFactory.CreateText(hud, "Gold", "골드 0", 30, TextAnchor.MiddleLeft, UIFactory.Gold);
-            UIFactory.TopBand(_goldText.rectTransform, 90, 40, 30);
+            var wallet = UIFactory.CreatePanel(hud, "Wallet", new Color(0, 0, 0, 0));
+            UIFactory.TopBand(wallet, 88, 62, 22);
+            var walletLayout = wallet.gameObject.AddComponent<HorizontalLayoutGroup>();
+            walletLayout.spacing = 10;
+            walletLayout.childControlWidth = true;
+            walletLayout.childControlHeight = true;
+            walletLayout.childForceExpandWidth = true;
 
-            _soulText = UIFactory.CreateText(hud, "Soul", "영혼 0", 30, TextAnchor.MiddleCenter, UIFactory.Accent);
-            UIFactory.TopBand(_soulText.rectTransform, 90, 40, 30);
-
-            _softText = UIFactory.CreateText(hud, "Soft", "영옥 0", 30, TextAnchor.MiddleRight, UIFactory.TextMain);
-            UIFactory.TopBand(_softText.rectTransform, 90, 40, 30);
-
-            _hardText = UIFactory.CreateText(hud, "Hard", "수정 0", 30, TextAnchor.MiddleRight, new Color(1f, 0.5f, 0.55f));
-            UIFactory.TopBand(_hardText.rectTransform, 130, 40, 30);
+            _goldText = CreateCurrencyChip(wallet, "Gold", "골드 0", UIFactory.Gold);
+            _soulText = CreateCurrencyChip(wallet, "Soul", "영혼 0", UIFactory.Accent);
+            _softText = CreateCurrencyChip(wallet, "Soft", "영옥 0", new Color(0.55f, 0.72f, 1f));
+            _hardText = CreateCurrencyChip(wallet, "Hard", "수정 0", new Color(1f, 0.46f, 0.58f));
 
             var missionButton = UIFactory.CreateButton(hud, "MissionBtn", " 미션",
                 () => MissionView.Open(_safeRoot, _session), UIFactory.Accent, 26);
@@ -121,10 +128,20 @@ namespace IdleGame.UI
             missionRect.sizeDelta = new Vector2(170, 62);
         }
 
+        private static Text CreateCurrencyChip(Transform parent, string name, string value, Color color)
+        {
+            var chip = UIFactory.CreateChip(parent, name + "Chip", color);
+            var text = UIFactory.CreateText(chip, name, value, 25, TextAnchor.MiddleCenter, color);
+            text.fontStyle = FontStyle.Bold;
+            UIFactory.Fill(text.rectTransform, 8);
+            return text;
+        }
+
         private void BuildBattleView(Transform root)
         {
-            var battle = UIFactory.CreatePanel(root, "Battle", new Color(0.10f, 0.09f, 0.15f));
-            UIFactory.TopBand(battle, 170, 420);
+            var battle = UIFactory.CreatePanel(root, "Battle", new Color(0.045f, 0.055f, 0.09f));
+            UIFactory.TopBand(battle, UIFactory.HudHeight, UIFactory.BattleHeight, UIFactory.ScreenGutter);
+            UIFactory.Roundify(battle.GetComponent<Image>(), shadow: false);
 
             // 배경 (저승길) — 있으면 깔기
             var bgSprite = UIFactory.LoadSprite("art/bg/bg_road.png");
@@ -134,9 +151,12 @@ namespace IdleGame.UI
                 bgGo.transform.SetParent(battle, false);
                 var bgImage = bgGo.GetComponent<Image>();
                 bgImage.sprite = bgSprite;
-                bgImage.color = new Color(1, 1, 1, 0.55f); // 캐릭터 가독성 위해 톤 다운
+                bgImage.color = new Color(0.72f, 0.88f, 0.92f, 0.48f); // 차가운 저승 톤
                 UIFactory.Fill((RectTransform)bgGo.transform);
             }
+
+            var battleShade = UIFactory.CreatePanel(battle, "BattleShade", new Color(0.01f, 0.025f, 0.055f, 0.30f));
+            UIFactory.Fill(battleShade);
 
             // 몬스터 (챕터별 로테이션) — RefreshStage에서 갱신
             var mobGo = new GameObject("Mob", typeof(RectTransform), typeof(Image));
@@ -144,8 +164,8 @@ namespace IdleGame.UI
             _mobImage = mobGo.GetComponent<Image>();
             _mobImage.preserveAspect = true;
             var mobRect = (RectTransform)mobGo.transform;
-            mobRect.anchorMin = mobRect.anchorMax = new Vector2(0.80f, 0.60f);
-            mobRect.sizeDelta = new Vector2(170, 170);
+            mobRect.anchorMin = mobRect.anchorMax = new Vector2(0.76f, 0.56f);
+            mobRect.sizeDelta = new Vector2(300, 300);
 
             // 장착 무기 (캐릭터 등 뒤에 메는 연출 — 캐릭터보다 먼저 생성해 뒤에 깔림)
             var weaponGo = new GameObject("HeldWeapon", typeof(RectTransform), typeof(Image));
@@ -154,9 +174,9 @@ namespace IdleGame.UI
             _weaponImage.preserveAspect = true;
             _weaponImage.enabled = false;
             var weaponRect = (RectTransform)weaponGo.transform;
-            weaponRect.anchorMin = weaponRect.anchorMax = new Vector2(0.24f, 0.56f);
-            weaponRect.anchoredPosition = new Vector2(72, 88);   // 캐릭터 오른쪽 어깨 뒤
-            weaponRect.sizeDelta = new Vector2(150, 150);
+            weaponRect.anchorMin = weaponRect.anchorMax = new Vector2(0.27f, 0.52f);
+            weaponRect.anchoredPosition = new Vector2(105, 120);   // 캐릭터 오른쪽 어깨 뒤
+            weaponRect.sizeDelta = new Vector2(210, 210);
             weaponRect.localRotation = Quaternion.Euler(0, 0, -35f);
 
             // 장착 파티(차사 미니/오브) 컨테이너 — 캐릭터보다 먼저 생성해 뒤에 깔림
@@ -176,12 +196,12 @@ namespace IdleGame.UI
                 image.sprite = sprite;
                 image.preserveAspect = true;
                 var artRect = (RectTransform)artGo.transform;
-                artRect.anchorMin = artRect.anchorMax = new Vector2(0.24f, 0.56f);
+                artRect.anchorMin = artRect.anchorMax = new Vector2(0.27f, 0.52f);
                 artRect.anchoredPosition = new Vector2(0, 10);
-                artRect.sizeDelta = new Vector2(250, 250); // 좌측 아군 / 우측 몬스터 대치 구도
+                artRect.sizeDelta = new Vector2(430, 430); // 전투 화면의 명확한 주인공
                 // 체력바: 적(몬스터 위) + 아군(캐릭터 위)
-                _bossMobFill = CreateHpBar(battle, new Vector2(0.80f, 0.84f), new Color(0.9f, 0.3f, 0.35f));
-                _playerHpFill = CreateHpBar(battle, new Vector2(0.24f, 0.88f), new Color(0.35f, 0.85f, 0.45f));
+                _bossMobFill = CreateHpBar(battle, new Vector2(0.76f, 0.82f), new Color(0.9f, 0.3f, 0.35f));
+                _playerHpFill = CreateHpBar(battle, new Vector2(0.27f, 0.82f), new Color(0.35f, 0.85f, 0.45f));
                 _battleAnimator = BattleAnimator.Attach(battle, artRect, _mobImage, _bossMobFill, _playerHpFill);
             }
             else
@@ -190,8 +210,7 @@ namespace IdleGame.UI
                 UIFactory.Fill(reaper.rectTransform);
             }
 
-            _dpsText = UIFactory.CreateText(battle, "Dps", "DPS 0", 26, TextAnchor.UpperLeft, UIFactory.TextDim);
-            UIFactory.TopBand(_dpsText.rectTransform, 52, 34, 20);
+            _dpsText = CreateBattlePill(battle, "Dps", "DPS 0", new Vector2(0, 1), new Vector2(20, -18), TextAnchor.MiddleLeft);
 
             // 스킬 쿨타임 아이콘 바 (우하단) — 장착 스킬이 자동 시전되는 게 보인다
             var skillBarGo = new GameObject("SkillBar", typeof(RectTransform));
@@ -199,31 +218,30 @@ namespace IdleGame.UI
             _skillBar = (RectTransform)skillBarGo.transform;
             _skillBar.anchorMin = _skillBar.anchorMax = new Vector2(0, 0);
             _skillBar.pivot = new Vector2(0, 0);
-            _skillBar.anchoredPosition = new Vector2(18, 70);
-            _skillBar.sizeDelta = new Vector2(4 * 68, 62);
+            _skillBar.anchoredPosition = new Vector2(22, 150);
+            _skillBar.sizeDelta = new Vector2(4 * 76, 70);
             var skillLayout = skillBarGo.AddComponent<HorizontalLayoutGroup>();
             skillLayout.childControlWidth = false;
             skillLayout.childControlHeight = false;
             skillLayout.childAlignment = TextAnchor.LowerRight;
             skillLayout.spacing = 8;
 
-            _killText = UIFactory.CreateText(battle, "Kills", "", 26, TextAnchor.UpperRight, UIFactory.TextDim);
-            UIFactory.TopBand(_killText.rectTransform, 52, 34, 20);
+            _killText = CreateBattlePill(battle, "Kills", "", new Vector2(1, 1), new Vector2(-20, -18), TextAnchor.MiddleRight);
 
             // 속성 표시: 몬스터 속성(우상단) + 내 파티 상성(좌상단)
-            _mobElementText = UIFactory.CreateText(battle, "MobElem", "", 26, TextAnchor.UpperRight, UIFactory.TextMain);
-            UIFactory.Fill(_mobElementText.rectTransform, 20);
-            _advantageText = UIFactory.CreateText(battle, "Adv", "", 26, TextAnchor.UpperLeft, UIFactory.TextMain);
-            UIFactory.Fill(_advantageText.rectTransform, 20);
+            _mobElementText = UIFactory.CreateText(battle, "MobElem", "", 24, TextAnchor.MiddleRight, UIFactory.TextMain);
+            SetBattleTag(_mobElementText.rectTransform, new Vector2(1, 1), new Vector2(-22, -62));
+            _advantageText = UIFactory.CreateText(battle, "Adv", "", 24, TextAnchor.MiddleLeft, UIFactory.TextMain);
+            SetBattleTag(_advantageText.rectTransform, new Vector2(0, 1), new Vector2(22, -62));
 
             // 처치 게이지: 몇 마리 잡으면 보스가 나오는지 — '왜 진행 안 되는지'의 답
             var gateBg = UIFactory.CreatePanel(battle, "GateBar", new Color(0, 0, 0, 0.55f));
             UIFactory.Roundify(gateBg.GetComponent<Image>(), shadow: false);
-            gateBg.anchorMin = new Vector2(1, 0);
+            gateBg.anchorMin = new Vector2(0, 0);
             gateBg.anchorMax = new Vector2(1, 0);
-            gateBg.pivot = new Vector2(1, 0);
-            gateBg.anchoredPosition = new Vector2(-24, 74);
-            gateBg.sizeDelta = new Vector2(560, 32);
+            gateBg.pivot = new Vector2(0.5f, 0);
+            gateBg.anchoredPosition = new Vector2(0, 104);
+            gateBg.sizeDelta = new Vector2(-44, 34);
             var gateFillGo = new GameObject("Fill", typeof(RectTransform), typeof(Image));
             gateFillGo.transform.SetParent(gateBg, false);
             _gateFill = gateFillGo.GetComponent<Image>();
@@ -243,15 +261,37 @@ namespace IdleGame.UI
             bossRect.anchorMin = new Vector2(0, 0);
             bossRect.anchorMax = new Vector2(1, 0);
             bossRect.pivot = new Vector2(0.5f, 0);
-            bossRect.offsetMin = new Vector2(24, 8);
-            bossRect.offsetMax = new Vector2(-24, 66);
+            bossRect.offsetMin = new Vector2(22, 18);
+            bossRect.offsetMax = new Vector2(-22, 88);
+        }
+
+        private static Text CreateBattlePill(RectTransform parent, string name, string value,
+            Vector2 anchor, Vector2 position, TextAnchor alignment)
+        {
+            var pill = UIFactory.CreatePanel(parent, name + "Pill", new Color(0.02f, 0.04f, 0.08f, 0.78f));
+            UIFactory.Roundify(pill.GetComponent<Image>(), shadow: false);
+            pill.anchorMin = pill.anchorMax = anchor;
+            pill.pivot = anchor;
+            pill.anchoredPosition = position;
+            pill.sizeDelta = new Vector2(240, 48);
+            var text = UIFactory.CreateText(pill, name, value, 23, alignment, UIFactory.TextMain);
+            UIFactory.Fill(text.rectTransform, 14);
+            return text;
+        }
+
+        private static void SetBattleTag(RectTransform rect, Vector2 anchor, Vector2 position)
+        {
+            rect.anchorMin = rect.anchorMax = anchor;
+            rect.pivot = anchor;
+            rect.anchoredPosition = position;
+            rect.sizeDelta = new Vector2(300, 40);
         }
 
         private static Image CreateHpBar(RectTransform parent, Vector2 anchor, Color color)
         {
             var barBg = UIFactory.CreatePanel(parent, "HpBar", new Color(0, 0, 0, 0.55f));
             barBg.anchorMin = barBg.anchorMax = anchor;
-            barBg.sizeDelta = new Vector2(160, 16);
+            barBg.sizeDelta = new Vector2(230, 20);
             var fillGo = new GameObject("Fill", typeof(RectTransform), typeof(Image));
             fillGo.transform.SetParent(barBg, false);
             var fill = fillGo.GetComponent<Image>();
@@ -509,7 +549,7 @@ namespace IdleGame.UI
             {
                 // 내 공격 → 보스 체력이 타격량만큼 감소
                 AudioManager.Play("hit", 0.55f);
-                SpawnFightText(new Vector2(0.80f, 0.70f),
+                SpawnFightText(new Vector2(0.76f, 0.66f),
                     "-" + UIFactory.FormatNumber(bossHpTotal * killFrac / exchanges), UIFactory.Gold);
                 SetHpFill(_bossMobFill, Mathf.Clamp01(1f - (float)(killFrac * i / exchanges)));
                 if (mobRect != null) StartCoroutine(PunchScale(mobRect, 1.5f));
@@ -520,7 +560,7 @@ namespace IdleGame.UI
                 if (bossDps > 0)
                 {
                     AudioManager.Play("hurt", 0.4f);
-                    SpawnFightText(new Vector2(0.24f, 0.72f),
+                    SpawnFightText(new Vector2(0.27f, 0.68f),
                         "-" + UIFactory.FormatNumber(bossDps * simLength / exchanges),
                         new Color(1f, 0.35f, 0.4f));
                     SetHpFill(_playerHpFill, Mathf.Clamp01(1f - (float)(dieFrac * i / exchanges)));
@@ -586,7 +626,9 @@ namespace IdleGame.UI
         private void BuildTabBar(Transform root)
         {
             var bar = UIFactory.CreatePanel(root, "TabBar", UIFactory.Panel);
-            UIFactory.BottomBand(bar, 0, 140);
+            UIFactory.BottomBand(bar, 0, UIFactory.TabBarHeight);
+            var topLine = UIFactory.CreatePanel(bar, "TopLine", UIFactory.Stroke);
+            UIFactory.TopBand(topLine, 0, 2);
             var layout = bar.gameObject.AddComponent<HorizontalLayoutGroup>();
             layout.childControlWidth = true;
             layout.childControlHeight = true;
@@ -620,6 +662,18 @@ namespace IdleGame.UI
                 label.text = names[i];
                 label.alignment = TextAnchor.LowerCenter;
                 label.rectTransform.offsetMin = new Vector2(0, 12);
+
+                var indicatorGo = new GameObject("Selected", typeof(RectTransform), typeof(Image));
+                indicatorGo.transform.SetParent(tab.transform, false);
+                var indicator = indicatorGo.GetComponent<Image>();
+                indicator.color = UIFactory.Gold;
+                var indicatorRect = (RectTransform)indicatorGo.transform;
+                indicatorRect.anchorMin = new Vector2(0.28f, 1);
+                indicatorRect.anchorMax = new Vector2(0.72f, 1);
+                indicatorRect.pivot = new Vector2(0.5f, 1);
+                indicatorRect.offsetMin = new Vector2(0, -6);
+                indicatorRect.offsetMax = Vector2.zero;
+                _tabIndicators.Add(indicator);
                 _tabButtons.Add(tab);
             }
         }
@@ -629,7 +683,14 @@ namespace IdleGame.UI
             for (int i = 0; i < _panels.Length; i++)
                 _panels[i].gameObject.SetActive(i == index);
             for (int i = 0; i < _tabButtons.Count; i++)
-                _tabButtons[i].image.color = i == index ? UIFactory.Accent : UIFactory.Panel; // 선택 탭 강조
+            {
+                bool selected = i == index;
+                _tabButtons[i].image.color = selected ? UIFactory.AccentDeep : UIFactory.Panel;
+                // 바깥으로 커지는 스케일 연출은 가장자리 탭을 잘라 보이게 하므로 색/선으로만 강조한다.
+                _tabButtons[i].transform.localScale = Vector3.one;
+                _tabButtons[i].GetComponentInChildren<Text>().color = selected ? Color.white : UIFactory.TextDim;
+                if (i < _tabIndicators.Count) _tabIndicators[i].enabled = selected;
+            }
             RefreshAll();
         }
 

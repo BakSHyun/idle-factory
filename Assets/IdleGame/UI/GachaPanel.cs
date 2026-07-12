@@ -23,7 +23,7 @@ namespace IdleGame.UI
         public static GachaPanel Create(Transform root, GameSession session)
         {
             var rect = UIFactory.CreatePanel(root, "GachaPanel", UIFactory.Bg);
-            UIFactory.Stretch(rect, 590, 150);
+            UIFactory.Stretch(rect, UIFactory.MainContentTop, UIFactory.MainContentBottom, UIFactory.ScreenGutter);
             var panel = rect.gameObject.AddComponent<GachaPanel>();
             panel.Rect = rect;
             panel._session = session;

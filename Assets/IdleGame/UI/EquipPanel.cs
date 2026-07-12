@@ -25,7 +25,7 @@ namespace IdleGame.UI
         public static EquipPanel Create(Transform root, GameSession session)
         {
             var rect = UIFactory.CreatePanel(root, "EquipPanel", UIFactory.Bg);
-            UIFactory.Stretch(rect, 590, 150);
+            UIFactory.Stretch(rect, UIFactory.MainContentTop, UIFactory.MainContentBottom, UIFactory.ScreenGutter);
             var panel = rect.gameObject.AddComponent<EquipPanel>();
             panel.Rect = rect;
             panel._session = session;
@@ -92,9 +92,10 @@ namespace IdleGame.UI
             _catalogGrid = gridPanel;
             var grid = gridPanel.gameObject.AddComponent<GridLayoutGroup>();
             grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-            grid.constraintCount = 4;
-            grid.cellSize = new Vector2(238, 300);
-            grid.spacing = new Vector2(12, 12);
+            grid.constraintCount = 3;
+            // 작은 4열 타일은 일러스트와 상태를 모두 뭉갠다. 3열 카드로 정보 밀도와 터치 영역을 확보한다.
+            grid.cellSize = new Vector2(314, 360);
+            grid.spacing = new Vector2(14, 14);
             gridPanel.gameObject.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
         }
 
@@ -166,8 +167,8 @@ namespace IdleGame.UI
                     iconRect.anchorMin = new Vector2(0.5f, 1);
                     iconRect.anchorMax = new Vector2(0.5f, 1);
                     iconRect.pivot = new Vector2(0.5f, 1);
-                    iconRect.anchoredPosition = new Vector2(0, -12);
-                    iconRect.sizeDelta = new Vector2(150, 150);
+                    iconRect.anchoredPosition = new Vector2(0, -14);
+                    iconRect.sizeDelta = new Vector2(205, 205);
                 }
 
                 if (!string.IsNullOrEmpty(def.element))
@@ -181,7 +182,7 @@ namespace IdleGame.UI
                 var nameText = UIFactory.CreateText(tile.transform, "Name", def.name, 23,
                     TextAnchor.MiddleCenter, isOwned ? gradeColor : UIFactory.TextDim);
                 nameText.raycastTarget = false;
-                UIFactory.BottomBand(nameText.rectTransform, 84, 40, 6);
+                UIFactory.BottomBand(nameText.rectTransform, 92, 42, 8);
 
                 string status;
                 if (!isOwned) status = "미보유";
@@ -196,7 +197,7 @@ namespace IdleGame.UI
                 var statusText = UIFactory.CreateText(tile.transform, "Status", status, 21,
                     TextAnchor.MiddleCenter, isOwned ? UIFactory.TextMain : UIFactory.TextDim);
                 statusText.raycastTarget = false;
-                UIFactory.BottomBand(statusText.rectTransform, 46, 36, 6);
+                UIFactory.BottomBand(statusText.rectTransform, 52, 36, 8);
 
                 if (isOwned && def.upgradeToId != null)
                 {

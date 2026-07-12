@@ -7528,6 +7528,60 @@
       ],
       "passiveName": "코스튬",
       "passiveDesc": "어둠에 녹아드는 칠흑 두루마기"
+    },
+    {
+      "id": "costume_space",
+      "name": "별바다 우주복",
+      "kind": "costume",
+      "grade": "Mythic",
+      "artId": "costume_space",
+      "baseEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.05
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.05
+          }
+        }
+      ],
+      "passiveName": "코스튬",
+      "passiveDesc": "갓을 쓴 채로 우주로 — 별빛 우주복"
+    },
+    {
+      "id": "costume_cat",
+      "name": "냥이 잠옷",
+      "kind": "costume",
+      "grade": "Epic",
+      "artId": "costume_cat",
+      "baseEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.03
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.03
+          }
+        }
+      ],
+      "passiveName": "코스튬",
+      "passiveDesc": "고양이귀 후드 잠옷 — 근무 태만의 상징"
     }
   ],
   "banners": [

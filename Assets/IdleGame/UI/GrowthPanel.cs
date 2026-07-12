@@ -18,7 +18,7 @@ namespace IdleGame.UI
         public static GrowthPanel Create(Transform root, GameSession session)
         {
             var rect = UIFactory.CreatePanel(root, "GrowthPanel", UIFactory.Bg);
-            UIFactory.Stretch(rect, 590, 150);
+            UIFactory.Stretch(rect, UIFactory.MainContentTop, UIFactory.MainContentBottom, UIFactory.ScreenGutter);
             var panel = rect.gameObject.AddComponent<GrowthPanel>();
             panel.Rect = rect;
             panel._session = session;
@@ -33,7 +33,7 @@ namespace IdleGame.UI
 
         private void Build()
         {
-            var list = UIFactory.CreateScrollList(Rect, spacing: 14);
+            var list = UIFactory.CreateScrollList(Rect, spacing: 18);
 
             // 강화 배수 토글 (x1 → x10 → x50 → MAX)
             _bulkButton = UIFactory.CreateButton(list, "Bulk", "", () =>
@@ -41,8 +41,8 @@ namespace IdleGame.UI
                 int index = System.Array.IndexOf(BulkSteps, BulkMultiplier);
                 BulkMultiplier = BulkSteps[(index + 1) % BulkSteps.Length];
                 Refresh();
-            }, new Color(0.25f, 0.22f, 0.38f), 27);
-            _bulkButton.gameObject.AddComponent<LayoutElement>().preferredHeight = 72;
+            }, UIFactory.PanelRaised, 25);
+            _bulkButton.gameObject.AddComponent<LayoutElement>().preferredHeight = 68;
 
             foreach (var kv in _session.Stats.Axes)
             {
@@ -51,18 +51,29 @@ namespace IdleGame.UI
 
                 var card = UIFactory.CreatePanel(list, $"Axis_{axisId}", UIFactory.Panel);
                 UIFactory.Roundify(card.GetComponent<Image>());
-                card.gameObject.AddComponent<LayoutElement>().preferredHeight = 150;
+                card.gameObject.AddComponent<LayoutElement>().preferredHeight = 168;
+
+                var accent = UIFactory.CreatePanel(card, "Accent", UIFactory.Accent);
+                accent.anchorMin = new Vector2(0, 0.18f);
+                accent.anchorMax = new Vector2(0, 0.82f);
+                accent.pivot = new Vector2(0, 0.5f);
+                accent.anchoredPosition = new Vector2(0, 0);
+                accent.sizeDelta = new Vector2(6, 0);
 
                 // 이름 + Lv 칩
-                var name = UIFactory.CreateText(card, "Name", axis.name, 31, TextAnchor.UpperLeft);
-                UIFactory.TopBand(name.rectTransform, 20, 44, 28);
-                var level = UIFactory.CreateText(card, "Lv", "", 27, TextAnchor.UpperLeft, UIFactory.Gold);
-                UIFactory.TopBand(level.rectTransform, 24, 40, 28);
-                level.rectTransform.offsetMin = new Vector2(280, level.rectTransform.offsetMin.y);
+                var name = UIFactory.CreateText(card, "Name", axis.name, 30, TextAnchor.UpperLeft);
+                name.fontStyle = FontStyle.Bold;
+                UIFactory.TopBand(name.rectTransform, 22, 42, 32);
+                name.rectTransform.offsetMax = new Vector2(-330, name.rectTransform.offsetMax.y);
+                var level = UIFactory.CreateText(card, "Lv", "", 24, TextAnchor.UpperRight, UIFactory.Gold);
+                UIFactory.TopBand(level.rectTransform, 24, 38, 32);
+                level.rectTransform.offsetMin = new Vector2(430, level.rectTransform.offsetMin.y);
+                level.rectTransform.offsetMax = new Vector2(-330, level.rectTransform.offsetMax.y);
 
                 // 현재 효과 (흐리게)
-                var effect = UIFactory.CreateText(card, "Effect", "", 24, TextAnchor.LowerLeft, UIFactory.TextDim);
-                UIFactory.BottomBand(effect.rectTransform, 18, 40, 28);
+                var effect = UIFactory.CreateText(card, "Effect", "", 23, TextAnchor.LowerLeft, UIFactory.TextDim);
+                UIFactory.BottomBand(effect.rectTransform, 22, 46, 32);
+                effect.rectTransform.offsetMax = new Vector2(-330, effect.rectTransform.offsetMax.y);
 
                 // 강화 버튼 (배수 적용: x1/x10/x50/MAX)
                 var button = UIFactory.CreateButton(card, "Up", "", () =>
@@ -76,8 +87,8 @@ namespace IdleGame.UI
                 buttonRect.anchorMin = new Vector2(1, 0.5f);
                 buttonRect.anchorMax = new Vector2(1, 0.5f);
                 buttonRect.pivot = new Vector2(1, 0.5f);
-                buttonRect.anchoredPosition = new Vector2(-20, 0);
-                buttonRect.sizeDelta = new Vector2(230, 112);
+                buttonRect.anchoredPosition = new Vector2(-22, 0);
+                buttonRect.sizeDelta = new Vector2(285, 122);
 
                 // 잠금 안내 (해금 전용, 카드 전체 덮는 텍스트)
                 var lockText = UIFactory.CreateText(card, "Lock", "", 26, TextAnchor.MiddleRight, UIFactory.TextDim);

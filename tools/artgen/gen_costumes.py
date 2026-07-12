@@ -11,13 +11,16 @@ base = Image.open("../../art/concepts/main_hires_c.png").convert("RGB").resize((
 NEG = ("lowres, bad anatomy, bad hands, text, watermark, worst quality, low quality, "
        "multiple views, character sheet, 2girls, realistic, photo")
 
+# (prompt, lock): full = 갓+얼굴 고정 / face = 얼굴만 고정 (모자 변형 허용)
 COSTUMES = {
-    "costume_crimson": "1girl, solo, chibi, korean grim reaper girl, large pointed black gat, purple hair covering one eye, wearing bright crimson red hanbok, red dress, red robe, red clothes with gold flower embroidery, cute, full body, thick outline, flat color, simple dark purple background",
-    "costume_snow":    "1girl, solo, chibi, korean grim reaper girl, large pointed white gat, purple hair covering one eye, wearing pure white hanbok, white dress, white robe, white clothes, silver trim, snowflakes, cute, full body, thick outline, flat color, simple dark purple background",
-    "costume_gold":    "1girl, solo, chibi, korean grim reaper girl, large pointed black gat with gold trim, purple hair covering one eye, wearing golden yellow royal robe, gold dress, gold embroidered clothes, shining gold, majestic, cute, full body, thick outline, flat color, simple dark purple background",
-    "costume_shadow":  "1girl, solo, chibi, korean grim reaper girl, large pointed black gat, purple hair covering one eye, wearing pitch black hooded cloak, black mist aura, glowing purple runes on fabric, mysterious, cute, full body, thick outline, flat color, simple dark purple background",
+    "costume_space": ("1girl, solo, chibi, korean grim reaper girl, large pointed black gat, purple hair covering one eye, wearing white and orange astronaut spacesuit, space suit with tubes and chest control panel, sci-fi, cute, full body, thick outline, flat color, simple dark purple background", "full"),
+    "costume_cat":   ("1girl, solo, chibi, girl wearing cat ear hood pajama onesie, cat hoodie with ears, paw gloves, purple hair covering one eye, tail, cute, sleepy, full body, thick outline, flat color, simple dark purple background", "face"),
+    "costume_crimson": ("1girl, solo, chibi, korean grim reaper girl, large pointed black gat, purple hair covering one eye, wearing bright crimson red hanbok, red dress, red robe, red clothes with gold flower embroidery, cute, full body, thick outline, flat color, simple dark purple background", "full"),
+    "costume_snow":    ("1girl, solo, chibi, korean grim reaper girl, large pointed white gat, purple hair covering one eye, wearing pure white hanbok, white dress, white robe, white clothes, silver trim, snowflakes, cute, full body, thick outline, flat color, simple dark purple background", "full"),
+    "costume_gold":    ("1girl, solo, chibi, korean grim reaper girl, large pointed black gat with gold trim, purple hair covering one eye, wearing golden yellow royal robe, gold dress, gold embroidered clothes, shining gold, majestic, cute, full body, thick outline, flat color, simple dark purple background", "full"),
+    "costume_shadow":  ("1girl, solo, chibi, korean grim reaper girl, large pointed black gat, purple hair covering one eye, wearing pitch black hooded cloak, black mist aura, glowing purple runes on fabric, mysterious, cute, full body, thick outline, flat color, simple dark purple background", "full"),
 }
-for name, prompt in COSTUMES.items():
+for name, (prompt, lock) in COSTUMES.items():
     image = pipe(prompt=prompt + ", masterpiece, high score", negative_prompt=NEG,
                  image=base, strength=0.85, guidance_scale=6.0, num_inference_steps=30,
                  generator=torch.Generator("cpu").manual_seed(77)).images[0]
@@ -26,7 +29,7 @@ for name, prompt in COSTUMES.items():
     v = np.array(image).astype(float)
     b = np.array(base).astype(float)
     H = v.shape[0]
-    head_end = int(H * 0.52)   # 치비 비율: 머리+갓이 상단 ~52%
+    head_end = int(H * (0.52 if lock == 'full' else 0.30))   # 치비 비율: 머리+갓이 상단 ~52%
     band = 80                   # 목선 블렌드 밴드
     mask = np.zeros((H, 1, 1))
     mask[:head_end - band] = 1.0

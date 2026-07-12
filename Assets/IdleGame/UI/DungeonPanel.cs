@@ -29,7 +29,7 @@ namespace IdleGame.UI
         public static DungeonPanel Create(Transform root, GameSession session)
         {
             var rect = UIFactory.CreatePanel(root, "DungeonPanel", UIFactory.Bg);
-            UIFactory.Stretch(rect, 590, 150);
+            UIFactory.Stretch(rect, UIFactory.MainContentTop, UIFactory.MainContentBottom, UIFactory.ScreenGutter);
             var panel = rect.gameObject.AddComponent<DungeonPanel>();
             panel.Rect = rect;
             panel._session = session;
