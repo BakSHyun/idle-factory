@@ -24,6 +24,7 @@ namespace IdleGame.UI
         private BattleAnimator _battleAnimator;
         private static readonly string[] MobIds = { "mob_wisp", "mob_gwisin", "mob_dokkaebi" };
         private GrowthPanel _growthPanel;
+        private EquipPanel _equipPanel;
         private GachaPanel _gachaPanel;
         private DungeonPanel _dungeonPanel;
         private ShopPanel _shopPanel;
@@ -62,11 +63,12 @@ namespace IdleGame.UI
 
             // 탭 패널 3종 (중앙~하단 탭 바 사이 영역)
             _growthPanel = GrowthPanel.Create(root, _session);
+            _equipPanel = EquipPanel.Create(root, _session);
             _gachaPanel = GachaPanel.Create(root, _session);
             _dungeonPanel = DungeonPanel.Create(root, _session);
             _shopPanel = ShopPanel.Create(root, _session);
             _statusPanel = StatusPanel.Create(root, _session);
-            _panels = new[] { _growthPanel.Rect, _gachaPanel.Rect, _dungeonPanel.Rect, _shopPanel.Rect, _statusPanel.Rect };
+            _panels = new[] { _growthPanel.Rect, _equipPanel.Rect, _gachaPanel.Rect, _dungeonPanel.Rect, _shopPanel.Rect, _statusPanel.Rect };
 
             BuildTabBar(root);
             ShowPanel(0);
@@ -177,7 +179,7 @@ namespace IdleGame.UI
                 // 체력바: 적(몬스터 위) + 아군(캐릭터 위)
                 _bossMobFill = CreateHpBar(battle, new Vector2(0.78f, 0.78f), new Color(0.9f, 0.3f, 0.35f));
                 _playerHpFill = CreateHpBar(battle, new Vector2(0.28f, 0.86f), new Color(0.35f, 0.85f, 0.45f));
-                _battleAnimator = BattleAnimator.Attach(battle, artRect, _mobImage, _bossMobFill);
+                _battleAnimator = BattleAnimator.Attach(battle, artRect, _mobImage, _bossMobFill, _playerHpFill);
             }
             else
             {
@@ -457,9 +459,12 @@ namespace IdleGame.UI
         private System.Collections.IEnumerator BossFightSequence()
         {
             _bossFighting = true;
+            _battleAnimator?.SetFighting(true); // 파밍 연출 정지 (보스전 체력바와 충돌 방지)
             var preview = _session.Progression.SimulateBossFight();
             var label = _bossButton.GetComponentInChildren<Text>();
             _bossButton.interactable = false;
+            SetHpFill(_bossMobFill, 1f);
+            SetHpFill(_playerHpFill, 1f);
 
             // 수문장 등장 연출: 몬스터 확대 + 붉은 기운
             var mobRect = _mobImage != null ? (RectTransform)_mobImage.transform : null;
@@ -522,7 +527,7 @@ namespace IdleGame.UI
             }
 
             if (mobRect != null) { mobRect.localScale = Vector3.one; _mobImage.color = Color.white; }
-            SetHpFill(_bossMobFill, 1f);
+            _battleAnimator?.SetFighting(false); // 파밍 연출 재개 + 체력바 리셋
             _bossButton.interactable = true;
             _bossFighting = false;
             RefreshStage();
@@ -566,7 +571,7 @@ namespace IdleGame.UI
             layout.childForceExpandWidth = true;
             layout.spacing = 4;
 
-            string[] names = { "성장", "소환", "던전", "상점", "정보" };
+            string[] names = { "성장", "편성", "소환", "던전", "상점", "정보" };
             for (int i = 0; i < names.Length; i++)
             {
                 int index = i;
@@ -606,22 +611,21 @@ namespace IdleGame.UI
             var cfg = _session.Config.stage;
             int stage = _session.Progression.Current.Index;
             double enemyAttack = IdleCore.Progression.StageMath.EnemyAttack(cfg, stage);
+            double perHit = enemyAttack * 1.5; // 타격당 피해 (1.5초 간격 환산)
             _battleAnimator?.SetRates(snapshot.Dps(),
                 result.Seconds > 0 ? result.Kills / result.Seconds : 0,
-                enemyAttack * 1.5); // 타격당 피해 표기 (1.5초 간격 환산)
+                perHit,
+                perHit / System.Math.Max(1.0, snapshot.EffectiveHp())); // 타격당 체력 감소 비율
 
-            // 아군 체력바 = 생존 여유율 (적 반격 대비 유효 체력)
-            float ratio = 1f;
-            if (enemyAttack > 0)
+            // 체력바 색 = 생존 여유 (감소는 애니메이터가 타격마다 실제 수치로 반영)
+            if (_playerHpFill != null && enemyAttack > 0)
             {
                 double killSeconds = IdleCore.Progression.StageMath.EnemyHp(cfg, stage) / System.Math.Max(0.0001, snapshot.Dps());
                 double needed = enemyAttack * killSeconds * cfg.survivalKillBuffer;
-                ratio = (float)System.Math.Min(1.0, snapshot.EffectiveHp() / System.Math.Max(1.0, needed * 1.5));
+                float margin = (float)System.Math.Min(1.0, snapshot.EffectiveHp() / System.Math.Max(1.0, needed * 1.5));
+                _playerHpFill.color = margin > 0.5f ? new Color(0.35f, 0.85f, 0.45f)
+                    : margin > 0.25f ? new Color(0.95f, 0.75f, 0.3f) : new Color(0.9f, 0.3f, 0.35f);
             }
-            SetHpFill(_playerHpFill, ratio);
-            if (_playerHpFill != null)
-                _playerHpFill.color = ratio > 0.5f ? new Color(0.35f, 0.85f, 0.45f)
-                    : ratio > 0.25f ? new Color(0.95f, 0.75f, 0.3f) : new Color(0.9f, 0.3f, 0.35f);
 
             RefreshCurrencies();
         }
@@ -649,6 +653,7 @@ namespace IdleGame.UI
             RefreshStage();
             RefreshCurrencies();
             _growthPanel.Refresh();
+            _equipPanel.Refresh();
             _gachaPanel.Refresh();
             _dungeonPanel.Refresh();
             _shopPanel.Refresh();

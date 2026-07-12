@@ -26,9 +26,23 @@ namespace IdleGame.UI
             return panel;
         }
 
+        /// <summary>일괄 강화 배수 (x1/x10/x50/MAX=-1) — 성장·장비 강화 공용 설정.</summary>
+        public static int BulkMultiplier = 1;
+        private static readonly int[] BulkSteps = { 1, 10, 50, -1 };
+        private Button _bulkButton;
+
         private void Build()
         {
             var list = UIFactory.CreateScrollList(Rect, spacing: 14);
+
+            // 강화 배수 토글 (x1 → x10 → x50 → MAX)
+            _bulkButton = UIFactory.CreateButton(list, "Bulk", "", () =>
+            {
+                int index = System.Array.IndexOf(BulkSteps, BulkMultiplier);
+                BulkMultiplier = BulkSteps[(index + 1) % BulkSteps.Length];
+                Refresh();
+            }, new Color(0.25f, 0.22f, 0.38f), 27);
+            _bulkButton.gameObject.AddComponent<LayoutElement>().preferredHeight = 72;
 
             foreach (var kv in _session.Stats.Axes)
             {
@@ -50,15 +64,14 @@ namespace IdleGame.UI
                 var effect = UIFactory.CreateText(card, "Effect", "", 24, TextAnchor.LowerLeft, UIFactory.TextDim);
                 UIFactory.BottomBand(effect.rectTransform, 18, 40, 28);
 
-                // 강화 버튼 (2줄: 강화 / 재화 비용)
+                // 강화 버튼 (배수 적용: x1/x10/x50/MAX)
                 var button = UIFactory.CreateButton(card, "Up", "", () =>
-                {
-                    if (!_session.Stats.CanLevelUp(axisId)) return;
-                    long cost = _session.Stats.NextCost(axisId);
-                    if (!_session.Wallet.TrySpend(axis.costCurrency, cost)) return;
-                    _session.Stats.LevelUp(axisId);
-                    Refresh();
-                }, UIFactory.Accent, 25);
+                    PowerToast.Wrap(_session, Rect.parent, () =>
+                    {
+                        int count = BulkMultiplier < 0 ? 10000 : BulkMultiplier;
+                        _session.Stats.LevelUpMany(axisId, _session.Wallet, count);
+                        Refresh();
+                    }), UIFactory.Accent, 25);
                 var buttonRect = (RectTransform)button.transform;
                 buttonRect.anchorMin = new Vector2(1, 0.5f);
                 buttonRect.anchorMax = new Vector2(1, 0.5f);
@@ -77,6 +90,9 @@ namespace IdleGame.UI
         public void Refresh()
         {
             if (_session == null) return;
+            if (_bulkButton != null)
+                _bulkButton.GetComponentInChildren<Text>().text =
+                    $"강화 배수: {(BulkMultiplier < 0 ? "MAX" : $"x{BulkMultiplier}")}  (탭하여 변경)";
             foreach (var (axisId, level, effect, button, buttonLabel, lockText) in _rows)
             {
                 var axis = _session.Stats.Axes[axisId];
@@ -104,7 +120,8 @@ namespace IdleGame.UI
                 bool affordable = _session.Wallet.CanAfford(axis.costCurrency, cost)
                                   && _session.Stats.CanLevelUp(axisId);
                 button.interactable = affordable;
-                buttonLabel.text = $"강화\n{CurrencyLabel(axis.costCurrency)} {UIFactory.FormatNumber(cost)}";
+                string mult = BulkMultiplier < 0 ? "MAX" : $"x{BulkMultiplier}";
+                buttonLabel.text = $"강화 {mult}\n{CurrencyLabel(axis.costCurrency)} {UIFactory.FormatNumber(cost)}~";
             }
         }
 

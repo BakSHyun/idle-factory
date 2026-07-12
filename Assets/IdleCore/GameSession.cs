@@ -105,19 +105,38 @@ namespace IdleCore
 
         public DateTime LastSeenUtc { get; private set; }
 
-        /// <summary>현재 챕터 몬스터 속성 대비 파티 상성 보너스 (합산, ±). UI 표시용으로도 공개.</summary>
+        private static StatType ElementDamageStat(string element) => element switch
+        {
+            Elements.Fire => StatType.FireDamage,
+            Elements.Lightning => StatType.LightningDamage,
+            _ => StatType.DarkDamage,
+        };
+
+        /// <summary>
+        /// 파티 속성 보너스 = 상성(유리 +6%/불리 -4% per 유닛) + 속성 공격력 스탯(불꽃/뇌전/명계 연마 축).
+        /// 속성 스탯은 파티 내 해당 속성 유닛 비중만큼 반영된다.
+        /// </summary>
         public double ElementAdvantage()
         {
             string mobElement = Elements.MobElement(Progression.Current.Chapter(Config.stage));
+            var snapshot = Stats.Snapshot();
             double advantage = 0;
+            int totalElemental = 0;
+            var counts = new Dictionary<string, int>();
             foreach (var unit in Units.AllOwned())
             {
                 if (!unit.equipped) continue;
                 var def = Units.Defs[unit.unitId];
                 if (string.IsNullOrEmpty(def.element)) continue;
-                if (Elements.Beats(def.element, mobElement)) advantage += 0.06;      // 유리: 유닛당 +6%
-                else if (Elements.Beats(mobElement, def.element)) advantage -= 0.04; // 불리: 유닛당 -4%
+                totalElemental++;
+                counts.TryGetValue(def.element, out var c);
+                counts[def.element] = c + 1;
+                if (Elements.Beats(def.element, mobElement)) advantage += 0.06;
+                else if (Elements.Beats(mobElement, def.element)) advantage -= 0.04;
             }
+            if (totalElemental > 0)
+                foreach (var kv in counts)
+                    advantage += snapshot.Get(ElementDamageStat(kv.Key)) * kv.Value / totalElemental;
             return advantage;
         }
 

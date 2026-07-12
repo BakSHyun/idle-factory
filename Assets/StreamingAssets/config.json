@@ -137,6 +137,72 @@
           }
         }
       ]
+    },
+    {
+      "id": "hone_fire",
+      "name": "불꽃 연마",
+      "unlockStageIndex": 20,
+      "costCurrency": "soul",
+      "cost": {
+        "type": "Geometric",
+        "baseValue": 120,
+        "growth": 1.12
+      },
+      "effects": [
+        {
+          "stat": "FireDamage",
+          "mode": "Add",
+          "value": {
+            "type": "Linear",
+            "baseValue": 0,
+            "perLevel": 0.02
+          }
+        }
+      ]
+    },
+    {
+      "id": "hone_lightning",
+      "name": "뇌전 연마",
+      "unlockStageIndex": 20,
+      "costCurrency": "soul",
+      "cost": {
+        "type": "Geometric",
+        "baseValue": 120,
+        "growth": 1.12
+      },
+      "effects": [
+        {
+          "stat": "LightningDamage",
+          "mode": "Add",
+          "value": {
+            "type": "Linear",
+            "baseValue": 0,
+            "perLevel": 0.02
+          }
+        }
+      ]
+    },
+    {
+      "id": "hone_dark",
+      "name": "명계 연마",
+      "unlockStageIndex": 20,
+      "costCurrency": "soul",
+      "cost": {
+        "type": "Geometric",
+        "baseValue": 120,
+        "growth": 1.12
+      },
+      "effects": [
+        {
+          "stat": "DarkDamage",
+          "mode": "Add",
+          "value": {
+            "type": "Linear",
+            "baseValue": 0,
+            "perLevel": 0.02
+          }
+        }
+      ]
     }
   ],
   "stage": {

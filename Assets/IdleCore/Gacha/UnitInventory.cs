@@ -70,17 +70,52 @@ namespace IdleCore.Gacha
             UnitChanged?.Invoke(unitId);
         }
 
-        /// <summary>장착 시도 — kind 슬롯이 가득 차 있으면 실패.</summary>
+        /// <summary>현재 장착된 해당 종류 유닛들의 속성 가짓수 (속성당 보너스 슬롯 +1, 최대 3).</summary>
+        public int DistinctElementsEquipped(string kind) =>
+            _owned.Values
+                .Where(u => u.equipped && _defs[u.unitId].kind == kind)
+                .Select(u => _defs[u.unitId].element)
+                .Where(e => !string.IsNullOrEmpty(e))
+                .Distinct().Count();
+
+        /// <summary>실효 슬롯 한도 = 기본 슬롯 + 장착 속성 가짓수 (속성 다양화 인센티브).</summary>
+        public int EffectiveSlotLimit(string kind) =>
+            SlotLimit(kind) == int.MaxValue ? int.MaxValue
+                : SlotLimit(kind) + Math.Min(3, DistinctElementsEquipped(kind));
+
+        /// <summary>장착 시도 — 기본 슬롯 + 속성 보너스 슬롯(속성당 +1) 한도 검사.</summary>
         public bool TryEquip(string unitId)
         {
             var unit = Get(unitId);
             if (unit == null) return false;
             if (unit.equipped) return true;
-            var kind = _defs[unitId].kind;
-            if (EquippedCount(kind) >= SlotLimit(kind)) return false;
+            var def = _defs[unitId];
+            var kind = def.kind;
+            int baseLimit = SlotLimit(kind);
+            if (baseLimit != int.MaxValue)
+            {
+                // 이 유닛을 포함했을 때의 속성 가짓수로 한도 계산
+                var elements = _owned.Values
+                    .Where(u => u.equipped && _defs[u.unitId].kind == kind)
+                    .Select(u => _defs[u.unitId].element)
+                    .Where(e => !string.IsNullOrEmpty(e))
+                    .ToHashSet();
+                if (!string.IsNullOrEmpty(def.element)) elements.Add(def.element);
+                int limit = baseLimit + Math.Min(3, elements.Count);
+                if (EquippedCount(kind) >= limit) return false;
+            }
             unit.equipped = true;
             UnitChanged?.Invoke(unitId);
             return true;
+        }
+
+        /// <summary>장비 일괄 강화 (x10/x50/MAX). 얻은 레벨 수 반환.</summary>
+        public int TryLevelUpMany(string unitId, Economy.Wallet wallet, int count)
+        {
+            int gained = 0;
+            int guard = Math.Min(count, 10000);
+            while (gained < guard && TryLevelUp(unitId, wallet)) gained++;
+            return gained;
         }
 
         public void Unequip(string unitId)

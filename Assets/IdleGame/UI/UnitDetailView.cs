@@ -17,6 +17,7 @@ namespace IdleGame.UI
         private GameSession _session;
         private string _unitId;
         private System.Action _onChanged;
+        private Transform _root;
         private Text _body;
         private Button _equipButton, _levelButton, _composeButton;
 
@@ -29,6 +30,7 @@ namespace IdleGame.UI
             view._session = session;
             view._unitId = unitId;
             view._onChanged = onChanged;
+            view._root = root;
             view.Build(overlay);
         }
 
@@ -87,30 +89,39 @@ namespace IdleGame.UI
             layout.spacing = 10;
 
             _equipButton = UIFactory.CreateButton(buttonBar, "Equip", "", () =>
-            {
-                var unit = _session.Units.Get(_unitId);
-                if (unit == null) return;
-                if (unit.equipped) _session.Units.Unequip(_unitId);
-                else _session.Units.TryEquip(_unitId);
-                _onChanged?.Invoke();
-                Refresh();
-            }, UIFactory.Accent, 27);
+                PowerToast.Wrap(_session, _root, () =>
+                {
+                    var unit = _session.Units.Get(_unitId);
+                    if (unit == null) return;
+                    if (unit.equipped) _session.Units.Unequip(_unitId);
+                    else if (!_session.Units.TryEquip(_unitId))
+                        _body.text = "슬롯이 가득 찼습니다 — 다른 속성을 쓰면 슬롯 +1 (최대 +3)\n\n" + _body.text;
+                    _onChanged?.Invoke();
+                    Refresh();
+                }), UIFactory.Accent, 27);
 
             _levelButton = UIFactory.CreateButton(buttonBar, "Level", "", () =>
-            {
-                if (_session.Units.TryLevelUp(_unitId, _session.Wallet)) { _onChanged?.Invoke(); Refresh(); }
-            }, new Color(0.2f, 0.3f, 0.5f), 27);
+                PowerToast.Wrap(_session, _root, () =>
+                {
+                    int count = GrowthPanel.BulkMultiplier < 0 ? 10000 : GrowthPanel.BulkMultiplier;
+                    if (_session.Units.TryLevelUpMany(_unitId, _session.Wallet, count) > 0)
+                    {
+                        _onChanged?.Invoke();
+                        Refresh();
+                    }
+                }), new Color(0.2f, 0.3f, 0.5f), 27);
 
             _composeButton = UIFactory.CreateButton(buttonBar, "Compose", "", () =>
-            {
-                if (_session.Units.TryComposeUnit(_unitId, out var newId))
+                PowerToast.Wrap(_session, _root, () =>
                 {
-                    _onChanged?.Invoke();
-                    var newDef = _session.Units.Defs[newId];
-                    _body.text = $"승급 성공! [{GachaPanel.GradeLabel(newDef.grade)}] {newDef.name} 획득\n\n" + _body.text;
-                    Refresh();
-                }
-            }, new Color(0.32f, 0.24f, 0.15f), 27);
+                    if (_session.Units.TryComposeUnit(_unitId, out var newId))
+                    {
+                        _onChanged?.Invoke();
+                        var newDef = _session.Units.Defs[newId];
+                        _body.text = $"승급 성공! [{GachaPanel.GradeLabel(newDef.grade)}] {newDef.name} 획득\n\n" + _body.text;
+                        Refresh();
+                    }
+                }), new Color(0.32f, 0.24f, 0.15f), 27);
 
             UIFactory.CreateButton(buttonBar, "Close", "닫기", () => Destroy(overlay.gameObject), UIFactory.Panel, 27);
 
@@ -164,7 +175,9 @@ namespace IdleGame.UI
             if (levelable)
             {
                 long cost = _session.Units.LevelUpCost(_unitId);
-                _levelButton.GetComponentInChildren<Text>().text = cost < 0 ? "강화 MAX" : $"강화 {UIFactory.FormatNumber(cost)}";
+                string mult = GrowthPanel.BulkMultiplier < 0 ? "MAX" : $"x{GrowthPanel.BulkMultiplier}";
+                _levelButton.GetComponentInChildren<Text>().text =
+                    cost < 0 ? "강화 MAX" : $"강화 {mult}\n{UIFactory.FormatNumber(cost)}~";
                 _levelButton.interactable = cost >= 0 && _session.Wallet.CanAfford(def.levelCostCurrency, cost);
             }
 
@@ -193,10 +206,15 @@ namespace IdleGame.UI
                 StatType.SoulGain => "영혼 획득",
                 StatType.OfflineRate => "방치 보상",
                 StatType.OfflineCapHours => "방치 상한",
+                StatType.FireDamage => "🔥 불 속성 공격력",
+                StatType.LightningDamage => "⚡ 번개 속성 공격력",
+                StatType.DarkDamage => "🌑 어둠 속성 공격력",
                 _ => effect.stat.ToString(),
             };
+            bool percentStat = effect.stat is StatType.CritChance
+                or StatType.FireDamage or StatType.LightningDamage or StatType.DarkDamage;
             double v = effect.value.Evaluate(level);
-            return effect.mode == EffectMode.Mul
+            return effect.mode == EffectMode.Mul || percentStat
                 ? $"{stat} +{v * 100:0.##}%"
                 : $"{stat} +{UIFactory.FormatNumber(v)}";
         }

@@ -82,6 +82,23 @@ namespace IdleCore.Stats
             LeveledUp?.Invoke(axisId);
         }
 
+        /// <summary>일괄 강화: 재화가 되는 만큼 최대 count 레벨 (x10/x50/MAX 버튼용). 얻은 레벨 수 반환.</summary>
+        public int LevelUpMany(string axisId, Economy.Wallet wallet, int count)
+        {
+            int gained = 0;
+            int guard = Math.Min(count, 10000);
+            while (gained < guard && CanLevelUp(axisId))
+            {
+                var axis = _axes[axisId];
+                if (!wallet.TrySpend(axis.costCurrency, axis.CostAtLevel(GetLevel(axisId)))) break;
+                _levels[axisId] = GetLevel(axisId) + 1;
+                gained++;
+                LeveledUp?.Invoke(axisId);
+            }
+            if (gained > 0) Invalidate();
+            return gained;
+        }
+
         /// <summary>축 외 효과(유닛 돌파, 도감 보너스, 패스 버프 등)를 주입하는 통로.</summary>
         public void SetExternalEffects(IEnumerable<StatEffect> effects)
         {

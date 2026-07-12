@@ -16,5 +16,8 @@ namespace IdleCore.Stats
         SoulGain,        // 소울(성장 재화) 획득 배율
         OfflineRate,     // 오프라인 보상 배율
         OfflineCapHours, // 오프라인 보상 상한 (시간, 가산)
+        FireDamage,      // 불 속성 유닛 데미지 배율
+        LightningDamage, // 번개 속성 유닛 데미지 배율
+        DarkDamage,      // 어둠 속성 유닛 데미지 배율
     }
 }

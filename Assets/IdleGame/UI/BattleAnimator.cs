@@ -24,11 +24,13 @@ namespace IdleGame.UI
         private float _mobAttackTimer = 1.0f;
         private Image _charImage;
 
-        private Image _mobHpFill;
+        private Image _mobHpFill, _playerHpFill;
         private int _hitsOnCurrentMob;
+        private double _playerHitFraction; // 피격 1회당 내 체력 감소 비율 (실제 수치 기반)
+        private float _visualPlayerHp = 1f;
 
         public static BattleAnimator Attach(RectTransform battleArea, RectTransform character, Image mobImage,
-            Image mobHpFill = null)
+            Image mobHpFill = null, Image playerHpFill = null)
         {
             var animator = battleArea.gameObject.AddComponent<BattleAnimator>();
             animator._battleArea = battleArea;
@@ -36,6 +38,7 @@ namespace IdleGame.UI
             animator._mob = mobImage != null ? (RectTransform)mobImage.transform : null;
             animator._mobImage = mobImage;
             animator._mobHpFill = mobHpFill;
+            animator._playerHpFill = playerHpFill;
             if (character != null)
             {
                 animator._charBase = character.anchoredPosition;
@@ -46,11 +49,34 @@ namespace IdleGame.UI
         }
 
         /// <summary>파밍 틱마다 호출 — 연출 속도를 실제 전투 수치에 동기화.</summary>
-        public void SetRates(double dps, double killsPerSecond, double enemyAttackPerHit = 0)
+        public void SetRates(double dps, double killsPerSecond, double enemyAttackPerHit = 0,
+            double playerHitFraction = 0)
         {
             _dps = dps;
             _killsPerSecond = killsPerSecond;
             _enemyAttackPerHit = enemyAttackPerHit;
+            _playerHitFraction = playerHitFraction;
+        }
+
+        /// <summary>보스전 시작/종료 — 파밍 연출을 완전히 멈춰 보스전 체력바와 충돌하지 않게.</summary>
+        public void SetFighting(bool fighting)
+        {
+            enabled = !fighting;
+            if (fighting)
+            {
+                StopAllCoroutines();
+                if (_mob != null) { _mob.anchoredPosition = _mobBase; _mob.localScale = Vector3.one; }
+                if (_mobImage != null) _mobImage.color = Color.white;
+                if (_charImage != null) _charImage.color = Color.white;
+                if (_character != null) _character.anchoredPosition = _charBase;
+                _hitsOnCurrentMob = 0;
+            }
+            else
+            {
+                _visualPlayerHp = 1f; // 전투 후 회복
+                RootView.SetHpFill(_playerHpFill, 1f);
+                RootView.SetHpFill(_mobHpFill, 1f);
+            }
         }
 
         private void Update()
@@ -60,6 +86,13 @@ namespace IdleGame.UI
             // 숨쉬기 (idle bob)
             float bob = Mathf.Sin(Time.time * 2.2f) * 6f;
             _character.anchoredPosition = _charBase + new Vector2(0, bob);
+
+            // 파밍 중 내 체력 자연 회복 (피격으로 깎인 만큼 서서히)
+            if (_visualPlayerHp < 1f)
+            {
+                _visualPlayerHp = Mathf.Min(1f, _visualPlayerHp + Time.deltaTime * 0.05f);
+                RootView.SetHpFill(_playerHpFill, _visualPlayerHp);
+            }
 
             // 공격 주기: 킬 속도 반영 (최소 0.5초, 최대 1.6초 간격)
             _attackTimer -= Time.deltaTime;
@@ -96,6 +129,12 @@ namespace IdleGame.UI
             _mob.anchoredPosition = _mobBase;
 
             AudioManager.Play("hurt", 0.4f);
+            // 내 체력이 이번 타격량만큼 뚝 (실제 수치 비례)
+            if (_playerHitFraction > 0)
+            {
+                _visualPlayerHp = Mathf.Max(0.05f, _visualPlayerHp - (float)_playerHitFraction);
+                RootView.SetHpFill(_playerHpFill, _visualPlayerHp);
+            }
             // 캐릭터 피격: 빨간 플래시 + 흔들림 + 빨간 데미지 숫자
             if (_charImage != null)
             {
