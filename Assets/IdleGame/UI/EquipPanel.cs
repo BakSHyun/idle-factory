@@ -19,7 +19,7 @@ namespace IdleGame.UI
         private RectTransform _catalogGrid;
         private readonly System.Collections.Generic.List<Button> _kindButtons
             = new System.Collections.Generic.List<Button>();
-        private static readonly string[] Kinds = { "weapon", "orb", "ornament", "skill", "hero" };
+        private static readonly string[] Kinds = { "weapon", "orb", "ornament", "skill", "hero", "costume" };
         private string _kind = "weapon";
 
         public static EquipPanel Create(Transform root, GameSession session)

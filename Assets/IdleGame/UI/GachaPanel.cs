@@ -153,6 +153,7 @@ namespace IdleGame.UI
             "ornament" => "장식",
             "skill" => "스킬",
             "hero" => "차사",
+            "costume" => "코스튬",
             _ => kind,
         };
     }

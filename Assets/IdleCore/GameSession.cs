@@ -48,6 +48,7 @@ namespace IdleCore
             if (isNewSave)
                 foreach (var kv in config.startingBalances)
                     Wallet.Earn(kv.Key, kv.Value);
+            bool grantStartingUnits = isNewSave;
 
             Stats = new StatSystem(config.axes, config.baseStats);
             Stats.ImportLevels(save.axisLevels);
@@ -102,6 +103,15 @@ namespace IdleCore
             Stats.LeveledUp += _ => Missions.Report("levelup", 1);
             Units.LeveledUp += _ => Missions.Report("levelup", 1);
             Missions.Report("login", 1);
+
+            // 시작 유닛 (기본 코스튬 등) — 지급 후 자동 장착
+            if (grantStartingUnits)
+                foreach (var unitId in config.startingUnits)
+                    if (Units.Defs.ContainsKey(unitId))
+                    {
+                        Units.AddCopy(unitId);
+                        Units.TryEquip(unitId);
+                    }
 
             _firstPlayedUtc = save.firstPlayedUtc == default ? clock.UtcNow : save.firstPlayedUtc;
             LastSeenUtc = save.lastSeenUtc;

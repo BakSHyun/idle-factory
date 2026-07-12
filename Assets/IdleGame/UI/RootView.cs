@@ -172,6 +172,7 @@ namespace IdleGame.UI
                 var artGo = new GameObject("ReaperArt", typeof(RectTransform), typeof(Image));
                 artGo.transform.SetParent(battle, false);
                 var image = artGo.GetComponent<Image>();
+                _mainCharImage = image;
                 image.sprite = sprite;
                 image.preserveAspect = true;
                 var artRect = (RectTransform)artGo.transform;
@@ -298,9 +299,24 @@ namespace IdleGame.UI
             rect.localScale = Vector3.one * baseScale;
         }
 
-        /// <summary>장착 시각화: 낫(등 뒤) + 차사 미니(파티) + 오브(부유) — 장비 교체가 눈에 보인다.</summary>
+        private Image _mainCharImage;
+
+        /// <summary>장착 시각화: 코스튬(본체 스킨) + 낫(등 뒤) + 차사 미니(파티) + 오브(부유).</summary>
         private void RefreshHeldWeapon()
         {
+            // 코스튬: 장착한 의상이 본체 스프라이트를 교체 (룩덕의 핵심)
+            if (_mainCharImage != null)
+            {
+                var costume = System.Linq.Enumerable.FirstOrDefault(
+                    _session.Units.AllOwned(),
+                    u => u.equipped && _session.Units.Defs[u.unitId].kind == "costume");
+                var skin = costume != null
+                    ? UIFactory.LoadSprite($"art/units/{_session.Units.Defs[costume.unitId].artId}.png")
+                    : null;
+                if (skin == null) skin = UIFactory.LoadSprite("art/main_character.png");
+                if (skin != null) _mainCharImage.sprite = skin;
+            }
+
             if (_weaponImage != null)
             {
                 var weapon = System.Linq.Enumerable.FirstOrDefault(

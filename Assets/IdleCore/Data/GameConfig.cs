@@ -20,6 +20,8 @@ namespace IdleCore.Data
         public Dictionary<StatType, double> baseStats = new Dictionary<StatType, double>();
         /// <summary>신규 계정 시작 재화 (튜토리얼 첫 강화/소환이 즉시 가능하도록)</summary>
         public Dictionary<string, long> startingBalances = new Dictionary<string, long>();
+        /// <summary>신규 계정 시작 유닛 (기본 코스튬 등 — 자동 장착)</summary>
+        public List<string> startingUnits = new List<string>();
         public List<GrowthAxisDef> axes = new List<GrowthAxisDef>();
         public StageCurveConfig stage = new StageCurveConfig();
         public OfflineConfig offline = new OfflineConfig();

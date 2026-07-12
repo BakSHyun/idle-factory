@@ -7393,6 +7393,141 @@
       ],
       "passiveName": "삼도천의 심판",
       "passiveDesc": "강을 건너게 한다 — 최종 데미지 +8%"
+    },
+    {
+      "id": "costume_default",
+      "name": "떠돌이 차사복",
+      "kind": "costume",
+      "grade": "Rare",
+      "artId": "costume_default",
+      "baseEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.02
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.02
+          }
+        }
+      ],
+      "passiveName": "코스튬",
+      "passiveDesc": "기본 보라 한복 — 우리가 아는 그 모습"
+    },
+    {
+      "id": "costume_crimson",
+      "name": "홍련의 예복",
+      "kind": "costume",
+      "grade": "Epic",
+      "artId": "costume_crimson",
+      "baseEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.03
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.03
+          }
+        }
+      ],
+      "passiveName": "코스튬",
+      "passiveDesc": "붉은 꽃잎이 수놓인 진홍 한복"
+    },
+    {
+      "id": "costume_snow",
+      "name": "설야의 소복",
+      "kind": "costume",
+      "grade": "Epic",
+      "artId": "costume_snow",
+      "baseEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.03
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.03
+          }
+        }
+      ],
+      "passiveName": "코스튬",
+      "passiveDesc": "눈처럼 흰 소복과 은장식"
+    },
+    {
+      "id": "costume_gold",
+      "name": "염라 대행 예복",
+      "kind": "costume",
+      "grade": "Mythic",
+      "artId": "costume_gold",
+      "baseEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.05
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.05
+          }
+        }
+      ],
+      "passiveName": "코스튬",
+      "passiveDesc": "금실 자수의 검은 관복"
+    },
+    {
+      "id": "costume_shadow",
+      "name": "그림자 수의",
+      "kind": "costume",
+      "grade": "Mythic",
+      "artId": "costume_shadow",
+      "baseEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.05
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.05
+          }
+        }
+      ],
+      "passiveName": "코스튬",
+      "passiveDesc": "어둠에 녹아드는 칠흑 두루마기"
     }
   ],
   "banners": [
@@ -8266,6 +8401,28 @@
           "amount": 5
         }
       ]
+    },
+    {
+      "id": "costume_select",
+      "name": "코스튬 선택권",
+      "costCurrency": "gem_hard",
+      "price": 1990,
+      "limitType": "None",
+      "unitChoice": {
+        "grade": "Epic",
+        "kind": "costume"
+      }
+    },
+    {
+      "id": "costume_select_mythic",
+      "name": "신화 코스튬 선택권",
+      "costCurrency": "gem_hard",
+      "price": 2990,
+      "limitType": "None",
+      "unitChoice": {
+        "grade": "Mythic",
+        "kind": "costume"
+      }
     }
   ],
   "skus": [
@@ -8481,7 +8638,8 @@
     "orb": 1,
     "ornament": 2,
     "skill": 4,
-    "hero": 4
+    "hero": 4,
+    "costume": 1
   },
   "collectionMilestones": [
     {
@@ -9026,5 +9184,8 @@
     "gold": 1500,
     "soul": 300,
     "gem_soft": 200
-  }
+  },
+  "startingUnits": [
+    "costume_default"
+  ]
 }
