@@ -213,6 +213,15 @@ namespace IdleCore.Gacha
             {
                 var def = _defs[unit.unitId];
                 result.AddRange(def.collectionEffects); // 보유만으로 기여 (도감)
+                // 한계돌파 비례 보유 효과 (돌파할수록 강해짐 — 항상 적용)
+                if (unit.limitBreak > 0)
+                    foreach (var scaling in def.limitBreakScalingEffects)
+                        result.Add(new StatEffect
+                        {
+                            stat = scaling.stat,
+                            mode = scaling.mode,
+                            value = new ValueCurve { baseValue = scaling.value.Evaluate(unit.limitBreak) },
+                        });
                 if (!unit.equipped) continue;
                 result.AddRange(def.baseEffects);
                 // 장비 레벨 효과: 곡선에 현재 레벨을 대입한 값을 즉석 효과로 변환

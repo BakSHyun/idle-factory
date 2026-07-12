@@ -66,12 +66,17 @@ namespace IdleCore.Progression
 
         public StageCurveConfig Config => _cfg;
 
-        /// <summary>현재 스테이지에서 일반 몹 1마리 처치에 걸리는 초.</summary>
-        public double SecondsPerKill()
+        /// <summary>적 방어도 반영 실효 DPS.</summary>
+        public double EffectiveDps(int stageIndex)
         {
-            double dps = _stats.Snapshot().Dps();
-            return StageMath.EnemyHp(_cfg, Current.Index) / Math.Max(0.0001, dps);
+            var snapshot = _stats.Snapshot();
+            return StageMath.MitigatedDps(_cfg, snapshot.Dps(),
+                snapshot.Get(Stats.StatType.DefensePierce), stageIndex);
         }
+
+        /// <summary>현재 스테이지에서 일반 몹 1마리 처치에 걸리는 초.</summary>
+        public double SecondsPerKill() =>
+            StageMath.EnemyHp(_cfg, Current.Index) / Math.Max(0.0001, EffectiveDps(Current.Index));
 
         /// <summary>
         /// 이 스테이지에서 생존 가능한가 — 적 반격을 buffer 마리 연속으로 버틸 체력이 있는가.
@@ -82,7 +87,7 @@ namespace IdleCore.Progression
             double enemyAttack = StageMath.EnemyAttack(_cfg, stageIndex);
             if (enemyAttack <= 0) return true;
             var snapshot = _stats.Snapshot();
-            double killSeconds = StageMath.EnemyHp(_cfg, stageIndex) / Math.Max(0.0001, snapshot.Dps());
+            double killSeconds = StageMath.EnemyHp(_cfg, stageIndex) / Math.Max(0.0001, EffectiveDps(stageIndex));
             double damageTaken = enemyAttack * killSeconds * _cfg.survivalKillBuffer;
             return snapshot.EffectiveHp() >= damageTaken;
         }
@@ -98,7 +103,7 @@ namespace IdleCore.Progression
                 return new BossFightPreview { Victory = false, Reason = "timeout", TimeLimit = 0 };
 
             var snapshot = _stats.Snapshot();
-            double dps = Math.Max(0.0001, snapshot.Dps());
+            double dps = Math.Max(0.0001, EffectiveDps(next));
             double timeToKill = StageMath.BossHp(_cfg, next) / dps;
 
             double bossDps = StageMath.EnemyAttack(_cfg, next) * _cfg.bossAttackMultiplier;

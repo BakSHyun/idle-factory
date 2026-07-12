@@ -392,6 +392,9 @@ namespace IdleGame.UI
             AudioManager.Play("hit", 0.35f);
             foreach (var (id, _, rect) in _skillIcons)
                 if (id == unitId) StartCoroutine(PunchScale(rect, 1f));
+            // 차사 스킬이면 해당 미니 차사가 돌진 연출
+            var party = _partyContainer != null ? _partyContainer.Find($"P_{unitId}") : null;
+            party?.GetComponent<PartyBob>()?.Lunge();
             // 시전 이펙트: 몬스터 위에 스킬 아트 플래시
             var def = _session.Units.Defs[unitId];
             var sprite = UIFactory.LoadSprite($"art/units/{def.artId ?? def.id}.png");
@@ -434,6 +437,7 @@ namespace IdleGame.UI
             var rect = (RectTransform)go.transform;
             rect.anchorMin = rect.anchorMax = anchor;
             rect.sizeDelta = new Vector2(size, size);
+            go.AddComponent<PartyBob>(); // 생동감: 숨쉬기 + 폴짝
         }
 
         /// <summary>체력바 채움 비율 (anchorMax.x 조절 — 스프라이트 불필요)</summary>

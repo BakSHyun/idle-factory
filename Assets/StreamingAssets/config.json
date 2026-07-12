@@ -220,7 +220,9 @@
     "enemyAttackBase": 2,
     "enemyAttackGrowth": 1.145,
     "survivalKillBuffer": 3,
-    "killsToBoss": 15
+    "killsToBoss": 15,
+    "enemyDefenseBase": 1,
+    "enemyDefenseGrowth": 1.1
   },
   "offline": {
     "baseCapHours": 8,
@@ -237,6 +239,13 @@
       "baseEffects": [
         {
           "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 10.0
+          }
+        },
+        {
+          "stat": "Attack",
           "mode": "Mul",
           "value": {
             "baseValue": 0.02
@@ -246,9 +255,16 @@
       "collectionEffects": [
         {
           "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.008
+          }
+        },
+        {
+          "stat": "CritMultiplier",
           "mode": "Add",
           "value": {
-            "baseValue": 1.5
+            "baseValue": 0.02
           }
         }
       ],
@@ -268,7 +284,17 @@
           }
         }
       ],
-      "upgradeToId": "weapon_beginner_t2"
+      "upgradeToId": "weapon_beginner_t2",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.004
+          }
+        }
+      ]
     },
     {
       "id": "weapon_beginner_t2",
@@ -280,6 +306,13 @@
       "baseEffects": [
         {
           "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 15.0
+          }
+        },
+        {
+          "stat": "Attack",
           "mode": "Mul",
           "value": {
             "baseValue": 0.03
@@ -289,9 +322,16 @@
       "collectionEffects": [
         {
           "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.012
+          }
+        },
+        {
+          "stat": "CritMultiplier",
           "mode": "Add",
           "value": {
-            "baseValue": 2.2
+            "baseValue": 0.03
           }
         }
       ],
@@ -311,7 +351,17 @@
           }
         }
       ],
-      "upgradeToId": "weapon_beginner_t3"
+      "upgradeToId": "weapon_beginner_t3",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.006
+          }
+        }
+      ]
     },
     {
       "id": "weapon_beginner_t3",
@@ -323,6 +373,13 @@
       "baseEffects": [
         {
           "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 22.0
+          }
+        },
+        {
+          "stat": "Attack",
           "mode": "Mul",
           "value": {
             "baseValue": 0.044
@@ -332,9 +389,16 @@
       "collectionEffects": [
         {
           "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.0176
+          }
+        },
+        {
+          "stat": "CritMultiplier",
           "mode": "Add",
           "value": {
-            "baseValue": 3.3
+            "baseValue": 0.044
           }
         }
       ],
@@ -354,7 +418,17 @@
           }
         }
       ],
-      "upgradeToId": "weapon_beginner_t4"
+      "upgradeToId": "weapon_beginner_t4",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0088
+          }
+        }
+      ]
     },
     {
       "id": "weapon_beginner_t4",
@@ -366,6 +440,13 @@
       "baseEffects": [
         {
           "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 32.0
+          }
+        },
+        {
+          "stat": "Attack",
           "mode": "Mul",
           "value": {
             "baseValue": 0.064
@@ -375,9 +456,16 @@
       "collectionEffects": [
         {
           "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.0256
+          }
+        },
+        {
+          "stat": "CritMultiplier",
           "mode": "Add",
           "value": {
-            "baseValue": 4.8
+            "baseValue": 0.064
           }
         }
       ],
@@ -397,7 +485,17 @@
           }
         }
       ],
-      "upgradeToId": "weapon_intermediate_t1"
+      "upgradeToId": "weapon_intermediate_t1",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0128
+          }
+        }
+      ]
     },
     {
       "id": "weapon_intermediate_t1",
@@ -409,6 +507,13 @@
       "baseEffects": [
         {
           "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 22.0
+          }
+        },
+        {
+          "stat": "Attack",
           "mode": "Mul",
           "value": {
             "baseValue": 0.044
@@ -418,9 +523,16 @@
       "collectionEffects": [
         {
           "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.0176
+          }
+        },
+        {
+          "stat": "CritMultiplier",
           "mode": "Add",
           "value": {
-            "baseValue": 3.3
+            "baseValue": 0.044
           }
         }
       ],
@@ -440,7 +552,17 @@
           }
         }
       ],
-      "upgradeToId": "weapon_intermediate_t2"
+      "upgradeToId": "weapon_intermediate_t2",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0088
+          }
+        }
+      ]
     },
     {
       "id": "weapon_intermediate_t2",
@@ -452,6 +574,13 @@
       "baseEffects": [
         {
           "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 33.0
+          }
+        },
+        {
+          "stat": "Attack",
           "mode": "Mul",
           "value": {
             "baseValue": 0.066
@@ -461,9 +590,16 @@
       "collectionEffects": [
         {
           "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.0264
+          }
+        },
+        {
+          "stat": "CritMultiplier",
           "mode": "Add",
           "value": {
-            "baseValue": 5.0
+            "baseValue": 0.066
           }
         }
       ],
@@ -483,7 +619,17 @@
           }
         }
       ],
-      "upgradeToId": "weapon_intermediate_t3"
+      "upgradeToId": "weapon_intermediate_t3",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0132
+          }
+        }
+      ]
     },
     {
       "id": "weapon_intermediate_t3",
@@ -495,6 +641,13 @@
       "baseEffects": [
         {
           "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 48.4
+          }
+        },
+        {
+          "stat": "Attack",
           "mode": "Mul",
           "value": {
             "baseValue": 0.0968
@@ -504,9 +657,16 @@
       "collectionEffects": [
         {
           "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.03872
+          }
+        },
+        {
+          "stat": "CritMultiplier",
           "mode": "Add",
           "value": {
-            "baseValue": 7.3
+            "baseValue": 0.0968
           }
         }
       ],
@@ -526,7 +686,17 @@
           }
         }
       ],
-      "upgradeToId": "weapon_intermediate_t4"
+      "upgradeToId": "weapon_intermediate_t4",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.01936
+          }
+        }
+      ]
     },
     {
       "id": "weapon_intermediate_t4",
@@ -538,6 +708,13 @@
       "baseEffects": [
         {
           "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 70.4
+          }
+        },
+        {
+          "stat": "Attack",
           "mode": "Mul",
           "value": {
             "baseValue": 0.1408
@@ -547,9 +724,16 @@
       "collectionEffects": [
         {
           "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.05632
+          }
+        },
+        {
+          "stat": "CritMultiplier",
           "mode": "Add",
           "value": {
-            "baseValue": 10.6
+            "baseValue": 0.1408
           }
         }
       ],
@@ -569,7 +753,17 @@
           }
         }
       ],
-      "upgradeToId": "weapon_advanced_t1"
+      "upgradeToId": "weapon_advanced_t1",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.02816
+          }
+        }
+      ]
     },
     {
       "id": "weapon_advanced_t1",
@@ -581,6 +775,13 @@
       "baseEffects": [
         {
           "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 48.0
+          }
+        },
+        {
+          "stat": "Attack",
           "mode": "Mul",
           "value": {
             "baseValue": 0.096
@@ -590,9 +791,16 @@
       "collectionEffects": [
         {
           "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.0384
+          }
+        },
+        {
+          "stat": "CritMultiplier",
           "mode": "Add",
           "value": {
-            "baseValue": 7.2
+            "baseValue": 0.096
           }
         }
       ],
@@ -612,7 +820,17 @@
           }
         }
       ],
-      "upgradeToId": "weapon_advanced_t2"
+      "upgradeToId": "weapon_advanced_t2",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0192
+          }
+        }
+      ]
     },
     {
       "id": "weapon_advanced_t2",
@@ -624,6 +842,13 @@
       "baseEffects": [
         {
           "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 72.0
+          }
+        },
+        {
+          "stat": "Attack",
           "mode": "Mul",
           "value": {
             "baseValue": 0.144
@@ -633,9 +858,16 @@
       "collectionEffects": [
         {
           "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.0576
+          }
+        },
+        {
+          "stat": "CritMultiplier",
           "mode": "Add",
           "value": {
-            "baseValue": 10.8
+            "baseValue": 0.144
           }
         }
       ],
@@ -655,7 +887,17 @@
           }
         }
       ],
-      "upgradeToId": "weapon_advanced_t3"
+      "upgradeToId": "weapon_advanced_t3",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0288
+          }
+        }
+      ]
     },
     {
       "id": "weapon_advanced_t3",
@@ -667,6 +909,13 @@
       "baseEffects": [
         {
           "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 105.6
+          }
+        },
+        {
+          "stat": "Attack",
           "mode": "Mul",
           "value": {
             "baseValue": 0.2112
@@ -676,9 +925,16 @@
       "collectionEffects": [
         {
           "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.08448
+          }
+        },
+        {
+          "stat": "CritMultiplier",
           "mode": "Add",
           "value": {
-            "baseValue": 15.8
+            "baseValue": 0.2112
           }
         }
       ],
@@ -698,7 +954,17 @@
           }
         }
       ],
-      "upgradeToId": "weapon_advanced_t4"
+      "upgradeToId": "weapon_advanced_t4",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.04224
+          }
+        }
+      ]
     },
     {
       "id": "weapon_advanced_t4",
@@ -710,6 +976,13 @@
       "baseEffects": [
         {
           "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 153.6
+          }
+        },
+        {
+          "stat": "Attack",
           "mode": "Mul",
           "value": {
             "baseValue": 0.3072
@@ -719,9 +992,16 @@
       "collectionEffects": [
         {
           "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.12288
+          }
+        },
+        {
+          "stat": "CritMultiplier",
           "mode": "Add",
           "value": {
-            "baseValue": 23.0
+            "baseValue": 0.3072
           }
         }
       ],
@@ -741,7 +1021,17 @@
           }
         }
       ],
-      "upgradeToId": "weapon_rare_t1"
+      "upgradeToId": "weapon_rare_t1",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.06144
+          }
+        }
+      ]
     },
     {
       "id": "weapon_rare_t1",
@@ -753,6 +1043,13 @@
       "baseEffects": [
         {
           "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 105.0
+          }
+        },
+        {
+          "stat": "Attack",
           "mode": "Mul",
           "value": {
             "baseValue": 0.21
@@ -762,9 +1059,16 @@
       "collectionEffects": [
         {
           "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.084
+          }
+        },
+        {
+          "stat": "CritMultiplier",
           "mode": "Add",
           "value": {
-            "baseValue": 15.8
+            "baseValue": 0.21
           }
         }
       ],
@@ -784,7 +1088,17 @@
           }
         }
       ],
-      "upgradeToId": "weapon_rare_t2"
+      "upgradeToId": "weapon_rare_t2",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.042
+          }
+        }
+      ]
     },
     {
       "id": "weapon_rare_t2",
@@ -796,6 +1110,13 @@
       "baseEffects": [
         {
           "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 157.5
+          }
+        },
+        {
+          "stat": "Attack",
           "mode": "Mul",
           "value": {
             "baseValue": 0.315
@@ -805,9 +1126,16 @@
       "collectionEffects": [
         {
           "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.126
+          }
+        },
+        {
+          "stat": "CritMultiplier",
           "mode": "Add",
           "value": {
-            "baseValue": 23.6
+            "baseValue": 0.315
           }
         }
       ],
@@ -827,7 +1155,17 @@
           }
         }
       ],
-      "upgradeToId": "weapon_rare_t3"
+      "upgradeToId": "weapon_rare_t3",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.063
+          }
+        }
+      ]
     },
     {
       "id": "weapon_rare_t3",
@@ -839,6 +1177,13 @@
       "baseEffects": [
         {
           "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 231.0
+          }
+        },
+        {
+          "stat": "Attack",
           "mode": "Mul",
           "value": {
             "baseValue": 0.462
@@ -848,9 +1193,16 @@
       "collectionEffects": [
         {
           "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.1848
+          }
+        },
+        {
+          "stat": "CritMultiplier",
           "mode": "Add",
           "value": {
-            "baseValue": 34.7
+            "baseValue": 0.462
           }
         }
       ],
@@ -870,7 +1222,17 @@
           }
         }
       ],
-      "upgradeToId": "weapon_rare_t4"
+      "upgradeToId": "weapon_rare_t4",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0924
+          }
+        }
+      ]
     },
     {
       "id": "weapon_rare_t4",
@@ -882,6 +1244,13 @@
       "baseEffects": [
         {
           "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 336.0
+          }
+        },
+        {
+          "stat": "Attack",
           "mode": "Mul",
           "value": {
             "baseValue": 0.672
@@ -891,9 +1260,16 @@
       "collectionEffects": [
         {
           "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.2688
+          }
+        },
+        {
+          "stat": "CritMultiplier",
           "mode": "Add",
           "value": {
-            "baseValue": 50.4
+            "baseValue": 0.672
           }
         }
       ],
@@ -913,7 +1289,17 @@
           }
         }
       ],
-      "upgradeToId": "weapon_epic_t1"
+      "upgradeToId": "weapon_epic_t1",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.1344
+          }
+        }
+      ]
     },
     {
       "id": "weapon_epic_t1",
@@ -925,6 +1311,13 @@
       "baseEffects": [
         {
           "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 230.0
+          }
+        },
+        {
+          "stat": "Attack",
           "mode": "Mul",
           "value": {
             "baseValue": 0.46
@@ -934,9 +1327,16 @@
       "collectionEffects": [
         {
           "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.184
+          }
+        },
+        {
+          "stat": "CritMultiplier",
           "mode": "Add",
           "value": {
-            "baseValue": 34.5
+            "baseValue": 0.46
           }
         }
       ],
@@ -956,7 +1356,17 @@
           }
         }
       ],
-      "upgradeToId": "weapon_epic_t2"
+      "upgradeToId": "weapon_epic_t2",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.092
+          }
+        }
+      ]
     },
     {
       "id": "weapon_epic_t2",
@@ -968,6 +1378,13 @@
       "baseEffects": [
         {
           "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 345.0
+          }
+        },
+        {
+          "stat": "Attack",
           "mode": "Mul",
           "value": {
             "baseValue": 0.69
@@ -977,9 +1394,16 @@
       "collectionEffects": [
         {
           "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.276
+          }
+        },
+        {
+          "stat": "CritMultiplier",
           "mode": "Add",
           "value": {
-            "baseValue": 51.8
+            "baseValue": 0.69
           }
         }
       ],
@@ -999,7 +1423,17 @@
           }
         }
       ],
-      "upgradeToId": "weapon_epic_t3"
+      "upgradeToId": "weapon_epic_t3",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.138
+          }
+        }
+      ]
     },
     {
       "id": "weapon_epic_t3",
@@ -1011,6 +1445,13 @@
       "baseEffects": [
         {
           "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 506.0
+          }
+        },
+        {
+          "stat": "Attack",
           "mode": "Mul",
           "value": {
             "baseValue": 1.012
@@ -1020,9 +1461,16 @@
       "collectionEffects": [
         {
           "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.4048
+          }
+        },
+        {
+          "stat": "CritMultiplier",
           "mode": "Add",
           "value": {
-            "baseValue": 75.9
+            "baseValue": 1.012
           }
         }
       ],
@@ -1042,7 +1490,17 @@
           }
         }
       ],
-      "upgradeToId": "weapon_epic_t4"
+      "upgradeToId": "weapon_epic_t4",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.2024
+          }
+        }
+      ]
     },
     {
       "id": "weapon_epic_t4",
@@ -1054,6 +1512,13 @@
       "baseEffects": [
         {
           "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 736.0
+          }
+        },
+        {
+          "stat": "Attack",
           "mode": "Mul",
           "value": {
             "baseValue": 1.472
@@ -1063,9 +1528,16 @@
       "collectionEffects": [
         {
           "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.5888
+          }
+        },
+        {
+          "stat": "CritMultiplier",
           "mode": "Add",
           "value": {
-            "baseValue": 110.4
+            "baseValue": 1.472
           }
         }
       ],
@@ -1085,7 +1557,17 @@
           }
         }
       ],
-      "upgradeToId": "weapon_mythic_t1"
+      "upgradeToId": "weapon_mythic_t1",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.2944
+          }
+        }
+      ]
     },
     {
       "id": "weapon_mythic_t1",
@@ -1097,6 +1579,13 @@
       "baseEffects": [
         {
           "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 500.0
+          }
+        },
+        {
+          "stat": "Attack",
           "mode": "Mul",
           "value": {
             "baseValue": 1.0
@@ -1106,9 +1595,16 @@
       "collectionEffects": [
         {
           "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.4
+          }
+        },
+        {
+          "stat": "CritMultiplier",
           "mode": "Add",
           "value": {
-            "baseValue": 75.0
+            "baseValue": 1.0
           }
         }
       ],
@@ -1128,7 +1624,17 @@
           }
         }
       ],
-      "upgradeToId": "weapon_mythic_t2"
+      "upgradeToId": "weapon_mythic_t2",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.2
+          }
+        }
+      ]
     },
     {
       "id": "weapon_mythic_t2",
@@ -1140,6 +1646,13 @@
       "baseEffects": [
         {
           "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 750.0
+          }
+        },
+        {
+          "stat": "Attack",
           "mode": "Mul",
           "value": {
             "baseValue": 1.5
@@ -1149,9 +1662,16 @@
       "collectionEffects": [
         {
           "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.6
+          }
+        },
+        {
+          "stat": "CritMultiplier",
           "mode": "Add",
           "value": {
-            "baseValue": 112.5
+            "baseValue": 1.5
           }
         }
       ],
@@ -1171,7 +1691,17 @@
           }
         }
       ],
-      "upgradeToId": "weapon_mythic_t3"
+      "upgradeToId": "weapon_mythic_t3",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.3
+          }
+        }
+      ]
     },
     {
       "id": "weapon_mythic_t3",
@@ -1183,6 +1713,13 @@
       "baseEffects": [
         {
           "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 1100.0
+          }
+        },
+        {
+          "stat": "Attack",
           "mode": "Mul",
           "value": {
             "baseValue": 2.2
@@ -1192,9 +1729,16 @@
       "collectionEffects": [
         {
           "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.88
+          }
+        },
+        {
+          "stat": "CritMultiplier",
           "mode": "Add",
           "value": {
-            "baseValue": 165.0
+            "baseValue": 2.2
           }
         }
       ],
@@ -1214,7 +1758,17 @@
           }
         }
       ],
-      "upgradeToId": "weapon_mythic_t4"
+      "upgradeToId": "weapon_mythic_t4",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.44
+          }
+        }
+      ]
     },
     {
       "id": "weapon_mythic_t4",
@@ -1226,6 +1780,13 @@
       "baseEffects": [
         {
           "stat": "Attack",
+          "mode": "Add",
+          "value": {
+            "baseValue": 1600.0
+          }
+        },
+        {
+          "stat": "Attack",
           "mode": "Mul",
           "value": {
             "baseValue": 3.2
@@ -1235,9 +1796,16 @@
       "collectionEffects": [
         {
           "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 1.28
+          }
+        },
+        {
+          "stat": "CritMultiplier",
           "mode": "Add",
           "value": {
-            "baseValue": 240.0
+            "baseValue": 3.2
           }
         }
       ],
@@ -1268,6 +1836,16 @@
             }
           }
         }
+      ],
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.64
+          }
+        }
       ]
     },
     {
@@ -1279,19 +1857,26 @@
       "artId": "orb_beginner",
       "baseEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "Health",
+          "mode": "Add",
+          "value": {
+            "baseValue": 30.0
+          }
+        },
+        {
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
-            "baseValue": 0.015
+            "baseValue": 0.01
           }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
-          "mode": "Add",
+          "stat": "GoldGain",
+          "mode": "Mul",
           "value": {
-            "baseValue": 1.5
+            "baseValue": 0.006
           }
         }
       ],
@@ -1303,15 +1888,25 @@
       },
       "levelEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
             "baseValue": 0,
-            "perLevel": 0.0015
+            "perLevel": 0.001
           }
         }
       ],
-      "upgradeToId": "orb_beginner_t2"
+      "upgradeToId": "orb_beginner_t2",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.004
+          }
+        }
+      ]
     },
     {
       "id": "orb_beginner_t2",
@@ -1322,19 +1917,26 @@
       "artId": "orb_beginner",
       "baseEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "Health",
+          "mode": "Add",
+          "value": {
+            "baseValue": 45.0
+          }
+        },
+        {
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
-            "baseValue": 0.0225
+            "baseValue": 0.015
           }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
-          "mode": "Add",
+          "stat": "GoldGain",
+          "mode": "Mul",
           "value": {
-            "baseValue": 2.2
+            "baseValue": 0.009
           }
         }
       ],
@@ -1346,15 +1948,25 @@
       },
       "levelEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
             "baseValue": 0,
-            "perLevel": 0.00225
+            "perLevel": 0.0015
           }
         }
       ],
-      "upgradeToId": "orb_beginner_t3"
+      "upgradeToId": "orb_beginner_t3",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.006
+          }
+        }
+      ]
     },
     {
       "id": "orb_beginner_t3",
@@ -1365,19 +1977,26 @@
       "artId": "orb_beginner",
       "baseEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "Health",
+          "mode": "Add",
+          "value": {
+            "baseValue": 66.0
+          }
+        },
+        {
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
-            "baseValue": 0.033
+            "baseValue": 0.022
           }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
-          "mode": "Add",
+          "stat": "GoldGain",
+          "mode": "Mul",
           "value": {
-            "baseValue": 3.3
+            "baseValue": 0.0132
           }
         }
       ],
@@ -1389,15 +2008,25 @@
       },
       "levelEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
             "baseValue": 0,
-            "perLevel": 0.0033
+            "perLevel": 0.0022
           }
         }
       ],
-      "upgradeToId": "orb_beginner_t4"
+      "upgradeToId": "orb_beginner_t4",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0088
+          }
+        }
+      ]
     },
     {
       "id": "orb_beginner_t4",
@@ -1408,19 +2037,26 @@
       "artId": "orb_beginner",
       "baseEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "Health",
+          "mode": "Add",
+          "value": {
+            "baseValue": 96.0
+          }
+        },
+        {
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
-            "baseValue": 0.048
+            "baseValue": 0.032
           }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
-          "mode": "Add",
+          "stat": "GoldGain",
+          "mode": "Mul",
           "value": {
-            "baseValue": 4.8
+            "baseValue": 0.0192
           }
         }
       ],
@@ -1432,15 +2068,25 @@
       },
       "levelEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
             "baseValue": 0,
-            "perLevel": 0.0048
+            "perLevel": 0.0032
           }
         }
       ],
-      "upgradeToId": "orb_intermediate_t1"
+      "upgradeToId": "orb_intermediate_t1",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0128
+          }
+        }
+      ]
     },
     {
       "id": "orb_intermediate_t1",
@@ -1451,19 +2097,26 @@
       "artId": "orb_intermediate",
       "baseEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "Health",
+          "mode": "Add",
+          "value": {
+            "baseValue": 66.0
+          }
+        },
+        {
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
-            "baseValue": 0.033
+            "baseValue": 0.022
           }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
-          "mode": "Add",
+          "stat": "GoldGain",
+          "mode": "Mul",
           "value": {
-            "baseValue": 3.3
+            "baseValue": 0.0132
           }
         }
       ],
@@ -1475,15 +2128,25 @@
       },
       "levelEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
             "baseValue": 0,
-            "perLevel": 0.0033
+            "perLevel": 0.0022
           }
         }
       ],
-      "upgradeToId": "orb_intermediate_t2"
+      "upgradeToId": "orb_intermediate_t2",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0088
+          }
+        }
+      ]
     },
     {
       "id": "orb_intermediate_t2",
@@ -1494,19 +2157,26 @@
       "artId": "orb_intermediate",
       "baseEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "Health",
+          "mode": "Add",
+          "value": {
+            "baseValue": 99.0
+          }
+        },
+        {
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
-            "baseValue": 0.0495
+            "baseValue": 0.033
           }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
-          "mode": "Add",
+          "stat": "GoldGain",
+          "mode": "Mul",
           "value": {
-            "baseValue": 5.0
+            "baseValue": 0.0198
           }
         }
       ],
@@ -1518,15 +2188,25 @@
       },
       "levelEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
             "baseValue": 0,
-            "perLevel": 0.00495
+            "perLevel": 0.0033
           }
         }
       ],
-      "upgradeToId": "orb_intermediate_t3"
+      "upgradeToId": "orb_intermediate_t3",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0132
+          }
+        }
+      ]
     },
     {
       "id": "orb_intermediate_t3",
@@ -1537,19 +2217,26 @@
       "artId": "orb_intermediate",
       "baseEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "Health",
+          "mode": "Add",
+          "value": {
+            "baseValue": 145.2
+          }
+        },
+        {
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
-            "baseValue": 0.0726
+            "baseValue": 0.0484
           }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
-          "mode": "Add",
+          "stat": "GoldGain",
+          "mode": "Mul",
           "value": {
-            "baseValue": 7.3
+            "baseValue": 0.02904
           }
         }
       ],
@@ -1561,15 +2248,25 @@
       },
       "levelEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
             "baseValue": 0,
-            "perLevel": 0.00726
+            "perLevel": 0.00484
           }
         }
       ],
-      "upgradeToId": "orb_intermediate_t4"
+      "upgradeToId": "orb_intermediate_t4",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.01936
+          }
+        }
+      ]
     },
     {
       "id": "orb_intermediate_t4",
@@ -1580,19 +2277,26 @@
       "artId": "orb_intermediate",
       "baseEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "Health",
+          "mode": "Add",
+          "value": {
+            "baseValue": 211.2
+          }
+        },
+        {
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
-            "baseValue": 0.1056
+            "baseValue": 0.0704
           }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
-          "mode": "Add",
+          "stat": "GoldGain",
+          "mode": "Mul",
           "value": {
-            "baseValue": 10.6
+            "baseValue": 0.04224
           }
         }
       ],
@@ -1604,15 +2308,25 @@
       },
       "levelEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
             "baseValue": 0,
-            "perLevel": 0.01056
+            "perLevel": 0.00704
           }
         }
       ],
-      "upgradeToId": "orb_advanced_t1"
+      "upgradeToId": "orb_advanced_t1",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.02816
+          }
+        }
+      ]
     },
     {
       "id": "orb_advanced_t1",
@@ -1623,19 +2337,26 @@
       "artId": "orb_advanced",
       "baseEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "Health",
+          "mode": "Add",
+          "value": {
+            "baseValue": 144.0
+          }
+        },
+        {
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
-            "baseValue": 0.072
+            "baseValue": 0.048
           }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
-          "mode": "Add",
+          "stat": "GoldGain",
+          "mode": "Mul",
           "value": {
-            "baseValue": 7.2
+            "baseValue": 0.0288
           }
         }
       ],
@@ -1647,15 +2368,25 @@
       },
       "levelEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
             "baseValue": 0,
-            "perLevel": 0.0072
+            "perLevel": 0.0048
           }
         }
       ],
-      "upgradeToId": "orb_advanced_t2"
+      "upgradeToId": "orb_advanced_t2",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0192
+          }
+        }
+      ]
     },
     {
       "id": "orb_advanced_t2",
@@ -1666,19 +2397,26 @@
       "artId": "orb_advanced",
       "baseEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "Health",
+          "mode": "Add",
+          "value": {
+            "baseValue": 216.0
+          }
+        },
+        {
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
-            "baseValue": 0.108
+            "baseValue": 0.072
           }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
-          "mode": "Add",
+          "stat": "GoldGain",
+          "mode": "Mul",
           "value": {
-            "baseValue": 10.8
+            "baseValue": 0.0432
           }
         }
       ],
@@ -1690,15 +2428,25 @@
       },
       "levelEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
             "baseValue": 0,
-            "perLevel": 0.0108
+            "perLevel": 0.0072
           }
         }
       ],
-      "upgradeToId": "orb_advanced_t3"
+      "upgradeToId": "orb_advanced_t3",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0288
+          }
+        }
+      ]
     },
     {
       "id": "orb_advanced_t3",
@@ -1709,19 +2457,26 @@
       "artId": "orb_advanced",
       "baseEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "Health",
+          "mode": "Add",
+          "value": {
+            "baseValue": 316.8
+          }
+        },
+        {
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
-            "baseValue": 0.1584
+            "baseValue": 0.1056
           }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
-          "mode": "Add",
+          "stat": "GoldGain",
+          "mode": "Mul",
           "value": {
-            "baseValue": 15.8
+            "baseValue": 0.06336
           }
         }
       ],
@@ -1733,15 +2488,25 @@
       },
       "levelEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
             "baseValue": 0,
-            "perLevel": 0.01584
+            "perLevel": 0.01056
           }
         }
       ],
-      "upgradeToId": "orb_advanced_t4"
+      "upgradeToId": "orb_advanced_t4",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.04224
+          }
+        }
+      ]
     },
     {
       "id": "orb_advanced_t4",
@@ -1752,19 +2517,26 @@
       "artId": "orb_advanced",
       "baseEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "Health",
+          "mode": "Add",
+          "value": {
+            "baseValue": 460.8
+          }
+        },
+        {
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
-            "baseValue": 0.2304
+            "baseValue": 0.1536
           }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
-          "mode": "Add",
+          "stat": "GoldGain",
+          "mode": "Mul",
           "value": {
-            "baseValue": 23.0
+            "baseValue": 0.09216
           }
         }
       ],
@@ -1776,15 +2548,25 @@
       },
       "levelEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
             "baseValue": 0,
-            "perLevel": 0.02304
+            "perLevel": 0.01536
           }
         }
       ],
-      "upgradeToId": "orb_rare_t1"
+      "upgradeToId": "orb_rare_t1",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.06144
+          }
+        }
+      ]
     },
     {
       "id": "orb_rare_t1",
@@ -1795,19 +2577,26 @@
       "artId": "orb_rare",
       "baseEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "Health",
+          "mode": "Add",
+          "value": {
+            "baseValue": 315.0
+          }
+        },
+        {
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
-            "baseValue": 0.1575
+            "baseValue": 0.105
           }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
-          "mode": "Add",
+          "stat": "GoldGain",
+          "mode": "Mul",
           "value": {
-            "baseValue": 15.8
+            "baseValue": 0.063
           }
         }
       ],
@@ -1819,15 +2608,25 @@
       },
       "levelEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
             "baseValue": 0,
-            "perLevel": 0.01575
+            "perLevel": 0.0105
           }
         }
       ],
-      "upgradeToId": "orb_rare_t2"
+      "upgradeToId": "orb_rare_t2",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.042
+          }
+        }
+      ]
     },
     {
       "id": "orb_rare_t2",
@@ -1838,19 +2637,26 @@
       "artId": "orb_rare",
       "baseEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "Health",
+          "mode": "Add",
+          "value": {
+            "baseValue": 472.5
+          }
+        },
+        {
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
-            "baseValue": 0.23625
+            "baseValue": 0.1575
           }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
-          "mode": "Add",
+          "stat": "GoldGain",
+          "mode": "Mul",
           "value": {
-            "baseValue": 23.6
+            "baseValue": 0.0945
           }
         }
       ],
@@ -1862,15 +2668,25 @@
       },
       "levelEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
             "baseValue": 0,
-            "perLevel": 0.023625
+            "perLevel": 0.01575
           }
         }
       ],
-      "upgradeToId": "orb_rare_t3"
+      "upgradeToId": "orb_rare_t3",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.063
+          }
+        }
+      ]
     },
     {
       "id": "orb_rare_t3",
@@ -1881,19 +2697,26 @@
       "artId": "orb_rare",
       "baseEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "Health",
+          "mode": "Add",
+          "value": {
+            "baseValue": 693.0
+          }
+        },
+        {
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
-            "baseValue": 0.3465
+            "baseValue": 0.231
           }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
-          "mode": "Add",
+          "stat": "GoldGain",
+          "mode": "Mul",
           "value": {
-            "baseValue": 34.7
+            "baseValue": 0.1386
           }
         }
       ],
@@ -1905,15 +2728,25 @@
       },
       "levelEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
             "baseValue": 0,
-            "perLevel": 0.03465
+            "perLevel": 0.0231
           }
         }
       ],
-      "upgradeToId": "orb_rare_t4"
+      "upgradeToId": "orb_rare_t4",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0924
+          }
+        }
+      ]
     },
     {
       "id": "orb_rare_t4",
@@ -1924,19 +2757,26 @@
       "artId": "orb_rare",
       "baseEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "Health",
+          "mode": "Add",
+          "value": {
+            "baseValue": 1008.0
+          }
+        },
+        {
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
-            "baseValue": 0.504
+            "baseValue": 0.336
           }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
-          "mode": "Add",
+          "stat": "GoldGain",
+          "mode": "Mul",
           "value": {
-            "baseValue": 50.4
+            "baseValue": 0.2016
           }
         }
       ],
@@ -1948,15 +2788,25 @@
       },
       "levelEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
             "baseValue": 0,
-            "perLevel": 0.0504
+            "perLevel": 0.0336
           }
         }
       ],
-      "upgradeToId": "orb_epic_t1"
+      "upgradeToId": "orb_epic_t1",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.1344
+          }
+        }
+      ]
     },
     {
       "id": "orb_epic_t1",
@@ -1967,19 +2817,26 @@
       "artId": "orb_epic",
       "baseEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "Health",
+          "mode": "Add",
+          "value": {
+            "baseValue": 690.0
+          }
+        },
+        {
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
-            "baseValue": 0.345
+            "baseValue": 0.23
           }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
-          "mode": "Add",
+          "stat": "GoldGain",
+          "mode": "Mul",
           "value": {
-            "baseValue": 34.5
+            "baseValue": 0.138
           }
         }
       ],
@@ -1991,15 +2848,25 @@
       },
       "levelEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
             "baseValue": 0,
-            "perLevel": 0.0345
+            "perLevel": 0.023
           }
         }
       ],
-      "upgradeToId": "orb_epic_t2"
+      "upgradeToId": "orb_epic_t2",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.092
+          }
+        }
+      ]
     },
     {
       "id": "orb_epic_t2",
@@ -2010,19 +2877,26 @@
       "artId": "orb_epic",
       "baseEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "Health",
+          "mode": "Add",
+          "value": {
+            "baseValue": 1035.0
+          }
+        },
+        {
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
-            "baseValue": 0.5175
+            "baseValue": 0.345
           }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
-          "mode": "Add",
+          "stat": "GoldGain",
+          "mode": "Mul",
           "value": {
-            "baseValue": 51.8
+            "baseValue": 0.207
           }
         }
       ],
@@ -2034,15 +2908,25 @@
       },
       "levelEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
             "baseValue": 0,
-            "perLevel": 0.05175
+            "perLevel": 0.0345
           }
         }
       ],
-      "upgradeToId": "orb_epic_t3"
+      "upgradeToId": "orb_epic_t3",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.138
+          }
+        }
+      ]
     },
     {
       "id": "orb_epic_t3",
@@ -2053,19 +2937,26 @@
       "artId": "orb_epic",
       "baseEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "Health",
+          "mode": "Add",
+          "value": {
+            "baseValue": 1518.0
+          }
+        },
+        {
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
-            "baseValue": 0.759
+            "baseValue": 0.506
           }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
-          "mode": "Add",
+          "stat": "GoldGain",
+          "mode": "Mul",
           "value": {
-            "baseValue": 75.9
+            "baseValue": 0.3036
           }
         }
       ],
@@ -2077,15 +2968,25 @@
       },
       "levelEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
             "baseValue": 0,
-            "perLevel": 0.0759
+            "perLevel": 0.0506
           }
         }
       ],
-      "upgradeToId": "orb_epic_t4"
+      "upgradeToId": "orb_epic_t4",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.2024
+          }
+        }
+      ]
     },
     {
       "id": "orb_epic_t4",
@@ -2096,19 +2997,26 @@
       "artId": "orb_epic",
       "baseEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "Health",
+          "mode": "Add",
+          "value": {
+            "baseValue": 2208.0
+          }
+        },
+        {
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
-            "baseValue": 1.104
+            "baseValue": 0.736
           }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
-          "mode": "Add",
+          "stat": "GoldGain",
+          "mode": "Mul",
           "value": {
-            "baseValue": 110.4
+            "baseValue": 0.4416
           }
         }
       ],
@@ -2120,15 +3028,25 @@
       },
       "levelEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
             "baseValue": 0,
-            "perLevel": 0.1104
+            "perLevel": 0.0736
           }
         }
       ],
-      "upgradeToId": "orb_mythic_t1"
+      "upgradeToId": "orb_mythic_t1",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.2944
+          }
+        }
+      ]
     },
     {
       "id": "orb_mythic_t1",
@@ -2139,19 +3057,26 @@
       "artId": "orb_mythic",
       "baseEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "Health",
+          "mode": "Add",
+          "value": {
+            "baseValue": 1500.0
+          }
+        },
+        {
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
-            "baseValue": 0.75
+            "baseValue": 0.5
           }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
-          "mode": "Add",
+          "stat": "GoldGain",
+          "mode": "Mul",
           "value": {
-            "baseValue": 75.0
+            "baseValue": 0.3
           }
         }
       ],
@@ -2163,15 +3088,25 @@
       },
       "levelEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
             "baseValue": 0,
-            "perLevel": 0.075
+            "perLevel": 0.05
           }
         }
       ],
-      "upgradeToId": "orb_mythic_t2"
+      "upgradeToId": "orb_mythic_t2",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.2
+          }
+        }
+      ]
     },
     {
       "id": "orb_mythic_t2",
@@ -2182,19 +3117,26 @@
       "artId": "orb_mythic",
       "baseEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "Health",
+          "mode": "Add",
+          "value": {
+            "baseValue": 2250.0
+          }
+        },
+        {
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
-            "baseValue": 1.125
+            "baseValue": 0.75
           }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
-          "mode": "Add",
+          "stat": "GoldGain",
+          "mode": "Mul",
           "value": {
-            "baseValue": 112.5
+            "baseValue": 0.45
           }
         }
       ],
@@ -2206,15 +3148,25 @@
       },
       "levelEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
             "baseValue": 0,
-            "perLevel": 0.1125
+            "perLevel": 0.075
           }
         }
       ],
-      "upgradeToId": "orb_mythic_t3"
+      "upgradeToId": "orb_mythic_t3",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.3
+          }
+        }
+      ]
     },
     {
       "id": "orb_mythic_t3",
@@ -2225,19 +3177,26 @@
       "artId": "orb_mythic",
       "baseEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "Health",
+          "mode": "Add",
+          "value": {
+            "baseValue": 3300.0
+          }
+        },
+        {
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
-            "baseValue": 1.65
+            "baseValue": 1.1
           }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
-          "mode": "Add",
+          "stat": "GoldGain",
+          "mode": "Mul",
           "value": {
-            "baseValue": 165.0
+            "baseValue": 0.66
           }
         }
       ],
@@ -2249,15 +3208,25 @@
       },
       "levelEffects": [
         {
-          "stat": "FinalDamage",
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
             "baseValue": 0,
-            "perLevel": 0.165
+            "perLevel": 0.11
           }
         }
       ],
-      "upgradeToId": "orb_mythic_t4"
+      "upgradeToId": "orb_mythic_t4",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.44
+          }
+        }
+      ]
     },
     {
       "id": "orb_mythic_t4",
@@ -2268,1230 +3237,26 @@
       "artId": "orb_mythic",
       "baseEffects": [
         {
-          "stat": "FinalDamage",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 2.4
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
+          "stat": "Health",
           "mode": "Add",
           "value": {
-            "baseValue": 240.0
-          }
-        }
-      ],
-      "maxLevel": 200,
-      "levelCost": {
-        "type": "Geometric",
-        "baseValue": 28800,
-        "growth": 1.045
-      },
-      "levelEffects": [
-        {
-          "stat": "FinalDamage",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0,
-            "perLevel": 0.24
-          }
-        }
-      ],
-      "limitBreakEffects": [
-        {
-          "atLimitBreak": 5,
-          "effect": {
-            "stat": "FinalDamage",
-            "mode": "Mul",
-            "value": {
-              "baseValue": 0.5
-            }
-          }
-        }
-      ]
-    },
-    {
-      "id": "ornament_beginner_t1",
-      "name": "삼베 고름 1",
-      "kind": "ornament",
-      "grade": "Beginner",
-      "subTier": 1,
-      "artId": "ornament_beginner",
-      "baseEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.01
+            "baseValue": 4800.0
           }
         },
         {
-          "stat": "CritChance",
-          "mode": "Add",
-          "value": {
-            "baseValue": 0.003
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 1.5
-          }
-        }
-      ],
-      "maxLevel": 200,
-      "levelCost": {
-        "type": "Geometric",
-        "baseValue": 80,
-        "growth": 1.045
-      },
-      "levelEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0,
-            "perLevel": 0.001
-          }
-        }
-      ],
-      "upgradeToId": "ornament_beginner_t2"
-    },
-    {
-      "id": "ornament_beginner_t2",
-      "name": "삼베 고름 2",
-      "kind": "ornament",
-      "grade": "Beginner",
-      "subTier": 2,
-      "artId": "ornament_beginner",
-      "baseEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.015
-          }
-        },
-        {
-          "stat": "CritChance",
-          "mode": "Add",
-          "value": {
-            "baseValue": 0.0045
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 2.2
-          }
-        }
-      ],
-      "maxLevel": 200,
-      "levelCost": {
-        "type": "Geometric",
-        "baseValue": 120,
-        "growth": 1.045
-      },
-      "levelEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0,
-            "perLevel": 0.0015
-          }
-        }
-      ],
-      "upgradeToId": "ornament_beginner_t3"
-    },
-    {
-      "id": "ornament_beginner_t3",
-      "name": "삼베 고름 3",
-      "kind": "ornament",
-      "grade": "Beginner",
-      "subTier": 3,
-      "artId": "ornament_beginner",
-      "baseEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.022
-          }
-        },
-        {
-          "stat": "CritChance",
-          "mode": "Add",
-          "value": {
-            "baseValue": 0.0066
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 3.3
-          }
-        }
-      ],
-      "maxLevel": 200,
-      "levelCost": {
-        "type": "Geometric",
-        "baseValue": 176,
-        "growth": 1.045
-      },
-      "levelEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0,
-            "perLevel": 0.0022
-          }
-        }
-      ],
-      "upgradeToId": "ornament_beginner_t4"
-    },
-    {
-      "id": "ornament_beginner_t4",
-      "name": "삼베 고름 4",
-      "kind": "ornament",
-      "grade": "Beginner",
-      "subTier": 4,
-      "artId": "ornament_beginner",
-      "baseEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.032
-          }
-        },
-        {
-          "stat": "CritChance",
-          "mode": "Add",
-          "value": {
-            "baseValue": 0.0096
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 4.8
-          }
-        }
-      ],
-      "maxLevel": 200,
-      "levelCost": {
-        "type": "Geometric",
-        "baseValue": 256,
-        "growth": 1.045
-      },
-      "levelEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0,
-            "perLevel": 0.0032
-          }
-        }
-      ],
-      "upgradeToId": "ornament_intermediate_t1"
-    },
-    {
-      "id": "ornament_intermediate_t1",
-      "name": "백동 노리개 1",
-      "kind": "ornament",
-      "grade": "Intermediate",
-      "subTier": 1,
-      "artId": "ornament_intermediate",
-      "baseEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.022
-          }
-        },
-        {
-          "stat": "CritChance",
-          "mode": "Add",
-          "value": {
-            "baseValue": 0.0066
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 3.3
-          }
-        }
-      ],
-      "maxLevel": 200,
-      "levelCost": {
-        "type": "Geometric",
-        "baseValue": 200,
-        "growth": 1.045
-      },
-      "levelEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0,
-            "perLevel": 0.0022
-          }
-        }
-      ],
-      "upgradeToId": "ornament_intermediate_t2"
-    },
-    {
-      "id": "ornament_intermediate_t2",
-      "name": "백동 노리개 2",
-      "kind": "ornament",
-      "grade": "Intermediate",
-      "subTier": 2,
-      "artId": "ornament_intermediate",
-      "baseEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.033
-          }
-        },
-        {
-          "stat": "CritChance",
-          "mode": "Add",
-          "value": {
-            "baseValue": 0.0099
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 5.0
-          }
-        }
-      ],
-      "maxLevel": 200,
-      "levelCost": {
-        "type": "Geometric",
-        "baseValue": 300,
-        "growth": 1.045
-      },
-      "levelEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0,
-            "perLevel": 0.0033
-          }
-        }
-      ],
-      "upgradeToId": "ornament_intermediate_t3"
-    },
-    {
-      "id": "ornament_intermediate_t3",
-      "name": "백동 노리개 3",
-      "kind": "ornament",
-      "grade": "Intermediate",
-      "subTier": 3,
-      "artId": "ornament_intermediate",
-      "baseEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.0484
-          }
-        },
-        {
-          "stat": "CritChance",
-          "mode": "Add",
-          "value": {
-            "baseValue": 0.01452
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 7.3
-          }
-        }
-      ],
-      "maxLevel": 200,
-      "levelCost": {
-        "type": "Geometric",
-        "baseValue": 440,
-        "growth": 1.045
-      },
-      "levelEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0,
-            "perLevel": 0.00484
-          }
-        }
-      ],
-      "upgradeToId": "ornament_intermediate_t4"
-    },
-    {
-      "id": "ornament_intermediate_t4",
-      "name": "백동 노리개 4",
-      "kind": "ornament",
-      "grade": "Intermediate",
-      "subTier": 4,
-      "artId": "ornament_intermediate",
-      "baseEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.0704
-          }
-        },
-        {
-          "stat": "CritChance",
-          "mode": "Add",
-          "value": {
-            "baseValue": 0.02112
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 10.6
-          }
-        }
-      ],
-      "maxLevel": 200,
-      "levelCost": {
-        "type": "Geometric",
-        "baseValue": 640,
-        "growth": 1.045
-      },
-      "levelEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0,
-            "perLevel": 0.00704
-          }
-        }
-      ],
-      "upgradeToId": "ornament_advanced_t1"
-    },
-    {
-      "id": "ornament_advanced_t1",
-      "name": "흑옥 노리개 1",
-      "kind": "ornament",
-      "grade": "Advanced",
-      "subTier": 1,
-      "artId": "ornament_advanced",
-      "baseEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.048
-          }
-        },
-        {
-          "stat": "CritChance",
-          "mode": "Add",
-          "value": {
-            "baseValue": 0.0144
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 7.2
-          }
-        }
-      ],
-      "maxLevel": 200,
-      "levelCost": {
-        "type": "Geometric",
-        "baseValue": 500,
-        "growth": 1.045
-      },
-      "levelEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0,
-            "perLevel": 0.0048
-          }
-        }
-      ],
-      "upgradeToId": "ornament_advanced_t2"
-    },
-    {
-      "id": "ornament_advanced_t2",
-      "name": "흑옥 노리개 2",
-      "kind": "ornament",
-      "grade": "Advanced",
-      "subTier": 2,
-      "artId": "ornament_advanced",
-      "baseEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.072
-          }
-        },
-        {
-          "stat": "CritChance",
-          "mode": "Add",
-          "value": {
-            "baseValue": 0.0216
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 10.8
-          }
-        }
-      ],
-      "maxLevel": 200,
-      "levelCost": {
-        "type": "Geometric",
-        "baseValue": 750,
-        "growth": 1.045
-      },
-      "levelEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0,
-            "perLevel": 0.0072
-          }
-        }
-      ],
-      "upgradeToId": "ornament_advanced_t3"
-    },
-    {
-      "id": "ornament_advanced_t3",
-      "name": "흑옥 노리개 3",
-      "kind": "ornament",
-      "grade": "Advanced",
-      "subTier": 3,
-      "artId": "ornament_advanced",
-      "baseEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.1056
-          }
-        },
-        {
-          "stat": "CritChance",
-          "mode": "Add",
-          "value": {
-            "baseValue": 0.03168
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 15.8
-          }
-        }
-      ],
-      "maxLevel": 200,
-      "levelCost": {
-        "type": "Geometric",
-        "baseValue": 1100,
-        "growth": 1.045
-      },
-      "levelEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0,
-            "perLevel": 0.01056
-          }
-        }
-      ],
-      "upgradeToId": "ornament_advanced_t4"
-    },
-    {
-      "id": "ornament_advanced_t4",
-      "name": "흑옥 노리개 4",
-      "kind": "ornament",
-      "grade": "Advanced",
-      "subTier": 4,
-      "artId": "ornament_advanced",
-      "baseEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.1536
-          }
-        },
-        {
-          "stat": "CritChance",
-          "mode": "Add",
-          "value": {
-            "baseValue": 0.04608
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 23.0
-          }
-        }
-      ],
-      "maxLevel": 200,
-      "levelCost": {
-        "type": "Geometric",
-        "baseValue": 1600,
-        "growth": 1.045
-      },
-      "levelEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0,
-            "perLevel": 0.01536
-          }
-        }
-      ],
-      "upgradeToId": "ornament_rare_t1"
-    },
-    {
-      "id": "ornament_rare_t1",
-      "name": "도깨비 장식 1",
-      "kind": "ornament",
-      "grade": "Rare",
-      "subTier": 1,
-      "artId": "ornament_rare",
-      "baseEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.105
-          }
-        },
-        {
-          "stat": "CritChance",
-          "mode": "Add",
-          "value": {
-            "baseValue": 0.0315
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 15.8
-          }
-        }
-      ],
-      "maxLevel": 200,
-      "levelCost": {
-        "type": "Geometric",
-        "baseValue": 1300,
-        "growth": 1.045
-      },
-      "levelEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0,
-            "perLevel": 0.0105
-          }
-        }
-      ],
-      "upgradeToId": "ornament_rare_t2"
-    },
-    {
-      "id": "ornament_rare_t2",
-      "name": "도깨비 장식 2",
-      "kind": "ornament",
-      "grade": "Rare",
-      "subTier": 2,
-      "artId": "ornament_rare",
-      "baseEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.1575
-          }
-        },
-        {
-          "stat": "CritChance",
-          "mode": "Add",
-          "value": {
-            "baseValue": 0.04725
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 23.6
-          }
-        }
-      ],
-      "maxLevel": 200,
-      "levelCost": {
-        "type": "Geometric",
-        "baseValue": 1950,
-        "growth": 1.045
-      },
-      "levelEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0,
-            "perLevel": 0.01575
-          }
-        }
-      ],
-      "upgradeToId": "ornament_rare_t3"
-    },
-    {
-      "id": "ornament_rare_t3",
-      "name": "도깨비 장식 3",
-      "kind": "ornament",
-      "grade": "Rare",
-      "subTier": 3,
-      "artId": "ornament_rare",
-      "baseEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.231
-          }
-        },
-        {
-          "stat": "CritChance",
-          "mode": "Add",
-          "value": {
-            "baseValue": 0.0693
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 34.7
-          }
-        }
-      ],
-      "maxLevel": 200,
-      "levelCost": {
-        "type": "Geometric",
-        "baseValue": 2860,
-        "growth": 1.045
-      },
-      "levelEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0,
-            "perLevel": 0.0231
-          }
-        }
-      ],
-      "upgradeToId": "ornament_rare_t4"
-    },
-    {
-      "id": "ornament_rare_t4",
-      "name": "도깨비 장식 4",
-      "kind": "ornament",
-      "grade": "Rare",
-      "subTier": 4,
-      "artId": "ornament_rare",
-      "baseEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.336
-          }
-        },
-        {
-          "stat": "CritChance",
-          "mode": "Add",
-          "value": {
-            "baseValue": 0.1008
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 50.4
-          }
-        }
-      ],
-      "maxLevel": 200,
-      "levelCost": {
-        "type": "Geometric",
-        "baseValue": 4160,
-        "growth": 1.045
-      },
-      "levelEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0,
-            "perLevel": 0.0336
-          }
-        }
-      ],
-      "upgradeToId": "ornament_epic_t1"
-    },
-    {
-      "id": "ornament_epic_t1",
-      "name": "달빛 장식 1",
-      "kind": "ornament",
-      "grade": "Epic",
-      "subTier": 1,
-      "artId": "ornament_epic",
-      "baseEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.23
-          }
-        },
-        {
-          "stat": "CritChance",
-          "mode": "Add",
-          "value": {
-            "baseValue": 0.069
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 34.5
-          }
-        }
-      ],
-      "maxLevel": 200,
-      "levelCost": {
-        "type": "Geometric",
-        "baseValue": 3500,
-        "growth": 1.045
-      },
-      "levelEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0,
-            "perLevel": 0.023
-          }
-        }
-      ],
-      "upgradeToId": "ornament_epic_t2"
-    },
-    {
-      "id": "ornament_epic_t2",
-      "name": "달빛 장식 2",
-      "kind": "ornament",
-      "grade": "Epic",
-      "subTier": 2,
-      "artId": "ornament_epic",
-      "baseEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.345
-          }
-        },
-        {
-          "stat": "CritChance",
-          "mode": "Add",
-          "value": {
-            "baseValue": 0.1035
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 51.8
-          }
-        }
-      ],
-      "maxLevel": 200,
-      "levelCost": {
-        "type": "Geometric",
-        "baseValue": 5250,
-        "growth": 1.045
-      },
-      "levelEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0,
-            "perLevel": 0.0345
-          }
-        }
-      ],
-      "upgradeToId": "ornament_epic_t3"
-    },
-    {
-      "id": "ornament_epic_t3",
-      "name": "달빛 장식 3",
-      "kind": "ornament",
-      "grade": "Epic",
-      "subTier": 3,
-      "artId": "ornament_epic",
-      "baseEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.506
-          }
-        },
-        {
-          "stat": "CritChance",
-          "mode": "Add",
-          "value": {
-            "baseValue": 0.1518
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 75.9
-          }
-        }
-      ],
-      "maxLevel": 200,
-      "levelCost": {
-        "type": "Geometric",
-        "baseValue": 7700,
-        "growth": 1.045
-      },
-      "levelEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0,
-            "perLevel": 0.0506
-          }
-        }
-      ],
-      "upgradeToId": "ornament_epic_t4"
-    },
-    {
-      "id": "ornament_epic_t4",
-      "name": "달빛 장식 4",
-      "kind": "ornament",
-      "grade": "Epic",
-      "subTier": 4,
-      "artId": "ornament_epic",
-      "baseEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.736
-          }
-        },
-        {
-          "stat": "CritChance",
-          "mode": "Add",
-          "value": {
-            "baseValue": 0.2208
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 110.4
-          }
-        }
-      ],
-      "maxLevel": 200,
-      "levelCost": {
-        "type": "Geometric",
-        "baseValue": 11200,
-        "growth": 1.045
-      },
-      "levelEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0,
-            "perLevel": 0.0736
-          }
-        }
-      ],
-      "upgradeToId": "ornament_mythic_t1"
-    },
-    {
-      "id": "ornament_mythic_t1",
-      "name": "저승꽃 장식 1",
-      "kind": "ornament",
-      "grade": "Mythic",
-      "subTier": 1,
-      "artId": "ornament_mythic",
-      "baseEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.5
-          }
-        },
-        {
-          "stat": "CritChance",
-          "mode": "Add",
-          "value": {
-            "baseValue": 0.15
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 75.0
-          }
-        }
-      ],
-      "maxLevel": 200,
-      "levelCost": {
-        "type": "Geometric",
-        "baseValue": 9000,
-        "growth": 1.045
-      },
-      "levelEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0,
-            "perLevel": 0.05
-          }
-        }
-      ],
-      "upgradeToId": "ornament_mythic_t2"
-    },
-    {
-      "id": "ornament_mythic_t2",
-      "name": "저승꽃 장식 2",
-      "kind": "ornament",
-      "grade": "Mythic",
-      "subTier": 2,
-      "artId": "ornament_mythic",
-      "baseEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0.75
-          }
-        },
-        {
-          "stat": "CritChance",
-          "mode": "Add",
-          "value": {
-            "baseValue": 0.225
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 112.5
-          }
-        }
-      ],
-      "maxLevel": 200,
-      "levelCost": {
-        "type": "Geometric",
-        "baseValue": 13500,
-        "growth": 1.045
-      },
-      "levelEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0,
-            "perLevel": 0.075
-          }
-        }
-      ],
-      "upgradeToId": "ornament_mythic_t3"
-    },
-    {
-      "id": "ornament_mythic_t3",
-      "name": "저승꽃 장식 3",
-      "kind": "ornament",
-      "grade": "Mythic",
-      "subTier": 3,
-      "artId": "ornament_mythic",
-      "baseEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 1.1
-          }
-        },
-        {
-          "stat": "CritChance",
-          "mode": "Add",
-          "value": {
-            "baseValue": 0.33
-          }
-        }
-      ],
-      "collectionEffects": [
-        {
-          "stat": "Attack",
-          "mode": "Add",
-          "value": {
-            "baseValue": 165.0
-          }
-        }
-      ],
-      "maxLevel": 200,
-      "levelCost": {
-        "type": "Geometric",
-        "baseValue": 19800,
-        "growth": 1.045
-      },
-      "levelEffects": [
-        {
-          "stat": "GoldGain",
-          "mode": "Mul",
-          "value": {
-            "baseValue": 0,
-            "perLevel": 0.11
-          }
-        }
-      ],
-      "upgradeToId": "ornament_mythic_t4"
-    },
-    {
-      "id": "ornament_mythic_t4",
-      "name": "저승꽃 장식 4",
-      "kind": "ornament",
-      "grade": "Mythic",
-      "subTier": 4,
-      "artId": "ornament_mythic",
-      "baseEffects": [
-        {
-          "stat": "GoldGain",
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
             "baseValue": 1.6
           }
-        },
-        {
-          "stat": "CritChance",
-          "mode": "Add",
-          "value": {
-            "baseValue": 0.48
-          }
         }
       ],
       "collectionEffects": [
         {
-          "stat": "Attack",
-          "mode": "Add",
+          "stat": "GoldGain",
+          "mode": "Mul",
           "value": {
-            "baseValue": 240.0
+            "baseValue": 0.96
           }
         }
       ],
@@ -3503,7 +3268,7 @@
       },
       "levelEffects": [
         {
-          "stat": "GoldGain",
+          "stat": "AllElementDamage",
           "mode": "Mul",
           "value": {
             "baseValue": 0,
@@ -3520,6 +3285,1467 @@
             "value": {
               "baseValue": 0.5
             }
+          }
+        }
+      ],
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.64
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_beginner_t1",
+      "name": "삼베 고름 1",
+      "kind": "ornament",
+      "grade": "Beginner",
+      "subTier": 1,
+      "artId": "ornament_beginner",
+      "baseEffects": [
+        {
+          "stat": "Defense",
+          "mode": "Add",
+          "value": {
+            "baseValue": 2.0
+          }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 3.0
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "SoftGemGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.004
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 80,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.5
+          }
+        }
+      ],
+      "upgradeToId": "ornament_beginner_t2",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.004
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_beginner_t2",
+      "name": "삼베 고름 2",
+      "kind": "ornament",
+      "grade": "Beginner",
+      "subTier": 2,
+      "artId": "ornament_beginner",
+      "baseEffects": [
+        {
+          "stat": "Defense",
+          "mode": "Add",
+          "value": {
+            "baseValue": 3.0
+          }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 4.5
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "SoftGemGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.006
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 120,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.75
+          }
+        }
+      ],
+      "upgradeToId": "ornament_beginner_t3",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.006
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_beginner_t3",
+      "name": "삼베 고름 3",
+      "kind": "ornament",
+      "grade": "Beginner",
+      "subTier": 3,
+      "artId": "ornament_beginner",
+      "baseEffects": [
+        {
+          "stat": "Defense",
+          "mode": "Add",
+          "value": {
+            "baseValue": 4.4
+          }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 6.6
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "SoftGemGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.0088
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 176,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 1.1
+          }
+        }
+      ],
+      "upgradeToId": "ornament_beginner_t4",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0088
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_beginner_t4",
+      "name": "삼베 고름 4",
+      "kind": "ornament",
+      "grade": "Beginner",
+      "subTier": 4,
+      "artId": "ornament_beginner",
+      "baseEffects": [
+        {
+          "stat": "Defense",
+          "mode": "Add",
+          "value": {
+            "baseValue": 6.4
+          }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 9.6
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "SoftGemGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.0128
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 256,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 1.6
+          }
+        }
+      ],
+      "upgradeToId": "ornament_intermediate_t1",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0128
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_intermediate_t1",
+      "name": "백동 노리개 1",
+      "kind": "ornament",
+      "grade": "Intermediate",
+      "subTier": 1,
+      "artId": "ornament_intermediate",
+      "baseEffects": [
+        {
+          "stat": "Defense",
+          "mode": "Add",
+          "value": {
+            "baseValue": 4.4
+          }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 6.6
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "SoftGemGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.0088
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 200,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 1.1
+          }
+        }
+      ],
+      "upgradeToId": "ornament_intermediate_t2",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0088
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_intermediate_t2",
+      "name": "백동 노리개 2",
+      "kind": "ornament",
+      "grade": "Intermediate",
+      "subTier": 2,
+      "artId": "ornament_intermediate",
+      "baseEffects": [
+        {
+          "stat": "Defense",
+          "mode": "Add",
+          "value": {
+            "baseValue": 6.6
+          }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 9.9
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "SoftGemGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.0132
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 300,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 1.65
+          }
+        }
+      ],
+      "upgradeToId": "ornament_intermediate_t3",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0132
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_intermediate_t3",
+      "name": "백동 노리개 3",
+      "kind": "ornament",
+      "grade": "Intermediate",
+      "subTier": 3,
+      "artId": "ornament_intermediate",
+      "baseEffects": [
+        {
+          "stat": "Defense",
+          "mode": "Add",
+          "value": {
+            "baseValue": 9.68
+          }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 14.52
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "SoftGemGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.01936
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 440,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 2.42
+          }
+        }
+      ],
+      "upgradeToId": "ornament_intermediate_t4",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.01936
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_intermediate_t4",
+      "name": "백동 노리개 4",
+      "kind": "ornament",
+      "grade": "Intermediate",
+      "subTier": 4,
+      "artId": "ornament_intermediate",
+      "baseEffects": [
+        {
+          "stat": "Defense",
+          "mode": "Add",
+          "value": {
+            "baseValue": 14.08
+          }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 21.12
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "SoftGemGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.02816
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 640,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 3.52
+          }
+        }
+      ],
+      "upgradeToId": "ornament_advanced_t1",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.02816
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_advanced_t1",
+      "name": "흑옥 노리개 1",
+      "kind": "ornament",
+      "grade": "Advanced",
+      "subTier": 1,
+      "artId": "ornament_advanced",
+      "baseEffects": [
+        {
+          "stat": "Defense",
+          "mode": "Add",
+          "value": {
+            "baseValue": 9.6
+          }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 14.4
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "SoftGemGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.0192
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 500,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 2.4
+          }
+        }
+      ],
+      "upgradeToId": "ornament_advanced_t2",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0192
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_advanced_t2",
+      "name": "흑옥 노리개 2",
+      "kind": "ornament",
+      "grade": "Advanced",
+      "subTier": 2,
+      "artId": "ornament_advanced",
+      "baseEffects": [
+        {
+          "stat": "Defense",
+          "mode": "Add",
+          "value": {
+            "baseValue": 14.4
+          }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 21.6
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "SoftGemGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.0288
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 750,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 3.6
+          }
+        }
+      ],
+      "upgradeToId": "ornament_advanced_t3",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0288
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_advanced_t3",
+      "name": "흑옥 노리개 3",
+      "kind": "ornament",
+      "grade": "Advanced",
+      "subTier": 3,
+      "artId": "ornament_advanced",
+      "baseEffects": [
+        {
+          "stat": "Defense",
+          "mode": "Add",
+          "value": {
+            "baseValue": 21.12
+          }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 31.68
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "SoftGemGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.04224
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 1100,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 5.28
+          }
+        }
+      ],
+      "upgradeToId": "ornament_advanced_t4",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.04224
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_advanced_t4",
+      "name": "흑옥 노리개 4",
+      "kind": "ornament",
+      "grade": "Advanced",
+      "subTier": 4,
+      "artId": "ornament_advanced",
+      "baseEffects": [
+        {
+          "stat": "Defense",
+          "mode": "Add",
+          "value": {
+            "baseValue": 30.72
+          }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 46.08
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "SoftGemGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.06144
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 1600,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 7.68
+          }
+        }
+      ],
+      "upgradeToId": "ornament_rare_t1",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.06144
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_rare_t1",
+      "name": "도깨비 장식 1",
+      "kind": "ornament",
+      "grade": "Rare",
+      "subTier": 1,
+      "artId": "ornament_rare",
+      "baseEffects": [
+        {
+          "stat": "Defense",
+          "mode": "Add",
+          "value": {
+            "baseValue": 21.0
+          }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 31.5
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "SoftGemGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.042
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 1300,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 5.25
+          }
+        }
+      ],
+      "upgradeToId": "ornament_rare_t2",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.042
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_rare_t2",
+      "name": "도깨비 장식 2",
+      "kind": "ornament",
+      "grade": "Rare",
+      "subTier": 2,
+      "artId": "ornament_rare",
+      "baseEffects": [
+        {
+          "stat": "Defense",
+          "mode": "Add",
+          "value": {
+            "baseValue": 31.5
+          }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 47.25
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "SoftGemGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.063
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 1950,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 7.875
+          }
+        }
+      ],
+      "upgradeToId": "ornament_rare_t3",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.063
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_rare_t3",
+      "name": "도깨비 장식 3",
+      "kind": "ornament",
+      "grade": "Rare",
+      "subTier": 3,
+      "artId": "ornament_rare",
+      "baseEffects": [
+        {
+          "stat": "Defense",
+          "mode": "Add",
+          "value": {
+            "baseValue": 46.2
+          }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 69.3
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "SoftGemGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.0924
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 2860,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 11.55
+          }
+        }
+      ],
+      "upgradeToId": "ornament_rare_t4",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0924
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_rare_t4",
+      "name": "도깨비 장식 4",
+      "kind": "ornament",
+      "grade": "Rare",
+      "subTier": 4,
+      "artId": "ornament_rare",
+      "baseEffects": [
+        {
+          "stat": "Defense",
+          "mode": "Add",
+          "value": {
+            "baseValue": 67.2
+          }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 100.8
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "SoftGemGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.1344
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 4160,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 16.8
+          }
+        }
+      ],
+      "upgradeToId": "ornament_epic_t1",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.1344
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_epic_t1",
+      "name": "달빛 장식 1",
+      "kind": "ornament",
+      "grade": "Epic",
+      "subTier": 1,
+      "artId": "ornament_epic",
+      "baseEffects": [
+        {
+          "stat": "Defense",
+          "mode": "Add",
+          "value": {
+            "baseValue": 46.0
+          }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 69.0
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "SoftGemGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.092
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 3500,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 11.5
+          }
+        }
+      ],
+      "upgradeToId": "ornament_epic_t2",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.092
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_epic_t2",
+      "name": "달빛 장식 2",
+      "kind": "ornament",
+      "grade": "Epic",
+      "subTier": 2,
+      "artId": "ornament_epic",
+      "baseEffects": [
+        {
+          "stat": "Defense",
+          "mode": "Add",
+          "value": {
+            "baseValue": 69.0
+          }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 103.5
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "SoftGemGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.138
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 5250,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 17.25
+          }
+        }
+      ],
+      "upgradeToId": "ornament_epic_t3",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.138
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_epic_t3",
+      "name": "달빛 장식 3",
+      "kind": "ornament",
+      "grade": "Epic",
+      "subTier": 3,
+      "artId": "ornament_epic",
+      "baseEffects": [
+        {
+          "stat": "Defense",
+          "mode": "Add",
+          "value": {
+            "baseValue": 101.2
+          }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 151.8
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "SoftGemGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.2024
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 7700,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 25.3
+          }
+        }
+      ],
+      "upgradeToId": "ornament_epic_t4",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.2024
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_epic_t4",
+      "name": "달빛 장식 4",
+      "kind": "ornament",
+      "grade": "Epic",
+      "subTier": 4,
+      "artId": "ornament_epic",
+      "baseEffects": [
+        {
+          "stat": "Defense",
+          "mode": "Add",
+          "value": {
+            "baseValue": 147.2
+          }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 220.8
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "SoftGemGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.2944
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 11200,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 36.8
+          }
+        }
+      ],
+      "upgradeToId": "ornament_mythic_t1",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.2944
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_mythic_t1",
+      "name": "저승꽃 장식 1",
+      "kind": "ornament",
+      "grade": "Mythic",
+      "subTier": 1,
+      "artId": "ornament_mythic",
+      "baseEffects": [
+        {
+          "stat": "Defense",
+          "mode": "Add",
+          "value": {
+            "baseValue": 100.0
+          }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 150.0
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "SoftGemGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.2
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 9000,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 25.0
+          }
+        }
+      ],
+      "upgradeToId": "ornament_mythic_t2",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_mythic_t2",
+      "name": "저승꽃 장식 2",
+      "kind": "ornament",
+      "grade": "Mythic",
+      "subTier": 2,
+      "artId": "ornament_mythic",
+      "baseEffects": [
+        {
+          "stat": "Defense",
+          "mode": "Add",
+          "value": {
+            "baseValue": 150.0
+          }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 225.0
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "SoftGemGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.3
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 13500,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 37.5
+          }
+        }
+      ],
+      "upgradeToId": "ornament_mythic_t3",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.3
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_mythic_t3",
+      "name": "저승꽃 장식 3",
+      "kind": "ornament",
+      "grade": "Mythic",
+      "subTier": 3,
+      "artId": "ornament_mythic",
+      "baseEffects": [
+        {
+          "stat": "Defense",
+          "mode": "Add",
+          "value": {
+            "baseValue": 220.0
+          }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 330.0
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "SoftGemGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.44
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 19800,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 55.0
+          }
+        }
+      ],
+      "upgradeToId": "ornament_mythic_t4",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.44
+          }
+        }
+      ]
+    },
+    {
+      "id": "ornament_mythic_t4",
+      "name": "저승꽃 장식 4",
+      "kind": "ornament",
+      "grade": "Mythic",
+      "subTier": 4,
+      "artId": "ornament_mythic",
+      "baseEffects": [
+        {
+          "stat": "Defense",
+          "mode": "Add",
+          "value": {
+            "baseValue": 320.0
+          }
+        },
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 480.0
+          }
+        }
+      ],
+      "collectionEffects": [
+        {
+          "stat": "SoftGemGain",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0.64
+          }
+        }
+      ],
+      "maxLevel": 200,
+      "levelCost": {
+        "type": "Geometric",
+        "baseValue": 28800,
+        "growth": 1.045
+      },
+      "levelEffects": [
+        {
+          "stat": "DefensePierce",
+          "mode": "Add",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 80.0
+          }
+        }
+      ],
+      "limitBreakEffects": [
+        {
+          "atLimitBreak": 5,
+          "effect": {
+            "stat": "FinalDamage",
+            "mode": "Mul",
+            "value": {
+              "baseValue": 0.5
+            }
+          }
+        }
+      ],
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.64
           }
         }
       ]
@@ -3548,7 +4774,19 @@
           }
         }
       ],
-      "element": "fire"
+      "element": "fire",
+      "skillCooldown": 12,
+      "skillBurstSeconds": 1.5,
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.005
+          }
+        }
+      ]
     },
     {
       "id": "h_bami",
@@ -3574,7 +4812,19 @@
           }
         }
       ],
-      "element": "dark"
+      "element": "dark",
+      "skillCooldown": 12,
+      "skillBurstSeconds": 1.5,
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.005
+          }
+        }
+      ]
     },
     {
       "id": "h_chorong",
@@ -3600,7 +4850,19 @@
           }
         }
       ],
-      "element": "lightning"
+      "element": "lightning",
+      "skillCooldown": 12,
+      "skillBurstSeconds": 1.5,
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.005
+          }
+        }
+      ]
     },
     {
       "id": "h_mudeuk",
@@ -3626,7 +4888,19 @@
           }
         }
       ],
-      "element": "fire"
+      "element": "fire",
+      "skillCooldown": 12,
+      "skillBurstSeconds": 1.5,
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.005
+          }
+        }
+      ]
     },
     {
       "id": "h_doyun",
@@ -3652,7 +4926,19 @@
           }
         }
       ],
-      "element": "lightning"
+      "element": "lightning",
+      "skillCooldown": 11,
+      "skillBurstSeconds": 2,
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.011
+          }
+        }
+      ]
     },
     {
       "id": "h_naru",
@@ -3678,7 +4964,19 @@
           }
         }
       ],
-      "element": "fire"
+      "element": "fire",
+      "skillCooldown": 11,
+      "skillBurstSeconds": 2,
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.011
+          }
+        }
+      ]
     },
     {
       "id": "h_saebyeok",
@@ -3704,7 +5002,19 @@
           }
         }
       ],
-      "element": "lightning"
+      "element": "lightning",
+      "skillCooldown": 11,
+      "skillBurstSeconds": 2,
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.011
+          }
+        }
+      ]
     },
     {
       "id": "h_baekmu",
@@ -3730,7 +5040,19 @@
           }
         }
       ],
-      "element": "dark"
+      "element": "dark",
+      "skillCooldown": 10,
+      "skillBurstSeconds": 2.5,
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.024
+          }
+        }
+      ]
     },
     {
       "id": "h_cheongram",
@@ -3756,7 +5078,19 @@
           }
         }
       ],
-      "element": "lightning"
+      "element": "lightning",
+      "skillCooldown": 10,
+      "skillBurstSeconds": 2.5,
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.024
+          }
+        }
+      ]
     },
     {
       "id": "h_heukrang",
@@ -3782,7 +5116,19 @@
           }
         }
       ],
-      "element": "dark"
+      "element": "dark",
+      "skillCooldown": 10,
+      "skillBurstSeconds": 2.5,
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.024
+          }
+        }
+      ]
     },
     {
       "id": "h_hongryeon",
@@ -3808,7 +5154,19 @@
           }
         }
       ],
-      "element": "fire"
+      "element": "fire",
+      "skillCooldown": 9,
+      "skillBurstSeconds": 3,
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0525
+          }
+        }
+      ]
     },
     {
       "id": "h_yuha",
@@ -3834,7 +5192,19 @@
           }
         }
       ],
-      "element": "lightning"
+      "element": "lightning",
+      "skillCooldown": 9,
+      "skillBurstSeconds": 3,
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0525
+          }
+        }
+      ]
     },
     {
       "id": "h_dambi",
@@ -3860,7 +5230,19 @@
           }
         }
       ],
-      "element": "fire"
+      "element": "fire",
+      "skillCooldown": 9,
+      "skillBurstSeconds": 3,
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0525
+          }
+        }
+      ]
     },
     {
       "id": "h_mukhyang",
@@ -3886,7 +5268,19 @@
           }
         }
       ],
-      "element": "dark"
+      "element": "dark",
+      "skillCooldown": 8,
+      "skillBurstSeconds": 4,
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.115
+          }
+        }
+      ]
     },
     {
       "id": "h_eunseori",
@@ -3912,7 +5306,19 @@
           }
         }
       ],
-      "element": "lightning"
+      "element": "lightning",
+      "skillCooldown": 8,
+      "skillBurstSeconds": 4,
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.115
+          }
+        }
+      ]
     },
     {
       "id": "h_seolyacha",
@@ -3950,7 +5356,19 @@
           }
         }
       ],
-      "element": "dark"
+      "element": "dark",
+      "skillCooldown": 7,
+      "skillBurstSeconds": 5.5,
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.25
+          }
+        }
+      ]
     },
     {
       "id": "h_gangrim",
@@ -3988,7 +5406,19 @@
           }
         }
       ],
-      "element": "fire"
+      "element": "fire",
+      "skillCooldown": 7,
+      "skillBurstSeconds": 5.5,
+      "limitBreakScalingEffects": [
+        {
+          "stat": "Attack",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.25
+          }
+        }
+      ]
     },
     {
       "id": "s_natjil",
@@ -4016,7 +5446,17 @@
       ],
       "skillCooldown": 9,
       "skillBurstSeconds": 2,
-      "element": "lightning"
+      "element": "lightning",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.003
+          }
+        }
+      ]
     },
     {
       "id": "s_honjjireugi",
@@ -4044,7 +5484,17 @@
       ],
       "skillCooldown": 9,
       "skillBurstSeconds": 2,
-      "element": "fire"
+      "element": "fire",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.003
+          }
+        }
+      ]
     },
     {
       "id": "s_honbul",
@@ -4072,7 +5522,17 @@
       ],
       "skillCooldown": 9,
       "skillBurstSeconds": 2,
-      "element": "fire"
+      "element": "fire",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.003
+          }
+        }
+      ]
     },
     {
       "id": "s_hongareugi",
@@ -4100,7 +5560,17 @@
       ],
       "skillCooldown": 8,
       "skillBurstSeconds": 2.5,
-      "element": "dark"
+      "element": "dark",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0066
+          }
+        }
+      ]
     },
     {
       "id": "s_yuryeongbal",
@@ -4128,7 +5598,17 @@
       ],
       "skillCooldown": 8,
       "skillBurstSeconds": 2.5,
-      "element": "lightning"
+      "element": "lightning",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0066
+          }
+        }
+      ]
     },
     {
       "id": "s_gwihwa",
@@ -4156,7 +5636,17 @@
       ],
       "skillCooldown": 7,
       "skillBurstSeconds": 3,
-      "element": "fire"
+      "element": "fire",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0144
+          }
+        }
+      ]
     },
     {
       "id": "s_wonhon",
@@ -4184,7 +5674,17 @@
       ],
       "skillCooldown": 7,
       "skillBurstSeconds": 3,
-      "element": "dark"
+      "element": "dark",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0144
+          }
+        }
+      ]
     },
     {
       "id": "s_songagwi",
@@ -4212,7 +5712,17 @@
       ],
       "skillCooldown": 6,
       "skillBurstSeconds": 4,
-      "element": "dark"
+      "element": "dark",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0315
+          }
+        }
+      ]
     },
     {
       "id": "s_honbaeksaseul",
@@ -4240,7 +5750,17 @@
       ],
       "skillCooldown": 6,
       "skillBurstSeconds": 4,
-      "element": "lightning"
+      "element": "lightning",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.0315
+          }
+        }
+      ]
     },
     {
       "id": "s_dokkaebibul",
@@ -4268,7 +5788,17 @@
       ],
       "skillCooldown": 5,
       "skillBurstSeconds": 5,
-      "element": "lightning"
+      "element": "lightning",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.069
+          }
+        }
+      ]
     },
     {
       "id": "s_wongwi",
@@ -4296,7 +5826,17 @@
       ],
       "skillCooldown": 5,
       "skillBurstSeconds": 5,
-      "element": "dark"
+      "element": "dark",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.069
+          }
+        }
+      ]
     },
     {
       "id": "s_samdo",
@@ -4336,7 +5876,17 @@
       ],
       "skillCooldown": 4,
       "skillBurstSeconds": 7,
-      "element": "dark"
+      "element": "dark",
+      "limitBreakScalingEffects": [
+        {
+          "stat": "FinalDamage",
+          "mode": "Mul",
+          "value": {
+            "baseValue": 0,
+            "perLevel": 0.15
+          }
+        }
+      ]
     }
   ],
   "banners": [

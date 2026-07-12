@@ -19,5 +19,8 @@ namespace IdleCore.Stats
         FireDamage,      // 불 속성 유닛 데미지 배율
         LightningDamage, // 번개 속성 유닛 데미지 배율
         DarkDamage,      // 어둠 속성 유닛 데미지 배율
+        AllElementDamage,// 모든 속성 피해 배율 (오브 장착 효과)
+        DefensePierce,   // 방어 무시 (적 방어도 상쇄, 장식 장착 효과)
+        SoftGemGain,     // 영옥 획득량 배율 (미션/출석 보상에 적용)
     }
 }

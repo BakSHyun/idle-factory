@@ -158,6 +158,18 @@ namespace IdleGame.UI
 
             sb.AppendLine("\n── 보유 효과 (도감, 미장착에도 적용) ──");
             foreach (var e in def.collectionEffects) sb.AppendLine("· " + Describe(e, 1));
+            foreach (var e in def.limitBreakScalingEffects)
+            {
+                int lb = unit?.limitBreak ?? 0;
+                sb.AppendLine($"· 한계돌파 시 {Describe(e, System.Math.Max(1, lb))}" +
+                              (lb > 0 ? $" (현재 {lb}돌)" : " (돌파당 증가)"));
+            }
+            if (def.skillCooldown > 0)
+            {
+                double burst = def.skillBurstSeconds * (1 + 0.08 * (unit?.limitBreak ?? 0));
+                sb.AppendLine($"\n── 스킬 ──\n쿨타임 {def.skillCooldown:0.#}초 · 버스트 {burst:0.#}초어치 피해" +
+                              (unit != null ? $" (돌파 보정 +{unit.limitBreak * 8}%)" : ""));
+            }
 
             if (def.upgradeToId != null && _session.Units.Defs.TryGetValue(def.upgradeToId, out var up))
             {
@@ -209,10 +221,14 @@ namespace IdleGame.UI
                 StatType.FireDamage => "🔥 불 속성 공격력",
                 StatType.LightningDamage => "⚡ 번개 속성 공격력",
                 StatType.DarkDamage => "🌑 어둠 속성 공격력",
+                StatType.AllElementDamage => "모든 속성 피해",
+                StatType.DefensePierce => "방어 무시",
+                StatType.SoftGemGain => "영옥 획득량",
                 _ => effect.stat.ToString(),
             };
             bool percentStat = effect.stat is StatType.CritChance
-                or StatType.FireDamage or StatType.LightningDamage or StatType.DarkDamage;
+                or StatType.FireDamage or StatType.LightningDamage or StatType.DarkDamage
+                or StatType.SoftGemGain;
             double v = effect.value.Evaluate(level);
             return effect.mode == EffectMode.Mul || percentStat
                 ? $"{stat} +{v * 100:0.##}%"

@@ -29,6 +29,9 @@ namespace IdleCore.Progression
         public int killsToBoss = 0;
         /// <summary>수문장 공격력 = 일반 몹 공격력 × 이 배율</summary>
         public double bossAttackMultiplier = 2.5;
+        /// <summary>적 방어도 (0 = 없음). '방어 무시' 스탯(장식)이 상쇄한다</summary>
+        public double enemyDefenseBase = 0;
+        public double enemyDefenseGrowth = 1.10;
     }
 
     /// <summary>챕터-단계 (예: 12-3). 내부적으로는 0부터 시작하는 선형 인덱스.</summary>
@@ -56,6 +59,16 @@ namespace IdleCore.Progression
 
         public static double EnemyAttack(StageCurveConfig cfg, int stageIndex) =>
             cfg.enemyAttackBase <= 0 ? 0 : cfg.enemyAttackBase * Math.Pow(cfg.enemyAttackGrowth, stageIndex);
+
+        public static double EnemyDefense(StageCurveConfig cfg, int stageIndex) =>
+            cfg.enemyDefenseBase <= 0 ? 0 : cfg.enemyDefenseBase * Math.Pow(cfg.enemyDefenseGrowth, stageIndex);
+
+        /// <summary>적 방어도를 반영한 실효 DPS — 방어 무시(장식)가 방어도를 상쇄한다.</summary>
+        public static double MitigatedDps(StageCurveConfig cfg, double dps, double defensePierce, int stageIndex)
+        {
+            double defense = Math.Max(0, EnemyDefense(cfg, stageIndex) - Math.Max(0, defensePierce));
+            return dps * 100.0 / (100.0 + defense);
+        }
 
         public static double GoldPerKill(StageCurveConfig cfg, int stageIndex) =>
             cfg.goldPerKillBase * Math.Pow(cfg.goldPerKillGrowth, stageIndex);

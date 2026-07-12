@@ -90,6 +90,11 @@ namespace IdleCore
             Missions = new LiveOps.MissionSystem(config.dailyMissions, Wallet, clock);
             Missions.Import(save.missions);
             Attendance = new LiveOps.AttendanceSystem(config.attendanceDays, Wallet, clock, save.attendance);
+            // 영옥 획득량 스탯 (장식 보유 효과) → 미션/출석 보상에 반영
+            System.Func<string, double> softGemScale = currency =>
+                currency == CurrencyIds.GemSoft ? 1 + System.Math.Max(0, Stats.Snapshot().Get(StatType.SoftGemGain)) : 1.0;
+            Missions.RewardMultiplier = softGemScale;
+            Attendance.RewardMultiplier = softGemScale;
 
             // 미션 메트릭 배선 — 시스템 이벤트가 자동 집계된다
             Gacha.Pulled += (_, count) => Missions.Report("summon", count);
@@ -137,6 +142,7 @@ namespace IdleCore
             if (totalElemental > 0)
                 foreach (var kv in counts)
                     advantage += snapshot.Get(ElementDamageStat(kv.Key)) * kv.Value / totalElemental;
+            advantage += snapshot.Get(StatType.AllElementDamage); // 오브: 모든 속성 피해
             return advantage;
         }
 
@@ -198,7 +204,9 @@ namespace IdleCore
                 if (timer <= 0)
                 {
                     timer = def.skillCooldown;
-                    var burst = Progression.Advance(def.skillBurstSeconds, autoPush: false);
+                    // 돌파할수록 스킬이 강해진다 (돌파당 버스트 +8%)
+                    double burstSeconds = def.skillBurstSeconds * (1 + 0.08 * unit.limitBreak);
+                    var burst = Progression.Advance(burstSeconds, autoPush: false);
                     result.Kills += burst.Kills;
                     result.Gold += burst.Gold;
                     result.Soul += burst.Soul;

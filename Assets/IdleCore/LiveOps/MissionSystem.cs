@@ -33,12 +33,18 @@ namespace IdleCore.LiveOps
         private readonly Wallet _wallet;
         private readonly IClock _clock;
 
+        /// <summary>보상 배율 훅 (재화 id → 배율). 영옥 획득량 스탯(장식 보유 효과) 적용 통로.</summary>
+        public Func<string, double> RewardMultiplier;
+
         public MissionSystem(IEnumerable<MissionDef> defs, Wallet wallet, IClock clock)
         {
             foreach (var d in defs) _defs[d.id] = d;
             _wallet = wallet;
             _clock = clock;
         }
+
+        private long Scaled(CurrencyGrant g) =>
+            (long)(g.amount * (RewardMultiplier?.Invoke(g.currency) ?? 1.0));
 
         public IReadOnlyDictionary<string, MissionDef> Defs => _defs;
 
@@ -81,7 +87,7 @@ namespace IdleCore.LiveOps
         {
             if (!CanClaim(missionId)) return false;
             State(missionId).claimed = true;
-            foreach (var g in _defs[missionId].rewards) _wallet.Earn(g.currency, g.amount);
+            foreach (var g in _defs[missionId].rewards) _wallet.Earn(g.currency, Scaled(g));
             return true;
         }
 
@@ -123,6 +129,9 @@ namespace IdleCore.LiveOps
         private readonly Wallet _wallet;
         private readonly IClock _clock;
 
+        /// <summary>보상 배율 훅 (영옥 획득량 스탯 적용 통로).</summary>
+        public Func<string, double> RewardMultiplier;
+
         public AttendanceState State { get; private set; }
 
         public AttendanceSystem(List<AttendanceDay> days, Wallet wallet, IClock clock, AttendanceState state = null)
@@ -144,7 +153,8 @@ namespace IdleCore.LiveOps
         {
             if (!CanClaimToday()) return false;
             var day = _days[State.totalClaims % _days.Count];
-            foreach (var g in day.rewards) _wallet.Earn(g.currency, g.amount);
+            foreach (var g in day.rewards)
+                _wallet.Earn(g.currency, (long)(g.amount * (RewardMultiplier?.Invoke(g.currency) ?? 1.0)));
             State.totalClaims++;
             State.lastClaimUtc = _clock.UtcNow;
             return true;

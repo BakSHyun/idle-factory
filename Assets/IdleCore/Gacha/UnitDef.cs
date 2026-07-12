@@ -53,6 +53,8 @@ namespace IdleCore.Gacha
         public List<LimitBreakEffect> limitBreakEffects = new List<LimitBreakEffect>();
         /// <summary>도감(보유) 효과 — 장착하지 않아도 계정에 기여 ('잉여 제로' 원칙)</summary>
         public List<StatEffect> collectionEffects = new List<StatEffect>();
+        /// <summary>한계돌파 비례 보유 효과 — 돌파 수치를 곡선에 대입 ('한계 돌파 시 공격력 %' 패턴, 항상 적용)</summary>
+        public List<StatEffect> limitBreakScalingEffects = new List<StatEffect>();
 
         // ── 액티브 스킬 (kind=skill 전용): 쿨타임마다 자동 시전 ──
         /// <summary>시전 주기 (초, 0 = 액티브 아님)</summary>
