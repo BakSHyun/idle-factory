@@ -16,6 +16,7 @@ namespace IdleGame.UI
         private Text _stageText, _goldText, _soulText, _softText, _hardText, _dpsText, _killText;
         private Button _bossButton;
         private Image _mobImage;
+        private BattleAnimator _battleAnimator;
         private static readonly string[] MobIds = { "mob_wisp", "mob_gwisin", "mob_dokkaebi" };
         private GrowthPanel _growthPanel;
         private GachaPanel _gachaPanel;
@@ -142,6 +143,7 @@ namespace IdleGame.UI
                 artRect.anchorMin = artRect.anchorMax = new Vector2(0.28f, 0.5f);
                 artRect.anchoredPosition = new Vector2(0, 10);
                 artRect.sizeDelta = new Vector2(250, 250); // 좌측 아군 / 우측 몬스터 대치 구도
+                _battleAnimator = BattleAnimator.Attach(battle, artRect, _mobImage);
             }
             else
             {
@@ -228,6 +230,8 @@ namespace IdleGame.UI
             _killText.text = result.Kills > 0
                 ? $"{UIFactory.FormatNumber(result.Kills / result.Seconds)}킬/초"
                 : "벽 — 성장 필요";
+            _battleAnimator?.SetRates(_session.Stats.Snapshot().Dps(),
+                result.Seconds > 0 ? result.Kills / result.Seconds : 0);
             RefreshCurrencies();
         }
 

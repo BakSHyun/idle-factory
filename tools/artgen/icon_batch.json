@@ -1,0 +1,5 @@
+[
+ {"name": "icon_a", "prompt": "1girl, solo, chibi, close-up portrait, korean grim reaper girl, large pointed black gat korean hat, long purple hair covering one eye, half-closed purple eyes, smile, dark hanbok, purple ghost flame, centered face, app icon composition, thick outline, flat color, vibrant dark purple background", "width": 1024, "height": 1024, "seed": 11},
+ {"name": "icon_b", "prompt": "1girl, solo, chibi, close-up portrait, korean grim reaper girl, large pointed black gat korean hat, long purple hair covering one eye, half-closed purple eyes, smug smile, dark hanbok, holding tiny glowing crescent scythe, centered, app icon composition, thick outline, flat color, vibrant dark purple background", "width": 1024, "height": 1024, "seed": 22},
+ {"name": "icon_c", "prompt": "1girl, solo, chibi, upper body, korean grim reaper girl, large pointed black gat, purple gradient hair, winking, dark hanbok, surrounded by cute purple ghost wisps, centered, app icon composition, thick outline, flat color, vibrant purple background", "width": 1024, "height": 1024, "seed": 33}
+]

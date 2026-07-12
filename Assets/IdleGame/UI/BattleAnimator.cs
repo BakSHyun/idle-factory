@@ -1,0 +1,139 @@
+using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace IdleGame.UI
+{
+    /// <summary>
+    /// 전투 연출 — 수식 기반 전투에 '보는 맛'을 입힌다.
+    /// 캐릭터 숨쉬기/공격 돌진, 몬스터 피격 플래시·흔들림·처치 팝, 떠오르는 데미지 숫자.
+    /// 실제 계산과 무관한 순수 연출 (DPS/킬 속도를 반영해 체감 동기화).
+    /// </summary>
+    public sealed class BattleAnimator : MonoBehaviour
+    {
+        private RectTransform _character;
+        private RectTransform _mob;
+        private Image _mobImage;
+        private RectTransform _battleArea;
+
+        private double _dps;
+        private double _killsPerSecond;
+        private Vector2 _charBase, _mobBase;
+        private float _attackTimer;
+
+        public static BattleAnimator Attach(RectTransform battleArea, RectTransform character, Image mobImage)
+        {
+            var animator = battleArea.gameObject.AddComponent<BattleAnimator>();
+            animator._battleArea = battleArea;
+            animator._character = character;
+            animator._mob = mobImage != null ? (RectTransform)mobImage.transform : null;
+            animator._mobImage = mobImage;
+            if (character != null) animator._charBase = character.anchoredPosition;
+            if (animator._mob != null) animator._mobBase = animator._mob.anchoredPosition;
+            return animator;
+        }
+
+        /// <summary>파밍 틱마다 호출 — 연출 속도를 실제 전투 수치에 동기화.</summary>
+        public void SetRates(double dps, double killsPerSecond)
+        {
+            _dps = dps;
+            _killsPerSecond = killsPerSecond;
+        }
+
+        private void Update()
+        {
+            if (_character == null) return;
+
+            // 숨쉬기 (idle bob)
+            float bob = Mathf.Sin(Time.time * 2.2f) * 6f;
+            _character.anchoredPosition = _charBase + new Vector2(0, bob);
+
+            // 공격 주기: 킬 속도 반영 (최소 0.5초, 최대 1.6초 간격)
+            _attackTimer -= Time.deltaTime;
+            if (_attackTimer <= 0f)
+            {
+                float interval = _killsPerSecond > 0
+                    ? Mathf.Clamp(1f / (float)_killsPerSecond, 0.5f, 1.6f)
+                    : 1.6f;
+                _attackTimer = interval;
+                StartCoroutine(AttackOnce());
+            }
+        }
+
+        private IEnumerator AttackOnce()
+        {
+            // 캐릭터 돌진
+            const float lunge = 42f;
+            for (float t = 0; t < 1f; t += Time.deltaTime / 0.12f)
+            {
+                _character.anchoredPosition = _charBase + new Vector2(Mathf.Sin(t * Mathf.PI) * lunge, 0);
+                yield return null;
+            }
+
+            if (_mob != null && _mobImage != null && _mobImage.enabled)
+            {
+                SpawnDamageText();
+                StartCoroutine(MobHit());
+            }
+        }
+
+        private IEnumerator MobHit()
+        {
+            // 피격 플래시 + 흔들림
+            _mobImage.color = new Color(1f, 0.45f, 0.5f);
+            for (float t = 0; t < 1f; t += Time.deltaTime / 0.18f)
+            {
+                _mob.anchoredPosition = _mobBase + new Vector2(Random.Range(-7f, 7f), Random.Range(-5f, 5f));
+                yield return null;
+            }
+            _mobImage.color = Color.white;
+            _mob.anchoredPosition = _mobBase;
+
+            // 킬 속도가 충분하면 처치 팝 (사라졌다 재등장 = 다음 몹)
+            if (_killsPerSecond >= 0.4)
+            {
+                for (float t = 0; t < 1f; t += Time.deltaTime / 0.12f)
+                {
+                    float s = Mathf.Lerp(1f, 0.05f, t);
+                    _mob.localScale = new Vector3(s, s, 1);
+                    yield return null;
+                }
+                _mob.localScale = Vector3.zero;
+                yield return new WaitForSeconds(0.15f);
+                for (float t = 0; t < 1f; t += Time.deltaTime / 0.15f)
+                {
+                    float s = Mathf.LerpUnclamped(0.05f, 1f, 1.70158f * t * t * t - 1.70158f * t * t + t + t * t); // 약한 백이즈
+                    _mob.localScale = new Vector3(Mathf.Max(0.05f, s), Mathf.Max(0.05f, s), 1);
+                    yield return null;
+                }
+                _mob.localScale = Vector3.one;
+            }
+        }
+
+        private void SpawnDamageText()
+        {
+            if (_dps <= 0) return;
+            double perHit = _dps * Mathf.Clamp(1f / Mathf.Max(0.5f, (float)_killsPerSecond), 0.5f, 1.6f);
+            var text = UIFactory.CreateText(_battleArea, "Dmg", UIFactory.FormatNumber(perHit), 34,
+                TextAnchor.MiddleCenter, new Color(1f, 0.85f, 0.4f));
+            text.fontStyle = FontStyle.Bold;
+            var rect = text.rectTransform;
+            rect.anchorMin = rect.anchorMax = new Vector2(0.78f, 0.62f);
+            rect.anchoredPosition = new Vector2(Random.Range(-30f, 30f), Random.Range(-10f, 10f));
+            StartCoroutine(FloatAndFade(text));
+        }
+
+        private IEnumerator FloatAndFade(Text text)
+        {
+            var rect = text.rectTransform;
+            var start = rect.anchoredPosition;
+            for (float t = 0; t < 1f; t += Time.deltaTime / 0.7f)
+            {
+                rect.anchoredPosition = start + new Vector2(0, t * 70f);
+                text.color = new Color(1f, 0.85f, 0.4f, 1f - t * t);
+                yield return null;
+            }
+            Destroy(text.gameObject);
+        }
+    }
+}

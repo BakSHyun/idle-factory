@@ -41,10 +41,13 @@ namespace IdleCore
             Clock = clock;
             _saveStore = saveStore;
 
-            var save = LoadOrCreate();
+            var save = LoadOrCreate(out bool isNewSave);
 
             Wallet = new Wallet();
             Wallet.Import(save.balances, save.lifetimeEarned, save.lifetimeSpent);
+            if (isNewSave)
+                foreach (var kv in config.startingBalances)
+                    Wallet.Earn(kv.Key, kv.Value);
 
             Stats = new StatSystem(config.axes, config.baseStats);
             Stats.ImportLevels(save.axisLevels);
@@ -157,10 +160,11 @@ namespace IdleCore
             _saveStore.Store(JsonConvert.SerializeObject(data));
         }
 
-        private SaveData LoadOrCreate()
+        private SaveData LoadOrCreate(out bool isNewSave)
         {
             var json = _saveStore.Load();
-            if (string.IsNullOrEmpty(json)) return new SaveData();
+            isNewSave = string.IsNullOrEmpty(json);
+            if (isNewSave) return new SaveData();
             var data = JsonConvert.DeserializeObject<SaveData>(json);
             return SaveMigrator.Migrate(data);
         }
