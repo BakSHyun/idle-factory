@@ -52,7 +52,10 @@ namespace IdleCore
             Stats = new StatSystem(config.axes, config.baseStats);
             Stats.ImportLevels(save.axisLevels);
 
-            Progression = new ProgressionSystem(config.stage, Stats, Wallet, save.currentStageIndex, save.highestClearedIndex);
+            Progression = new ProgressionSystem(config.stage, Stats, Wallet, save.currentStageIndex, save.highestClearedIndex)
+            {
+                KillsOnStage = save.killsOnStage,
+            };
 
             Units = new UnitInventory(config.units, config.equipSlots, config.collectionMilestones);
             Units.Import(save.units);
@@ -145,6 +148,7 @@ namespace IdleCore
                 axisLevels = Stats.ExportLevels(),
                 currentStageIndex = Progression.Current.Index,
                 highestClearedIndex = Progression.HighestClearedIndex,
+                killsOnStage = Progression.KillsOnStage,
                 units = Units.Export(),
                 gachaPity = Gacha.ExportPity(),
                 gachaPulls = Gacha.ExportPulls(),

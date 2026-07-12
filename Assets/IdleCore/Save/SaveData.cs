@@ -29,6 +29,7 @@ namespace IdleCore.Save
         public Dictionary<string, int> axisLevels = new Dictionary<string, int>();
         public int currentStageIndex;
         public int highestClearedIndex = -1;
+        public long killsOnStage;
 
         // 수집
         public Dictionary<string, OwnedUnit> units = new Dictionary<string, OwnedUnit>();

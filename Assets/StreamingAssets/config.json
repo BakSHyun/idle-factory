@@ -153,7 +153,8 @@
     "bossTimeLimitSeconds": 30,
     "enemyAttackBase": 2,
     "enemyAttackGrowth": 1.145,
-    "survivalKillBuffer": 3
+    "survivalKillBuffer": 3,
+    "killsToBoss": 15
   },
   "offline": {
     "baseCapHours": 8,

@@ -29,6 +29,12 @@ namespace IdleCore.Progression
         /// <summary>현재 파밍 중인 스테이지 (도전은 다음 스테이지에)</summary>
         public StageId Current { get; private set; }
         public int HighestClearedIndex { get; private set; } = -1;
+        /// <summary>이 스테이지에서의 처치 수 — killsToBoss를 채우면 보스 도전 가능</summary>
+        public long KillsOnStage { get; set; }
+
+        /// <summary>보스 등장 조건(처치 수) 충족 여부.</summary>
+        public bool BossGateOpen =>
+            _cfg.killsToBoss <= 0 || KillsOnStage >= _cfg.killsToBoss;
 
         public event Action<int> StageCleared;
 
@@ -96,12 +102,13 @@ namespace IdleCore.Progression
             return dps * _cfg.bossTimeLimitSeconds / StageMath.BossHp(_cfg, next);
         }
 
-        /// <summary>보스 도전. 성공 시 현재 파밍 스테이지도 함께 전진한다.</summary>
+        /// <summary>보스 도전. 처치 게이트가 열려 있고 격파·생존 가능해야 한다. 성공 시 게이트 리셋.</summary>
         public bool TryPush()
         {
-            if (!CanClearNext()) return false;
+            if (!BossGateOpen || !CanClearNext()) return false;
             HighestClearedIndex += 1;
             Current = new StageId(HighestClearedIndex);
+            KillsOnStage = 0;
             StageCleared?.Invoke(HighestClearedIndex);
             return true;
         }
@@ -136,6 +143,7 @@ namespace IdleCore.Progression
                 result.Kills = kills;
                 result.Gold = gold;
                 result.Soul = soul;
+                KillsOnStage += kills;
             }
 
             if (autoPush)

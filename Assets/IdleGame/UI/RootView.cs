@@ -15,7 +15,8 @@ namespace IdleGame.UI
 
         private Text _stageText, _goldText, _soulText, _softText, _hardText, _dpsText, _killText, _powerText;
         private Button _bossButton;
-        private Image _mobImage, _playerHpFill, _weaponImage;
+        private Image _mobImage, _playerHpFill, _weaponImage, _gateFill;
+        private Text _gateText;
         private BattleAnimator _battleAnimator;
         private static readonly string[] MobIds = { "mob_wisp", "mob_gwisin", "mob_dokkaebi" };
         private GrowthPanel _growthPanel;
@@ -178,6 +179,27 @@ namespace IdleGame.UI
             _killText = UIFactory.CreateText(battle, "Kills", "", 30, TextAnchor.LowerRight, UIFactory.TextDim);
             UIFactory.Fill(_killText.rectTransform, 24);
 
+            // 처치 게이지: 몇 마리 잡으면 보스가 나오는지 — '왜 진행 안 되는지'의 답
+            var gateBg = UIFactory.CreatePanel(battle, "GateBar", new Color(0, 0, 0, 0.55f));
+            UIFactory.Roundify(gateBg.GetComponent<Image>(), shadow: false);
+            gateBg.anchorMin = new Vector2(0.5f, 0);
+            gateBg.anchorMax = new Vector2(0.5f, 0);
+            gateBg.pivot = new Vector2(0.5f, 0);
+            gateBg.anchoredPosition = new Vector2(0, 168);
+            gateBg.sizeDelta = new Vector2(520, 40);
+            var gateFillGo = new GameObject("Fill", typeof(RectTransform), typeof(Image));
+            gateFillGo.transform.SetParent(gateBg, false);
+            _gateFill = gateFillGo.GetComponent<Image>();
+            _gateFill.color = UIFactory.Gold;
+            UIFactory.Roundify(_gateFill, shadow: false);
+            var gateFillRect = (RectTransform)gateFillGo.transform;
+            gateFillRect.anchorMin = Vector2.zero;
+            gateFillRect.anchorMax = new Vector2(0, 1);
+            gateFillRect.offsetMin = new Vector2(3, 3);
+            gateFillRect.offsetMax = new Vector2(-3, -3);
+            _gateText = UIFactory.CreateText(gateBg, "T", "", 24, TextAnchor.MiddleCenter, UIFactory.TextMain);
+            UIFactory.Fill(_gateText.rectTransform);
+
             // 보스 도전 — 벽을 '보이게' 만드는 연출 (예상 피해 % + 도전 버튼)
             _bossButton = UIFactory.CreateButton(battle, "BossBtn", "", OnBossChallenge, UIFactory.Accent, 28);
             var bossRect = (RectTransform)_bossButton.transform;
@@ -250,17 +272,35 @@ namespace IdleGame.UI
         {
             if (_bossButton == null) return;
             var progression = _session.Progression;
+            var cfg = _session.Config.stage;
             double ratio = progression.NextBossDamageRatio();
             var label = _bossButton.GetComponentInChildren<Text>();
             if (ratio <= 0) { _bossButton.gameObject.SetActive(false); return; }
 
+            // 처치 게이지 갱신
+            int need = cfg.killsToBoss;
+            long kills = progression.KillsOnStage;
+            if (_gateFill != null && need > 0)
+            {
+                SetHpFill(_gateFill, Mathf.Clamp01(kills / (float)need));
+                _gateText.text = progression.BossGateOpen
+                    ? "🔥 수문장 등장!"
+                    : $"몬스터 처치 {kills}/{need} — 다 잡으면 수문장 등장";
+            }
+
             var nextStage = new StageId(progression.HighestClearedIndex + 1);
-            bool ready = progression.CanClearNext();
-            label.text = ready
-                ? $"⚔ {nextStage.Display(_session.Config.stage)} 수문장 격파 가능!"
-                : progression.BlockedBySurvival()
-                    ? $"⚔ {nextStage.Display(_session.Config.stage)} 도전 — 화력은 충분, 체력 부족!"
-                    : $"⚔ {nextStage.Display(_session.Config.stage)} 도전 — 예상 피해 {System.Math.Min(99.9, ratio * 100):0.#}%";
+            string stageName = nextStage.Display(cfg);
+            bool ready = progression.BossGateOpen && progression.CanClearNext();
+
+            // 막힌 이유를 한 문장으로 — 유저가 '왜 안 가는지' 즉시 알 수 있게
+            if (!progression.BossGateOpen)
+                label.text = $"⚔ {stageName} 수문장 대기 중 ({kills}/{need} 처치)";
+            else if (ready)
+                label.text = $"⚔ {stageName} 수문장 격파 가능!";
+            else if (progression.BlockedBySurvival())
+                label.text = $"🛡 수문장이 너무 아프다 — 체력을 키우세요";
+            else
+                label.text = $"💪 수문장이 너무 단단하다 — 예상 피해 {System.Math.Min(99.9, ratio * 100):0.#}% (공격력 필요)";
             _bossButton.image.color = ready ? new Color(0.85f, 0.35f, 0.35f) : UIFactory.Panel;
         }
 
@@ -298,6 +338,7 @@ namespace IdleGame.UI
                 : result.Kills > 0
                     ? $"{UIFactory.FormatNumber(result.Kills / result.Seconds)}킬/초"
                     : "벽 — 성장 필요";
+            RefreshBossButton(); // 처치 게이지는 매 틱 갱신
             var snapshot = _session.Stats.Snapshot();
             var cfg = _session.Config.stage;
             int stage = _session.Progression.Current.Index;

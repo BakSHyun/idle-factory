@@ -25,6 +25,8 @@ namespace IdleCore.Progression
         public double enemyAttackGrowth = 1.14;
         /// <summary>생존 판정: 몇 마리를 연속으로 버틸 체력이 필요한가</summary>
         public double survivalKillBuffer = 3;
+        /// <summary>보스 등장에 필요한 처치 수 (0 = 게이트 없음). '왜 진행 안 되는지'를 보이게 하는 장치</summary>
+        public int killsToBoss = 0;
     }
 
     /// <summary>챕터-단계 (예: 12-3). 내부적으로는 0부터 시작하는 선형 인덱스.</summary>

@@ -63,7 +63,7 @@ namespace IdleGame.UI
                     : claimable ? "받기!"
                     : $"{state.progress}/{def.target}";
                 string rewards = string.Join(" ", def.rewards.Select(r =>
-                    $"{DungeonPanel.CurrencyLabel(r.currency)} {UIFactory.FormatNumber(r.amount)}"));
+                    $"{GrowthPanel.CurrencyLabel(r.currency)} {UIFactory.FormatNumber(r.amount)}"));
 
                 var row = UIFactory.CreateButton(_list, $"M_{def.id}",
                     $"{def.name}  [{status}]\n{rewards}",
