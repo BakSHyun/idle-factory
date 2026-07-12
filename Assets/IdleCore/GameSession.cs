@@ -131,11 +131,11 @@ namespace IdleCore
             // 속성 상성 → 최종 데미지 배율로 주입
             double advantage = ElementAdvantage();
             if (System.Math.Abs(advantage) > 0.0001)
-                effects.Add(new Stats.StatEffect
+                effects.Add(new StatEffect
                 {
-                    stat = Stats.StatType.FinalDamage,
-                    mode = Stats.EffectMode.Mul,
-                    value = new Stats.ValueCurve { baseValue = advantage },
+                    stat = StatType.FinalDamage,
+                    mode = EffectMode.Mul,
+                    value = new ValueCurve { baseValue = advantage },
                 });
             _lastElementChapter = Progression.Current.Chapter(Config.stage);
             Stats.SetExternalEffects(effects);
