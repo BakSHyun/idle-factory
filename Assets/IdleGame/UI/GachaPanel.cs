@@ -8,8 +8,9 @@ using UnityEngine.UI;
 namespace IdleGame.UI
 {
     /// <summary>
-    /// 소환 탭 — 배너 4종(낫/장신구/스킬/차사) 선택, 천장, 소환, 도감 진행,
-    /// 보유 목록(행 탭 = 장착/해제 토글, 슬롯 제한 적용).
+    /// 소환 탭 (소헌키 스타일):
+    /// 배너 선택 → 소환 레벨/확률 → 소환 버튼 → [일괄 승급][자동 장착] →
+    /// 전체 카탈로그 그리드 (보유 = 등급색 활성 / 미보유 = 실루엣 비활성, 승급 게이지 n/5)
     /// </summary>
     public sealed class GachaPanel : MonoBehaviour
     {
@@ -17,7 +18,7 @@ namespace IdleGame.UI
         private GameSession _session;
         private Text _pityText, _resultText, _collectionText;
         private Button _pull1Button, _pull10Button;
-        private RectTransform _ownedList;
+        private RectTransform _catalogGrid;
         private readonly List<Button> _bannerButtons = new List<Button>();
         private string _bannerId;
 
@@ -32,14 +33,16 @@ namespace IdleGame.UI
             return panel;
         }
 
+        private string CurrentKind => _bannerId.Replace("banner_", "");
+
         private void Build()
         {
             _bannerId = _session.Gacha.Banners.Keys.First();
-            var list = UIFactory.CreateScrollList(Rect, spacing: 16);
+            var list = UIFactory.CreateScrollList(Rect, spacing: 14);
 
             // 배너 선택 바
             var bannerBar = UIFactory.CreatePanel(list, "BannerBar", UIFactory.Bg);
-            bannerBar.gameObject.AddComponent<LayoutElement>().preferredHeight = 90;
+            bannerBar.gameObject.AddComponent<LayoutElement>().preferredHeight = 88;
             var barLayout = bannerBar.gameObject.AddComponent<HorizontalLayoutGroup>();
             barLayout.childControlWidth = true;
             barLayout.childControlHeight = true;
@@ -49,33 +52,62 @@ namespace IdleGame.UI
             {
                 string id = banner.id;
                 var button = UIFactory.CreateButton(bannerBar, $"Sel_{id}", banner.name.Replace(" 소환", ""),
-                    () => { _bannerId = id; Refresh(); }, UIFactory.Panel, 28);
+                    () => { _bannerId = id; Refresh(); }, UIFactory.Panel, 27);
                 _bannerButtons.Add(button);
             }
 
-            _pityText = UIFactory.CreateText(list, "Pity", "", 26, TextAnchor.MiddleCenter, UIFactory.TextDim);
-            _pityText.gameObject.AddComponent<LayoutElement>().preferredHeight = 80;
+            _pityText = UIFactory.CreateText(list, "Pity", "", 25, TextAnchor.MiddleCenter, UIFactory.TextDim);
+            _pityText.gameObject.AddComponent<LayoutElement>().preferredHeight = 76;
 
             _pull1Button = UIFactory.CreateButton(list, "Pull1", "", () => Pull(1));
-            _pull1Button.gameObject.AddComponent<LayoutElement>().preferredHeight = 100;
+            _pull1Button.gameObject.AddComponent<LayoutElement>().preferredHeight = 96;
 
             _pull10Button = UIFactory.CreateButton(list, "Pull10", "", () => Pull(10), UIFactory.Gold);
             _pull10Button.GetComponentInChildren<Text>().color = Color.black;
-            _pull10Button.gameObject.AddComponent<LayoutElement>().preferredHeight = 100;
+            _pull10Button.gameObject.AddComponent<LayoutElement>().preferredHeight = 96;
 
-            _resultText = UIFactory.CreateText(list, "Result", "", 27, TextAnchor.UpperCenter);
-            _resultText.gameObject.AddComponent<LayoutElement>().preferredHeight = 220;
+            _resultText = UIFactory.CreateText(list, "Result", "", 26, TextAnchor.UpperCenter);
+            _resultText.gameObject.AddComponent<LayoutElement>().preferredHeight = 150;
 
-            _collectionText = UIFactory.CreateText(list, "Collection", "", 27, TextAnchor.MiddleLeft, UIFactory.Gold);
-            _collectionText.gameObject.AddComponent<LayoutElement>().preferredHeight = 70;
+            // 일괄 승급 / 자동 장착 (소헌키의 일괄 합성 / 자동 장착)
+            var actionBar = UIFactory.CreatePanel(list, "Actions", UIFactory.Bg);
+            actionBar.gameObject.AddComponent<LayoutElement>().preferredHeight = 84;
+            var actionLayout = actionBar.gameObject.AddComponent<HorizontalLayoutGroup>();
+            actionLayout.childControlWidth = true;
+            actionLayout.childControlHeight = true;
+            actionLayout.childForceExpandWidth = true;
+            actionLayout.spacing = 10;
+            UIFactory.CreateButton(actionBar, "ComposeAll", "⚗ 일괄 승급", () =>
+            {
+                int composed = 0;
+                for (int guard = 0; guard < 500; guard++)
+                {
+                    var target = _session.Units.AllOwned().FirstOrDefault(u => _session.Units.CanCompose(u.unitId));
+                    if (target == null || !_session.Units.TryComposeUnit(target.unitId, out _)) break;
+                    composed++;
+                }
+                _resultText.text = composed > 0 ? $"일괄 승급 완료 — {composed}회 합성!" : "승급 가능한 잉여 사본이 없습니다 (같은 유닛 잉여 5개 필요)";
+                Refresh();
+            }, new Color(0.32f, 0.24f, 0.15f), 27);
+            UIFactory.CreateButton(actionBar, "AutoEquip", "✦ 자동 장착", () =>
+            {
+                _session.Units.AutoEquipBest();
+                _resultText.text = "자동 장착 완료 (등급·돌파 순)";
+                Refresh();
+            }, new Color(0.2f, 0.3f, 0.5f), 27);
 
-            var ownedHeader = UIFactory.CreateText(list, "OwnedHeader",
-                "── 명부 (탭하여 장착/해제) ──", 28, TextAnchor.MiddleLeft, UIFactory.TextDim);
-            ownedHeader.gameObject.AddComponent<LayoutElement>().preferredHeight = 50;
+            _collectionText = UIFactory.CreateText(list, "Collection", "", 26, TextAnchor.MiddleLeft, UIFactory.Gold);
+            _collectionText.gameObject.AddComponent<LayoutElement>().preferredHeight = 56;
 
-            _ownedList = UIFactory.CreatePanel(list, "OwnedList", UIFactory.Bg);
-            UIFactory.AddVerticalList(_ownedList, spacing: 8, padding: 0);
-            _ownedList.gameObject.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+            // 전체 카탈로그 그리드 (4열)
+            var gridPanel = UIFactory.CreatePanel(list, "Catalog", UIFactory.Bg);
+            _catalogGrid = gridPanel;
+            var grid = gridPanel.gameObject.AddComponent<GridLayoutGroup>();
+            grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+            grid.constraintCount = 4;
+            grid.cellSize = new Vector2(238, 300);
+            grid.spacing = new Vector2(12, 12);
+            gridPanel.gameObject.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
         }
 
         private void Pull(int count)
@@ -85,11 +117,10 @@ namespace IdleGame.UI
                 _resultText.text = "영옥이 부족합니다";
                 return;
             }
-            _session.Units.AutoEquipBest(); // 뉴비 편의: 슬롯 내 최적 자동 장착
-
             var lines = result.UnitIds
                 .GroupBy(id => id)
                 .OrderByDescending(g => _session.Units.Defs[g.Key].grade)
+                .Take(5)
                 .Select(g =>
                 {
                     var def = _session.Units.Defs[g.Key];
@@ -115,12 +146,11 @@ namespace IdleGame.UI
                 .OrderByDescending(kv => kv.Key)
                 .Select(kv => $"{GradeLabel(kv.Key)} {kv.Value * 100:0.###}%");
             _pityText.text = $"소환 Lv.{summonLevel}" +
-                (toNext > 0 ? $" — 다음 레벨까지 {toNext}회 소환" : " (최고)") +
+                (toNext > 0 ? $" — 다음 레벨까지 {toNext}회" : " (최고)") +
                 $"\n{string.Join(" · ", rates)}";
             _pull1Button.GetComponentInChildren<Text>().text = $"1회 소환  (영옥 {banner.costPerPull})";
             _pull10Button.GetComponentInChildren<Text>().text = $"10연 소환  (영옥 {banner.CostFor(10)})";
 
-            // 도감 진행
             int owned = _session.Units.UniqueOwnedCount;
             int total = _session.Units.Defs.Count;
             var next = _session.Units.Milestones.FirstOrDefault(m => owned < m.count);
@@ -128,102 +158,97 @@ namespace IdleGame.UI
                 ? $"📖 도감 {owned}/{total} — 완성!"
                 : $"📖 도감 {owned}/{total} — 다음 보너스까지 {next.count - owned}종";
 
-            RebuildOwnedList();
+            RebuildCatalog();
         }
 
-        private void RebuildOwnedList()
+        /// <summary>전체 카탈로그: 보유 = 등급색 활성, 미보유 = 실루엣 비활성 (소헌키 스타일).</summary>
+        private void RebuildCatalog()
         {
-            foreach (Transform child in _ownedList) Destroy(child.gameObject);
+            foreach (Transform child in _catalogGrid) Destroy(child.gameObject);
 
-            var groups = _session.Units.AllOwned()
-                .GroupBy(u => _session.Units.Defs[u.unitId].kind)
-                .OrderBy(g => g.Key);
-            foreach (var group in groups)
+            var defs = _session.Units.Defs.Values
+                .Where(d => d.kind == CurrentKind)
+                .OrderBy(d => d.grade).ThenBy(d => d.subTier).ThenBy(d => d.id);
+
+            foreach (var def in defs)
             {
-                string kind = group.Key;
-                var header = UIFactory.CreateText(_ownedList, $"Kind_{kind}",
-                    $"{KindLabel(kind)}  ({_session.Units.EquippedCount(kind)}/{_session.Units.SlotLimit(kind)} 장착)",
-                    26, TextAnchor.MiddleLeft, UIFactory.TextDim);
-                header.gameObject.AddComponent<LayoutElement>().preferredHeight = 44;
+                var unit = _session.Units.Get(def.id);
+                bool isOwned = unit != null;
+                var gradeColor = UIFactory.GradeColor(def.grade);
 
-                // 승급: 잉여(10돌 초과) 사본 5개 → 다음 서브등급/등급 (초급1→초급2→…→중급1)
-                foreach (var candidate in group.Where(u => _session.Units.CanCompose(u.unitId)))
+                var tile = UIFactory.CreateButton(_catalogGrid, $"T_{def.id}", "", () =>
                 {
-                    var cdef = _session.Units.Defs[candidate.unitId];
-                    var updef = _session.Units.Defs[cdef.upgradeToId];
-                    string cid = candidate.unitId;
-                    var composeButton = UIFactory.CreateButton(_ownedList, $"Compose_{cid}",
-                        $"⚗ 승급: {cdef.name} {_session.Units.ComposeCost}개 → {updef.name} 1개  (잉여 {_session.Units.SurplusCopies(cid)})",
-                        () =>
-                        {
-                            if (_session.Units.TryComposeUnit(cid, out var newUnit))
-                                _resultText.text = $"승급 성공! [{GradeLabel(_session.Units.Defs[newUnit].grade)}] {_session.Units.Defs[newUnit].name} 획득";
-                            Refresh();
-                        }, new Color(0.32f, 0.24f, 0.15f), 23);
-                    composeButton.gameObject.AddComponent<LayoutElement>().preferredHeight = 58;
+                    if (unit == null) { _resultText.text = $"{def.name} — 미보유 (소환으로 획득)"; return; }
+                    if (unit.equipped) _session.Units.Unequip(def.id);
+                    else if (!_session.Units.TryEquip(def.id))
+                        _resultText.text = $"{KindLabel(def.kind)} 슬롯이 가득 찼습니다 — 먼저 해제하세요";
+                    Refresh();
+                }, isOwned
+                    ? Color.Lerp(UIFactory.Panel, gradeColor, unit.equipped ? 0.45f : 0.18f)
+                    : new Color(0.10f, 0.09f, 0.14f), 22);
+                Destroy(tile.GetComponentInChildren<Text>().gameObject); // 기본 라벨 제거, 커스텀 구성
+
+                // 등급색 테두리 (보유 시)
+                if (isOwned)
+                {
+                    var outline = tile.gameObject.AddComponent<Outline>();
+                    outline.effectColor = gradeColor;
+                    outline.effectDistance = new Vector2(3, 3);
                 }
 
-                foreach (var unit in group.OrderByDescending(u => _session.Units.Defs[u.unitId].grade)
-                                          .ThenByDescending(u => u.limitBreak))
+                // 아이콘 (미보유 = 검은 실루엣)
+                var icon = UIFactory.LoadSprite($"art/units/{def.artId ?? def.id}.png");
+                if (icon != null)
                 {
-                    var def = _session.Units.Defs[unit.unitId];
-                    bool levelable = def.maxLevel > 1;
-                    string star = unit.equipped ? "★ " : "";
-                    string levelTag = levelable ? $" Lv.{unit.level}" : "";
-                    string label = $"{star}[{GradeLabel(def.grade)}] {def.name}{levelTag}  {unit.limitBreak}돌";
-                    string unitId = unit.unitId;
-                    var row = UIFactory.CreateButton(_ownedList, $"U_{unitId}", label, () =>
-                    {
-                        var u = _session.Units.Get(unitId);
-                        if (u.equipped) _session.Units.Unequip(unitId);
-                        else if (!_session.Units.TryEquip(unitId))
-                            _resultText.text = $"{KindLabel(def.kind)} 슬롯이 가득 찼습니다 — 먼저 해제하세요";
-                        Refresh();
-                    }, unit.equipped ? new Color(0.25f, 0.20f, 0.42f) : UIFactory.Panel, 26);
-                    var rowLabel = row.GetComponentInChildren<Text>();
-                    rowLabel.alignment = TextAnchor.MiddleLeft;
-                    rowLabel.color = UIFactory.GradeColor(def.grade); // 등급 컬러 토큰
-                    row.gameObject.AddComponent<LayoutElement>().preferredHeight = 76;
+                    var iconGo = new GameObject("Icon", typeof(RectTransform), typeof(Image));
+                    iconGo.transform.SetParent(tile.transform, false);
+                    var iconImage = iconGo.GetComponent<Image>();
+                    iconImage.sprite = icon;
+                    iconImage.preserveAspect = true;
+                    iconImage.color = isOwned ? Color.white : new Color(0.06f, 0.05f, 0.09f);
+                    iconImage.raycastTarget = false;
+                    var iconRect = (RectTransform)iconGo.transform;
+                    iconRect.anchorMin = new Vector2(0.5f, 1);
+                    iconRect.anchorMax = new Vector2(0.5f, 1);
+                    iconRect.pivot = new Vector2(0.5f, 1);
+                    iconRect.anchoredPosition = new Vector2(0, -12);
+                    iconRect.sizeDelta = new Vector2(150, 150);
+                }
 
-                    // 유닛 아이콘 (티어들은 등급 아트 공유: artId)
-                    var icon = UIFactory.LoadSprite($"art/units/{def.artId ?? unitId}.png");
-                    if (icon != null)
-                    {
-                        var iconGo = new GameObject("Icon", typeof(RectTransform), typeof(Image));
-                        iconGo.transform.SetParent(row.transform, false);
-                        var iconImage = iconGo.GetComponent<Image>();
-                        iconImage.sprite = icon;
-                        iconImage.preserveAspect = true;
-                        var iconRect = (RectTransform)iconGo.transform;
-                        iconRect.anchorMin = iconRect.anchorMax = new Vector2(0, 0.5f);
-                        iconRect.pivot = new Vector2(0, 0.5f);
-                        iconRect.anchoredPosition = new Vector2(10, 0);
-                        iconRect.sizeDelta = new Vector2(62, 62);
-                        rowLabel.rectTransform.offsetMin = new Vector2(84, 0);
-                    }
-                    else
-                    {
-                        rowLabel.rectTransform.offsetMin = new Vector2(20, 0);
-                    }
+                // 이름
+                var nameText = UIFactory.CreateText(tile.transform, "Name", def.name, 23,
+                    TextAnchor.MiddleCenter, isOwned ? gradeColor : UIFactory.TextDim);
+                nameText.raycastTarget = false;
+                UIFactory.BottomBand(nameText.rectTransform, 84, 40, 6);
 
-                    // 장비: 우측에 강화 버튼 (골드, 등급이 높을수록 비쌈, 최대 200)
-                    if (levelable)
-                    {
-                        long cost = _session.Units.LevelUpCost(unitId);
-                        string costLabel = cost < 0 ? "MAX" : $"강화 {UIFactory.FormatNumber(cost)}";
-                        var upButton = UIFactory.CreateButton(row.transform, "LevelUp", costLabel, () =>
-                        {
-                            if (_session.Units.TryLevelUp(unitId, _session.Wallet)) Refresh();
-                        }, UIFactory.Accent, 22);
-                        var upRect = (RectTransform)upButton.transform;
-                        upRect.anchorMin = new Vector2(1, 0.5f);
-                        upRect.anchorMax = new Vector2(1, 0.5f);
-                        upRect.pivot = new Vector2(1, 0.5f);
-                        upRect.anchoredPosition = new Vector2(-10, 0);
-                        upRect.sizeDelta = new Vector2(220, 60);
-                        upButton.interactable = cost >= 0 &&
-                            _session.Wallet.CanAfford(def.levelCostCurrency, cost);
-                    }
+                // 상태: 장착/레벨/돌파 + 승급 게이지 n/5
+                string status;
+                if (!isOwned) status = "미보유";
+                else
+                {
+                    var parts = new List<string>();
+                    if (unit.equipped) parts.Add("★장착");
+                    if (def.maxLevel > 1) parts.Add($"Lv.{unit.level}");
+                    parts.Add($"{unit.limitBreak}돌");
+                    status = string.Join(" ", parts);
+                }
+                var statusText = UIFactory.CreateText(tile.transform, "Status", status, 21,
+                    TextAnchor.MiddleCenter, isOwned ? UIFactory.TextMain : UIFactory.TextDim);
+                statusText.raycastTarget = false;
+                UIFactory.BottomBand(statusText.rectTransform, 46, 36, 6);
+
+                // 승급 게이지 (잉여 n/5, 소헌키의 N/4 게이지)
+                if (isOwned && def.upgradeToId != null)
+                {
+                    int surplus = _session.Units.SurplusCopies(def.id);
+                    var gaugeText = UIFactory.CreateText(tile.transform, "Gauge",
+                        surplus >= _session.Units.ComposeCost
+                            ? $"⚗ 승급 가능 {surplus}/{_session.Units.ComposeCost}"
+                            : $"승급 {surplus}/{_session.Units.ComposeCost}",
+                        20, TextAnchor.MiddleCenter,
+                        surplus >= _session.Units.ComposeCost ? UIFactory.Gold : UIFactory.TextDim);
+                    gaugeText.raycastTarget = false;
+                    UIFactory.BottomBand(gaugeText.rectTransform, 10, 34, 6);
                 }
             }
         }
