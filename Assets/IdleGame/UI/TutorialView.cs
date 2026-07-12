@@ -131,6 +131,12 @@ namespace IdleGame.UI
 
         private void Update()
         {
+            // 플레이 중 스크립트 리로드(도메인 리로드)로 상태가 유실되면 조용히 닫는다
+            if (_steps == null || _session == null || _messageText == null)
+            {
+                Destroy(gameObject);
+                return;
+            }
             if (_current < 0 || _current >= _steps.Count) return;
             var condition = _steps[_current].Condition;
             if (condition != null && condition()) Advance();
