@@ -15,7 +15,7 @@ namespace IdleGame.UI
 
         private Text _stageText, _goldText, _soulText, _softText, _hardText, _dpsText, _killText, _powerText;
         private Button _bossButton;
-        private Image _mobImage, _playerHpFill;
+        private Image _mobImage, _playerHpFill, _weaponImage;
         private BattleAnimator _battleAnimator;
         private static readonly string[] MobIds = { "mob_wisp", "mob_gwisin", "mob_dokkaebi" };
         private GrowthPanel _growthPanel;
@@ -72,6 +72,8 @@ namespace IdleGame.UI
 
             _session.Wallet.BalanceChanged += (_, _, _) => RefreshCurrencies();
             _session.Progression.StageCleared += _ => RefreshStage();
+            _session.Units.UnitChanged += _ => RefreshHeldWeapon();
+            RefreshHeldWeapon();
         }
 
         private void BuildHud(Transform root)
@@ -134,6 +136,18 @@ namespace IdleGame.UI
             mobRect.anchorMin = mobRect.anchorMax = new Vector2(0.78f, 0.55f);
             mobRect.sizeDelta = new Vector2(170, 170);
 
+            // 장착 무기 (캐릭터 등 뒤에 메는 연출 — 캐릭터보다 먼저 생성해 뒤에 깔림)
+            var weaponGo = new GameObject("HeldWeapon", typeof(RectTransform), typeof(Image));
+            weaponGo.transform.SetParent(battle, false);
+            _weaponImage = weaponGo.GetComponent<Image>();
+            _weaponImage.preserveAspect = true;
+            _weaponImage.enabled = false;
+            var weaponRect = (RectTransform)weaponGo.transform;
+            weaponRect.anchorMin = weaponRect.anchorMax = new Vector2(0.28f, 0.5f);
+            weaponRect.anchoredPosition = new Vector2(72, 88);   // 캐릭터 오른쪽 어깨 뒤
+            weaponRect.sizeDelta = new Vector2(150, 150);
+            weaponRect.localRotation = Quaternion.Euler(0, 0, -35f);
+
             // 메인 캐릭터: StreamingAssets/art의 스프라이트를 런타임 로드 (없으면 텍스트 폴백)
             var sprite = UIFactory.LoadSprite("art/main_character.png");
             if (sprite != null)
@@ -189,6 +203,24 @@ namespace IdleGame.UI
             fr.offsetMin = new Vector2(2, 2);
             fr.offsetMax = new Vector2(-2, -2);
             return fill;
+        }
+
+        /// <summary>장착 중인 낫을 캐릭터 등 뒤에 표시 — 장비 교체가 눈에 보인다.</summary>
+        private void RefreshHeldWeapon()
+        {
+            if (_weaponImage == null) return;
+            var equipped = System.Linq.Enumerable.FirstOrDefault(
+                _session.Units.AllOwned(),
+                u => u.equipped && _session.Units.Defs[u.unitId].kind == "weapon");
+            if (equipped == null)
+            {
+                _weaponImage.enabled = false;
+                return;
+            }
+            var def = _session.Units.Defs[equipped.unitId];
+            var sprite = UIFactory.LoadSprite($"art/units/{def.artId ?? def.id}.png");
+            _weaponImage.sprite = sprite;
+            _weaponImage.enabled = sprite != null;
         }
 
         /// <summary>체력바 채움 비율 (anchorMax.x 조절 — 스프라이트 불필요)</summary>
@@ -267,13 +299,14 @@ namespace IdleGame.UI
                     ? $"{UIFactory.FormatNumber(result.Kills / result.Seconds)}킬/초"
                     : "벽 — 성장 필요";
             var snapshot = _session.Stats.Snapshot();
-            _battleAnimator?.SetRates(snapshot.Dps(),
-                result.Seconds > 0 ? result.Kills / result.Seconds : 0);
-
-            // 아군 체력바 = 생존 여유율 (적 반격 대비 유효 체력)
             var cfg = _session.Config.stage;
             int stage = _session.Progression.Current.Index;
             double enemyAttack = IdleCore.Progression.StageMath.EnemyAttack(cfg, stage);
+            _battleAnimator?.SetRates(snapshot.Dps(),
+                result.Seconds > 0 ? result.Kills / result.Seconds : 0,
+                enemyAttack * 1.5); // 타격당 피해 표기 (1.5초 간격 환산)
+
+            // 아군 체력바 = 생존 여유율 (적 반격 대비 유효 체력)
             float ratio = 1f;
             if (enemyAttack > 0)
             {

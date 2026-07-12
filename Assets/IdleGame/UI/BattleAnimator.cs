@@ -18,8 +18,11 @@ namespace IdleGame.UI
 
         private double _dps;
         private double _killsPerSecond;
+        private double _enemyAttackPerHit;
         private Vector2 _charBase, _mobBase;
         private float _attackTimer;
+        private float _mobAttackTimer = 1.0f;
+        private Image _charImage;
 
         private Image _mobHpFill;
         private int _hitsOnCurrentMob;
@@ -33,16 +36,21 @@ namespace IdleGame.UI
             animator._mob = mobImage != null ? (RectTransform)mobImage.transform : null;
             animator._mobImage = mobImage;
             animator._mobHpFill = mobHpFill;
-            if (character != null) animator._charBase = character.anchoredPosition;
+            if (character != null)
+            {
+                animator._charBase = character.anchoredPosition;
+                animator._charImage = character.GetComponent<Image>();
+            }
             if (animator._mob != null) animator._mobBase = animator._mob.anchoredPosition;
             return animator;
         }
 
         /// <summary>파밍 틱마다 호출 — 연출 속도를 실제 전투 수치에 동기화.</summary>
-        public void SetRates(double dps, double killsPerSecond)
+        public void SetRates(double dps, double killsPerSecond, double enemyAttackPerHit = 0)
         {
             _dps = dps;
             _killsPerSecond = killsPerSecond;
+            _enemyAttackPerHit = enemyAttackPerHit;
         }
 
         private void Update()
@@ -63,6 +71,50 @@ namespace IdleGame.UI
                 _attackTimer = interval;
                 StartCoroutine(AttackOnce());
             }
+
+            // 적 반격 연출 (enemyAttack이 있을 때만)
+            if (_enemyAttackPerHit > 0 && _mobImage != null && _mobImage.enabled)
+            {
+                _mobAttackTimer -= Time.deltaTime;
+                if (_mobAttackTimer <= 0f)
+                {
+                    _mobAttackTimer = Random.Range(1.3f, 2.1f);
+                    StartCoroutine(MobAttackOnce());
+                }
+            }
+        }
+
+        private IEnumerator MobAttackOnce()
+        {
+            // 몬스터가 캐릭터 쪽으로 돌진
+            const float lunge = 55f;
+            for (float t = 0; t < 1f; t += Time.deltaTime / 0.14f)
+            {
+                _mob.anchoredPosition = _mobBase + new Vector2(-Mathf.Sin(t * Mathf.PI) * lunge, 0);
+                yield return null;
+            }
+            _mob.anchoredPosition = _mobBase;
+
+            // 캐릭터 피격: 빨간 플래시 + 흔들림 + 빨간 데미지 숫자
+            if (_charImage != null)
+            {
+                _charImage.color = new Color(1f, 0.5f, 0.5f);
+                for (float t = 0; t < 1f; t += Time.deltaTime / 0.16f)
+                {
+                    _character.anchoredPosition = _charBase + new Vector2(Random.Range(-6f, 6f), Random.Range(-4f, 4f));
+                    yield return null;
+                }
+                _charImage.color = Color.white;
+                _character.anchoredPosition = _charBase;
+            }
+            var text = UIFactory.CreateText(_battleArea, "PDmg",
+                $"-{UIFactory.FormatNumber(_enemyAttackPerHit)}", 32,
+                TextAnchor.MiddleCenter, new Color(1f, 0.35f, 0.4f));
+            text.fontStyle = FontStyle.Bold;
+            var rect = text.rectTransform;
+            rect.anchorMin = rect.anchorMax = new Vector2(0.28f, 0.66f);
+            rect.anchoredPosition = new Vector2(Random.Range(-24f, 24f), 0);
+            StartCoroutine(FloatAndFade(text));
         }
 
         private IEnumerator AttackOnce()
@@ -147,10 +199,11 @@ namespace IdleGame.UI
         {
             var rect = text.rectTransform;
             var start = rect.anchoredPosition;
+            var baseColor = text.color;
             for (float t = 0; t < 1f; t += Time.deltaTime / 0.7f)
             {
                 rect.anchoredPosition = start + new Vector2(0, t * 70f);
-                text.color = new Color(1f, 0.85f, 0.4f, 1f - t * t);
+                text.color = new Color(baseColor.r, baseColor.g, baseColor.b, 1f - t * t);
                 yield return null;
             }
             Destroy(text.gameObject);
