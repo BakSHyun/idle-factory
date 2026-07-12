@@ -12,6 +12,17 @@ namespace IdleCore.Stats
 
         public double Get(StatType stat) => _values.TryGetValue(stat, out var v) ? v : 0;
 
+        /// <summary>유효 체력 — 생존 판정의 단일 출처 (방어도가 체력을 증폭).</summary>
+        public double EffectiveHp()
+        {
+            double hp = Math.Max(1, Get(StatType.Health));
+            double defense = Math.Max(0, Get(StatType.Defense));
+            return hp * (1 + defense / 100.0);
+        }
+
+        /// <summary>전투력 — DPS와 생존력의 종합 지표 (HUD 표시용).</summary>
+        public double CombatPower() => Dps() * 8 + EffectiveHp() * 4;
+
         /// <summary>초당 피해량 — 전투 수식의 단일 출처.</summary>
         public double Dps()
         {

@@ -12,6 +12,8 @@ namespace IdleCore.Progression
         public long Soul;
         public bool StagePushed;
         public int NewStageIndex = -1;
+        /// <summary>체력 부족으로 스테이지에서 밀려남 (적 반격에 사망)</summary>
+        public bool Retreated;
     }
 
     /// <summary>
@@ -48,14 +50,38 @@ namespace IdleCore.Progression
             return StageMath.EnemyHp(_cfg, Current.Index) / Math.Max(0.0001, dps);
         }
 
-        /// <summary>다음 스테이지 보스를 제한시간 안에 잡을 수 있는가.</summary>
+        /// <summary>
+        /// 이 스테이지에서 생존 가능한가 — 적 반격을 buffer 마리 연속으로 버틸 체력이 있는가.
+        /// (enemyAttackBase가 0이면 반격 없음 = 항상 생존)
+        /// </summary>
+        public bool CanSurvive(int stageIndex)
+        {
+            double enemyAttack = StageMath.EnemyAttack(_cfg, stageIndex);
+            if (enemyAttack <= 0) return true;
+            var snapshot = _stats.Snapshot();
+            double killSeconds = StageMath.EnemyHp(_cfg, stageIndex) / Math.Max(0.0001, snapshot.Dps());
+            double damageTaken = enemyAttack * killSeconds * _cfg.survivalKillBuffer;
+            return snapshot.EffectiveHp() >= damageTaken;
+        }
+
+        /// <summary>다음 스테이지 보스를 제한시간 안에 잡고 살아남을 수 있는가.</summary>
         public bool CanClearNext()
         {
             int next = HighestClearedIndex + 1;
             if (next > StageMath.MaxStageIndex(_cfg)) return false;
             double dps = _stats.Snapshot().Dps();
             double bossKillSeconds = StageMath.BossHp(_cfg, next) / Math.Max(0.0001, dps);
-            return bossKillSeconds <= _cfg.bossTimeLimitSeconds;
+            return bossKillSeconds <= _cfg.bossTimeLimitSeconds && CanSurvive(next);
+        }
+
+        /// <summary>보스 도전이 화력은 충분한데 체력이 부족한 상태인가 (UI 안내용).</summary>
+        public bool BlockedBySurvival()
+        {
+            int next = HighestClearedIndex + 1;
+            if (next > StageMath.MaxStageIndex(_cfg)) return false;
+            double dps = _stats.Snapshot().Dps();
+            double bossKillSeconds = StageMath.BossHp(_cfg, next) / Math.Max(0.0001, dps);
+            return bossKillSeconds <= _cfg.bossTimeLimitSeconds && !CanSurvive(next);
         }
 
         /// <summary>
@@ -88,6 +114,13 @@ namespace IdleCore.Progression
         {
             var result = new FarmResult { Seconds = seconds };
             if (seconds <= 0) return result;
+
+            // 적 반격: 현재 스테이지에서 못 버티면 생존 가능한 곳까지 후퇴
+            while (Current.Index > 0 && !CanSurvive(Current.Index))
+            {
+                Current = new StageId(Current.Index - 1);
+                result.Retreated = true;
+            }
 
             var snapshot = _stats.Snapshot();
             double killSeconds = SecondsPerKill();

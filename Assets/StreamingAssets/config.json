@@ -5,7 +5,8 @@
     "Attack": 10,
     "AttackSpeed": 1.0,
     "CritChance": 0.05,
-    "CritMultiplier": 1.5
+    "CritMultiplier": 1.5,
+    "Health": 150
   },
   "axes": [
     {
@@ -24,6 +25,27 @@
           "value": {
             "type": "Geometric",
             "baseValue": 6,
+            "growth": 1.052
+          }
+        }
+      ]
+    },
+    {
+      "id": "training_vitality",
+      "name": "수련: 신체",
+      "costCurrency": "gold",
+      "cost": {
+        "type": "Geometric",
+        "baseValue": 15,
+        "growth": 1.075
+      },
+      "effects": [
+        {
+          "stat": "Health",
+          "mode": "Add",
+          "value": {
+            "type": "Geometric",
+            "baseValue": 25,
             "growth": 1.052
           }
         }
@@ -128,7 +150,10 @@
     "goldPerKillGrowth": 1.105,
     "soulPerKillBase": 1,
     "soulPerKillGrowth": 1.06,
-    "bossTimeLimitSeconds": 30
+    "bossTimeLimitSeconds": 30,
+    "enemyAttackBase": 2,
+    "enemyAttackGrowth": 1.145,
+    "survivalKillBuffer": 3
   },
   "offline": {
     "baseCapHours": 8,

@@ -21,13 +21,18 @@ namespace IdleGame.UI
         private Vector2 _charBase, _mobBase;
         private float _attackTimer;
 
-        public static BattleAnimator Attach(RectTransform battleArea, RectTransform character, Image mobImage)
+        private Image _mobHpFill;
+        private int _hitsOnCurrentMob;
+
+        public static BattleAnimator Attach(RectTransform battleArea, RectTransform character, Image mobImage,
+            Image mobHpFill = null)
         {
             var animator = battleArea.gameObject.AddComponent<BattleAnimator>();
             animator._battleArea = battleArea;
             animator._character = character;
             animator._mob = mobImage != null ? (RectTransform)mobImage.transform : null;
             animator._mobImage = mobImage;
+            animator._mobHpFill = mobHpFill;
             if (character != null) animator._charBase = character.anchoredPosition;
             if (animator._mob != null) animator._mobBase = animator._mob.anchoredPosition;
             return animator;
@@ -77,8 +82,21 @@ namespace IdleGame.UI
             }
         }
 
+        /// <summary>이번 몹을 잡는 데 필요한 타격 수 (연출용) — 킬 속도가 느릴수록 여러 대.</summary>
+        private int HitsPerMob()
+        {
+            if (_killsPerSecond >= 0.4) return 1;
+            if (_killsPerSecond <= 0) return 6;
+            return Mathf.Clamp(Mathf.RoundToInt(0.8f / (float)_killsPerSecond), 2, 6);
+        }
+
         private IEnumerator MobHit()
         {
+            // 적 체력바 감소
+            _hitsOnCurrentMob++;
+            int hitsNeeded = HitsPerMob();
+            RootView.SetHpFill(_mobHpFill, 1f - _hitsOnCurrentMob / (float)hitsNeeded);
+
             // 피격 플래시 + 흔들림
             _mobImage.color = new Color(1f, 0.45f, 0.5f);
             for (float t = 0; t < 1f; t += Time.deltaTime / 0.18f)
@@ -89,9 +107,10 @@ namespace IdleGame.UI
             _mobImage.color = Color.white;
             _mob.anchoredPosition = _mobBase;
 
-            // 킬 속도가 충분하면 처치 팝 (사라졌다 재등장 = 다음 몹)
-            if (_killsPerSecond >= 0.4)
+            // 필요 타격 수를 채우면 처치 팝 (사라졌다 재등장 = 다음 몹)
+            if (_hitsOnCurrentMob >= HitsPerMob())
             {
+                _hitsOnCurrentMob = 0;
                 for (float t = 0; t < 1f; t += Time.deltaTime / 0.12f)
                 {
                     float s = Mathf.Lerp(1f, 0.05f, t);
@@ -107,6 +126,7 @@ namespace IdleGame.UI
                     yield return null;
                 }
                 _mob.localScale = Vector3.one;
+                RootView.SetHpFill(_mobHpFill, 1f); // 다음 몹 등장 — 체력 리셋
             }
         }
 

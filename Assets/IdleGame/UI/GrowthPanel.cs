@@ -34,6 +34,7 @@ namespace IdleGame.UI
                 var axis = kv.Value;
 
                 var row = UIFactory.CreatePanel(list, $"Axis_{axisId}", UIFactory.Panel);
+                UIFactory.Roundify(row.GetComponent<Image>());
                 row.gameObject.AddComponent<LayoutElement>().preferredHeight = 130;
 
                 var label = UIFactory.CreateText(row, "Label", axis.name, 30, TextAnchor.MiddleLeft);

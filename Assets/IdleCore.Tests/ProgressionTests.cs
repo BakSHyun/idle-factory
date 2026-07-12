@@ -84,6 +84,41 @@ namespace IdleCore.Tests
         }
 
         [Test]
+        public void EnemyAttack_RetreatsWhenTooFragile()
+        {
+            var cfg = new StageCurveConfig
+            {
+                enemyHpBase = 100, enemyHpGrowth = 1.0,       // 킬 시간 고정 1초 (DPS 100 기준)
+                enemyAttackBase = 10, enemyAttackGrowth = 2.0, // 스테이지당 반격 ×2
+                survivalKillBuffer = 3,
+            };
+            // DPS 100, 체력 100: 스테이지 s 생존 조건 = 100 >= 10×2^s × 1초 × 3
+            var stats = new StatSystem(new GrowthAxisDef[0], new Dictionary<StatType, double>
+            {
+                { StatType.Attack, 100 }, { StatType.AttackSpeed, 1 },
+                { StatType.CritMultiplier, 1 }, { StatType.Health, 100 },
+            });
+            var wallet = new Wallet();
+
+            // 스테이지 5에서 시작 → 반격이 너무 셈 → 생존 가능한 곳까지 후퇴
+            var progression = new ProgressionSystem(cfg, stats, wallet, currentStageIndex: 5, highestClearedIndex: 5);
+            var result = progression.Advance(1, autoPush: false);
+            Assert.IsTrue(result.Retreated, "체력 부족 → 밀려남");
+            Assert.IsTrue(progression.CanSurvive(progression.Current.Index), "생존 가능한 스테이지까지 후퇴");
+            Assert.Less(progression.Current.Index, 5);
+        }
+
+        [Test]
+        public void EnemyAttack_Zero_NeverRetreats()
+        {
+            var cfg = new StageCurveConfig { enemyHpBase = 100 }; // enemyAttackBase 기본 0
+            var wallet = new Wallet();
+            var progression = new ProgressionSystem(cfg, StatsWithDps(100), wallet, 10, 10);
+            var result = progression.Advance(1, autoPush: false);
+            Assert.IsFalse(result.Retreated, "반격 없음 = 레거시 동작 유지");
+        }
+
+        [Test]
         public void OfflineReward_CappedAtLimit()
         {
             var offlineCfg = new OfflineConfig { baseCapHours = 8, efficiency = 1.0 };

@@ -20,6 +20,11 @@ namespace IdleCore.Progression
         public double soulPerKillGrowth = 1.05;
         /// <summary>보스 제한시간(초) — 이 안에 못 잡으면 도전 실패 = 파밍 모드</summary>
         public double bossTimeLimitSeconds = 30;
+        /// <summary>적 공격력 (0 = 반격 없음/무적 파밍). 체력이 달리면 스테이지에서 밀려난다</summary>
+        public double enemyAttackBase = 0;
+        public double enemyAttackGrowth = 1.14;
+        /// <summary>생존 판정: 몇 마리를 연속으로 버틸 체력이 필요한가</summary>
+        public double survivalKillBuffer = 3;
     }
 
     /// <summary>챕터-단계 (예: 12-3). 내부적으로는 0부터 시작하는 선형 인덱스.</summary>
@@ -44,6 +49,9 @@ namespace IdleCore.Progression
 
         public static double BossHp(StageCurveConfig cfg, int stageIndex) =>
             EnemyHp(cfg, stageIndex) * cfg.bossHpMultiplier;
+
+        public static double EnemyAttack(StageCurveConfig cfg, int stageIndex) =>
+            cfg.enemyAttackBase <= 0 ? 0 : cfg.enemyAttackBase * Math.Pow(cfg.enemyAttackGrowth, stageIndex);
 
         public static double GoldPerKill(StageCurveConfig cfg, int stageIndex) =>
             cfg.goldPerKillBase * Math.Pow(cfg.goldPerKillGrowth, stageIndex);

@@ -65,6 +65,10 @@ namespace IdleGame.UI
             double offRate = s.Get(StatType.OfflineRate); if (offRate <= 0) offRate = 1;
 
             _statsText.text =
+                $"⚔ 전투력        {UIFactory.FormatNumber(s.CombatPower())}\n" +
+                $"────────────────\n" +
+                $"체력            {UIFactory.FormatNumber(s.Get(StatType.Health))}\n" +
+                $"유효 체력       {UIFactory.FormatNumber(s.EffectiveHp())}\n" +
                 $"공격력          {UIFactory.FormatNumber(s.Get(StatType.Attack))}\n" +
                 $"공격 속도       {s.Get(StatType.AttackSpeed):0.00}/초\n" +
                 $"치명타 확률     {s.Get(StatType.CritChance) * 100:0.#}%\n" +

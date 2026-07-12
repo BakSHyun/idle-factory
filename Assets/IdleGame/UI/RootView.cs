@@ -13,9 +13,9 @@ namespace IdleGame.UI
     {
         private GameSession _session;
 
-        private Text _stageText, _goldText, _soulText, _softText, _hardText, _dpsText, _killText;
+        private Text _stageText, _goldText, _soulText, _softText, _hardText, _dpsText, _killText, _powerText;
         private Button _bossButton;
-        private Image _mobImage;
+        private Image _mobImage, _playerHpFill;
         private BattleAnimator _battleAnimator;
         private static readonly string[] MobIds = { "mob_wisp", "mob_gwisin", "mob_dokkaebi" };
         private GrowthPanel _growthPanel;
@@ -82,6 +82,10 @@ namespace IdleGame.UI
             _stageText = UIFactory.CreateText(hud, "Stage", "1-1", 52, TextAnchor.MiddleLeft);
             UIFactory.TopBand(_stageText.rectTransform, 10, 70, 30);
 
+            _powerText = UIFactory.CreateText(hud, "Power", "", 30, TextAnchor.MiddleRight, UIFactory.Gold);
+            UIFactory.TopBand(_powerText.rectTransform, 14, 60, 30);
+            _powerText.rectTransform.offsetMax = new Vector2(-210, _powerText.rectTransform.offsetMax.y); // 미션 버튼 회피
+
             _goldText = UIFactory.CreateText(hud, "Gold", "골드 0", 30, TextAnchor.MiddleLeft, UIFactory.Gold);
             UIFactory.TopBand(_goldText.rectTransform, 90, 40, 30);
 
@@ -143,7 +147,10 @@ namespace IdleGame.UI
                 artRect.anchorMin = artRect.anchorMax = new Vector2(0.28f, 0.5f);
                 artRect.anchoredPosition = new Vector2(0, 10);
                 artRect.sizeDelta = new Vector2(250, 250); // 좌측 아군 / 우측 몬스터 대치 구도
-                _battleAnimator = BattleAnimator.Attach(battle, artRect, _mobImage);
+                // 체력바: 적(몬스터 위) + 아군(캐릭터 위)
+                var mobHpFill = CreateHpBar(battle, new Vector2(0.78f, 0.78f), new Color(0.9f, 0.3f, 0.35f));
+                _playerHpFill = CreateHpBar(battle, new Vector2(0.28f, 0.86f), new Color(0.35f, 0.85f, 0.45f));
+                _battleAnimator = BattleAnimator.Attach(battle, artRect, _mobImage, mobHpFill);
             }
             else
             {
@@ -165,6 +172,31 @@ namespace IdleGame.UI
             bossRect.pivot = new Vector2(0.5f, 0);
             bossRect.anchoredPosition = new Vector2(0, 76);
             bossRect.sizeDelta = new Vector2(520, 82);
+        }
+
+        private static Image CreateHpBar(RectTransform parent, Vector2 anchor, Color color)
+        {
+            var barBg = UIFactory.CreatePanel(parent, "HpBar", new Color(0, 0, 0, 0.55f));
+            barBg.anchorMin = barBg.anchorMax = anchor;
+            barBg.sizeDelta = new Vector2(160, 16);
+            var fillGo = new GameObject("Fill", typeof(RectTransform), typeof(Image));
+            fillGo.transform.SetParent(barBg, false);
+            var fill = fillGo.GetComponent<Image>();
+            fill.color = color;
+            var fr = (RectTransform)fillGo.transform;
+            fr.anchorMin = new Vector2(0, 0);
+            fr.anchorMax = new Vector2(1, 1);
+            fr.offsetMin = new Vector2(2, 2);
+            fr.offsetMax = new Vector2(-2, -2);
+            return fill;
+        }
+
+        /// <summary>체력바 채움 비율 (anchorMax.x 조절 — 스프라이트 불필요)</summary>
+        public static void SetHpFill(Image fill, float ratio)
+        {
+            if (fill == null) return;
+            var rect = (RectTransform)fill.transform;
+            rect.anchorMax = new Vector2(Mathf.Clamp01(ratio), 1);
         }
 
         private void OnBossChallenge()
@@ -194,7 +226,9 @@ namespace IdleGame.UI
             bool ready = progression.CanClearNext();
             label.text = ready
                 ? $"⚔ {nextStage.Display(_session.Config.stage)} 수문장 격파 가능!"
-                : $"⚔ {nextStage.Display(_session.Config.stage)} 도전 — 예상 피해 {System.Math.Min(99.9, ratio * 100):0.#}%";
+                : progression.BlockedBySurvival()
+                    ? $"⚔ {nextStage.Display(_session.Config.stage)} 도전 — 화력은 충분, 체력 부족!"
+                    : $"⚔ {nextStage.Display(_session.Config.stage)} 도전 — 예상 피해 {System.Math.Min(99.9, ratio * 100):0.#}%";
             _bossButton.image.color = ready ? new Color(0.85f, 0.35f, 0.35f) : UIFactory.Panel;
         }
 
@@ -226,12 +260,32 @@ namespace IdleGame.UI
 
         public void OnFarmTick(FarmResult result)
         {
-            if (result.StagePushed) RefreshStage();
-            _killText.text = result.Kills > 0
-                ? $"{UIFactory.FormatNumber(result.Kills / result.Seconds)}킬/초"
-                : "벽 — 성장 필요";
-            _battleAnimator?.SetRates(_session.Stats.Snapshot().Dps(),
+            if (result.StagePushed || result.Retreated) RefreshStage();
+            _killText.text = result.Retreated
+                ? "💀 밀려났다! 체력을 키우세요"
+                : result.Kills > 0
+                    ? $"{UIFactory.FormatNumber(result.Kills / result.Seconds)}킬/초"
+                    : "벽 — 성장 필요";
+            var snapshot = _session.Stats.Snapshot();
+            _battleAnimator?.SetRates(snapshot.Dps(),
                 result.Seconds > 0 ? result.Kills / result.Seconds : 0);
+
+            // 아군 체력바 = 생존 여유율 (적 반격 대비 유효 체력)
+            var cfg = _session.Config.stage;
+            int stage = _session.Progression.Current.Index;
+            double enemyAttack = IdleCore.Progression.StageMath.EnemyAttack(cfg, stage);
+            float ratio = 1f;
+            if (enemyAttack > 0)
+            {
+                double killSeconds = IdleCore.Progression.StageMath.EnemyHp(cfg, stage) / System.Math.Max(0.0001, snapshot.Dps());
+                double needed = enemyAttack * killSeconds * cfg.survivalKillBuffer;
+                ratio = (float)System.Math.Min(1.0, snapshot.EffectiveHp() / System.Math.Max(1.0, needed * 1.5));
+            }
+            SetHpFill(_playerHpFill, ratio);
+            if (_playerHpFill != null)
+                _playerHpFill.color = ratio > 0.5f ? new Color(0.35f, 0.85f, 0.45f)
+                    : ratio > 0.25f ? new Color(0.95f, 0.75f, 0.3f) : new Color(0.9f, 0.3f, 0.35f);
+
             RefreshCurrencies();
         }
 
@@ -267,7 +321,10 @@ namespace IdleGame.UI
         private void RefreshStage()
         {
             _stageText.text = $"스테이지 {_session.Progression.Current.Display(_session.Config.stage)}";
-            _dpsText.text = $"DPS {UIFactory.FormatNumber(_session.Stats.Snapshot().Dps())}";
+            var snapshot = _session.Stats.Snapshot();
+            _dpsText.text = $"DPS {UIFactory.FormatNumber(snapshot.Dps())}";
+            if (_powerText != null)
+                _powerText.text = $"⚔ 전투력 {UIFactory.FormatNumber(snapshot.CombatPower())}";
             RefreshBossButton();
 
             if (_mobImage != null)

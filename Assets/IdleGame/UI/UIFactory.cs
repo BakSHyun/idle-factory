@@ -51,8 +51,57 @@ namespace IdleGame.UI
         }
 
         private static Font _font;
-        public static Font DefaultFont =>
-            _font != null ? _font : _font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        public static Font DefaultFont
+        {
+            get
+            {
+                if (_font != null) return _font;
+                _font = Resources.Load<Font>("Fonts/Jua"); // 주아체 (OFL)
+                if (_font == null) _font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+                return _font;
+            }
+        }
+
+        private static Sprite _rounded;
+        /// <summary>절차 생성 라운드 렉트 (9-slice) — 모든 패널/버튼의 입체감 기본기.</summary>
+        public static Sprite RoundedSprite
+        {
+            get
+            {
+                if (_rounded != null) return _rounded;
+                const int size = 64, radius = 20;
+                var texture = new Texture2D(size, size, TextureFormat.RGBA32, false);
+                for (int y = 0; y < size; y++)
+                    for (int x = 0; x < size; x++)
+                    {
+                        // 모서리 라운드 알파
+                        float dx = Mathf.Max(0, Mathf.Max(radius - x, x - (size - 1 - radius)));
+                        float dy = Mathf.Max(0, Mathf.Max(radius - y, y - (size - 1 - radius)));
+                        float d = Mathf.Sqrt(dx * dx + dy * dy);
+                        float a = Mathf.Clamp01(radius - d + 0.5f);
+                        // 상단이 살짝 밝은 수직 그라데이션 (입체감)
+                        float shade = Mathf.Lerp(0.92f, 1.08f, y / (float)(size - 1));
+                        texture.SetPixel(x, y, new Color(shade, shade, shade, a));
+                    }
+                texture.Apply();
+                _rounded = Sprite.Create(texture, new Rect(0, 0, size, size), new Vector2(0.5f, 0.5f),
+                    100f, 0, SpriteMeshType.FullRect, new Vector4(radius + 4, radius + 4, radius + 4, radius + 4));
+                return _rounded;
+            }
+        }
+
+        /// <summary>Image에 라운드 스프라이트 + 그림자 적용.</summary>
+        public static void Roundify(Image image, bool shadow = true)
+        {
+            image.sprite = RoundedSprite;
+            image.type = Image.Type.Sliced;
+            if (shadow)
+            {
+                var s = image.gameObject.AddComponent<Shadow>();
+                s.effectColor = new Color(0, 0, 0, 0.45f);
+                s.effectDistance = new Vector2(0, -5);
+            }
+        }
 
         public static Canvas CreateCanvas(string name)
         {
@@ -98,14 +147,26 @@ namespace IdleGame.UI
             return text;
         }
 
+        /// <summary>모든 버튼 클릭에 연결되는 사운드 훅 (AudioManager가 주입).</summary>
+        public static System.Action OnAnyButtonClick;
+
         public static Button CreateButton(Transform parent, string name, string label,
             UnityEngine.Events.UnityAction onClick, Color? bg = null, int fontSize = 30)
         {
             var go = new GameObject(name, typeof(RectTransform), typeof(Image), typeof(Button));
             go.transform.SetParent(parent, false);
-            go.GetComponent<Image>().color = bg ?? Accent;
+            var image = go.GetComponent<Image>();
+            image.color = bg ?? Accent;
+            Roundify(image);
             var button = go.GetComponent<Button>();
+            button.onClick.AddListener(() => OnAnyButtonClick?.Invoke());
             button.onClick.AddListener(onClick);
+            // 눌림/비활성 트랜지션 (입체감: 누르면 어두워짐)
+            var colors = button.colors;
+            colors.pressedColor = new Color(0.75f, 0.75f, 0.8f);
+            colors.highlightedColor = new Color(1.06f, 1.06f, 1.1f);
+            colors.disabledColor = new Color(0.55f, 0.55f, 0.6f, 0.6f);
+            button.colors = colors;
             var label_ = CreateText(go.transform, "Label", label, fontSize);
             Fill(label_.rectTransform);
             return button;

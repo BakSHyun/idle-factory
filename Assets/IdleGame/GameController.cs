@@ -53,6 +53,17 @@ namespace IdleGame
 
         private void Update()
         {
+            // 플레이 중 스크립트 리로드로 상태 유실 → 전체 재부팅 (세이브는 파일에 있음)
+            if (Session == null || _ui == null)
+            {
+                var stale = GameObject.Find("GameCanvas");
+                if (stale != null) Destroy(stale);
+                Instance = null;
+                Destroy(gameObject);
+                Bootstrap();
+                return;
+            }
+
             _tickAccumulator += Time.deltaTime;
             if (_tickAccumulator >= 1f)
             {

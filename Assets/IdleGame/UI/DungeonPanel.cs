@@ -42,6 +42,7 @@ namespace IdleGame.UI
         private void BuildDungeonRow(DungeonDef def)
         {
             var box = UIFactory.CreatePanel(_list, $"D_{def.id}", UIFactory.Panel);
+            UIFactory.Roundify(box.GetComponent<Image>());
             box.gameObject.AddComponent<LayoutElement>().preferredHeight = 240;
 
             var title = UIFactory.CreateText(box, "Title", "", 30, TextAnchor.UpperLeft);
